@@ -25,6 +25,7 @@ export interface GameStore {
   // Actions
   setCurrentUser: (name: string) => void;
   createRoom: () => void;
+  joinRoom: (code: string) => void;
   addPlayer: (name: string) => void;
   removePlayer: (id: string) => void;
   setImposterCount: (count: number) => void;

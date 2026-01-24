@@ -1,10 +1,12 @@
 'use client';
 
-import { useState } from 'react';
-import { Users, Plus, Play, Settings, Trash2, Copy, Check, Sparkles, User } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { Users, Plus, Play, Settings, Trash2, Copy, Check, Sparkles, User, Share2 } from 'lucide-react';
 import { useGameStore } from '@/lib/gameStore';
 
 export default function LobbyScreen() {
+    const searchParams = useSearchParams();
     const {
         players,
         roomCode,
@@ -13,6 +15,7 @@ export default function LobbyScreen() {
         currentUser,
         setCurrentUser,
         createRoom,
+        joinRoom,
         addPlayer,
         removePlayer,
         setImposterCount,
@@ -23,10 +26,19 @@ export default function LobbyScreen() {
     const [nameInput, setNameInput] = useState('');
     const [showSettings, setShowSettings] = useState(false);
     const [copied, setCopied] = useState(false);
+    const [urlRoomCode, setUrlRoomCode] = useState<string | null>(null);
+
+    useEffect(() => {
+        const code = searchParams.get('room');
+        if (code) {
+            setUrlRoomCode(code);
+            joinRoom(code);
+        }
+    }, [searchParams, joinRoom]);
 
     const handleJoin = () => {
         if (nameInput.trim()) {
-            if (!roomCode) {
+            if (!roomCode && !urlRoomCode) {
                 createRoom();
             }
             setCurrentUser(nameInput.trim());
@@ -34,11 +46,27 @@ export default function LobbyScreen() {
         }
     };
 
-    const copyRoomCode = async () => {
+    const copyRoomLink = async () => {
         if (!roomCode) return;
-        await navigator.clipboard.writeText(roomCode);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
+        const url = `${window.location.origin}${window.location.pathname}?room=${roomCode}`;
+        try {
+            if (navigator.share) {
+                await navigator.share({
+                    title: 'Kelime Avı - Odaya Katıl',
+                    text: `Kelime Avı oyununa katılmak için linke tıkla! Oda Kodu: ${roomCode}`,
+                    url: url
+                });
+            } else {
+                await navigator.clipboard.writeText(url);
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
+            }
+        } catch (error) {
+            console.log('Sharing failed', error);
+            await navigator.clipboard.writeText(url);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        }
     };
 
     const canStart = players.length >= 3;
@@ -57,10 +85,16 @@ export default function LobbyScreen() {
                         <h1 className="text-5xl font-black tracking-tight text-white mb-2">
                             KELİME <span className="text-purple-500">AVI</span>
                         </h1>
-                        <p className="text-slate-400 font-medium">Casusu bulmaya hazır mısın?</p>
                     </div>
 
                     <div className="glass-card rounded-3xl p-8 space-y-6 bg-[#12121a]">
+                        {urlRoomCode ? (
+                            <div className="bg-purple-500/10 border border-purple-500/20 p-4 rounded-xl text-center mb-4">
+                                <p className="text-xs font-bold text-purple-400 uppercase tracking-widest mb-1">ODA BULUNDU</p>
+                                <p className="text-xl font-black text-white">{urlRoomCode}</p>
+                            </div>
+                        ) : null}
+
                         <div className="space-y-3">
                             <label className="text-xs font-bold uppercase tracking-widest text-slate-500 ml-1">
                                 KAHRAMAN İSMİ
@@ -81,7 +115,7 @@ export default function LobbyScreen() {
                             className="w-full h-14 btn-primary rounded-xl font-bold text-lg flex items-center justify-center gap-2 group disabled:opacity-50"
                         >
                             <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform" />
-                            Oda Oluştur / Katıl
+                            {urlRoomCode ? 'Odaya Katıl' : 'Oda Oluştur / Katıl'}
                         </button>
                     </div>
                 </div>
@@ -97,19 +131,20 @@ export default function LobbyScreen() {
                     <h1 className="text-2xl font-black text-white tracking-tight">LOBİ</h1>
                     {roomCode && (
                         <button
-                            onClick={copyRoomCode}
-                            className="mt-2 flex items-center gap-2 text-xs font-bold text-purple-400 bg-purple-500/10 px-3 py-2 rounded-lg hover:bg-purple-500/20 transition-all active:scale-95 cursor-pointer"
+                            onClick={copyRoomLink}
+                            className="mt-2 flex items-center gap-2 text-xs font-bold text-purple-400 bg-purple-500/10 px-3 py-2 rounded-lg hover:bg-purple-500/20 transition-all active:scale-95 cursor-pointer max-w-full truncate"
                         >
-                            KOD: <span className="font-mono text-white/90">{roomCode}</span>
-                            {copied ? <Check size={14} /> : <Copy size={14} />}
+                            <Share2 size={14} />
+                            <span>DAVET ET: <span className="font-mono text-white/90">{roomCode}</span></span>
+                            {copied && <Check size={14} />}
                         </button>
                     )}
                 </div>
                 <button
                     onClick={() => setShowSettings(!showSettings)}
                     className={`p-3 rounded-xl transition-all ${showSettings
-                        ? 'bg-purple-500 text-white shadow-lg shadow-purple-500/30'
-                        : 'bg-[#1a1a28] text-slate-400 border border-white/5'
+                            ? 'bg-purple-500 text-white shadow-lg shadow-purple-500/30'
+                            : 'bg-[#1a1a28] text-slate-400 border border-white/5'
                         }`}
                 >
                     <Settings size={22} />
@@ -131,8 +166,8 @@ export default function LobbyScreen() {
                                         key={num}
                                         onClick={() => setImposterCount(num)}
                                         className={`h-12 rounded-xl font-bold transition-all border ${imposterCount === num
-                                            ? 'bg-purple-600 border-purple-500 text-white shadow-lg'
-                                            : 'bg-[#1a1a28] border-white/5 text-slate-500 hover:bg-[#202030]'
+                                                ? 'bg-purple-600 border-purple-500 text-white shadow-lg'
+                                                : 'bg-[#1a1a28] border-white/5 text-slate-500 hover:bg-[#202030]'
                                             }`}
                                     >
                                         {num}
@@ -152,8 +187,8 @@ export default function LobbyScreen() {
                                         key={sec}
                                         onClick={() => setTimerDuration(sec)}
                                         className={`h-12 rounded-xl text-xs font-bold transition-all border ${timerDuration === sec
-                                            ? 'bg-purple-600 border-purple-500 text-white shadow-lg'
-                                            : 'bg-[#1a1a28] border-white/5 text-slate-500 hover:bg-[#202030]'
+                                                ? 'bg-purple-600 border-purple-500 text-white shadow-lg'
+                                                : 'bg-[#1a1a28] border-white/5 text-slate-500 hover:bg-[#202030]'
                                             }`}
                                     >
                                         {sec}

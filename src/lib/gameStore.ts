@@ -25,6 +25,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
         set({ roomCode: code });
     },
 
+    joinRoom: (code) => set({ roomCode: code }),
+
     addPlayer: (name) => set((state) => ({
         players: [
             ...state.players,

@@ -1,4 +1,6 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* ===== CSS VARIABLES ===== */
 :root {
@@ -43,7 +45,7 @@ body {
 
 /* ===== UTILITY CLASSES ===== */
 
-/* Solid Card Effect - Removing Blur for Performance/Clarity */
+/* Solid Card Effect */
 .glass-card {
   background: var(--surface);
   border: 1px solid rgba(255, 255, 255, 0.08);
