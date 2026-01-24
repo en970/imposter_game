@@ -65,29 +65,23 @@
 html {
   scroll-behavior: smooth;
   -webkit-tap-highlight-color: transparent;
-  overflow: hidden;
-  /* Prevent body scroll */
+  min-height: 100%;
 }
 
 body {
   font-family: var(--font-family);
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  height: 100vh;
+  min-height: 100vh;
   line-height: 1.5;
-  overflow: hidden;
-  /* Prevent body scroll */
-  position: fixed;
-  /* iOS rubber band fix */
   width: 100%;
 }
 
 /* === LAYOUT === */
 .app-container {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 }
 
 .page-container {
@@ -95,19 +89,19 @@ body {
   max-width: 480px;
   margin: 0 auto;
   padding: var(--spacing-md);
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
 .center-container {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: var(--spacing-md);
-  overflow: hidden;
+  width: 100%;
 }
 
 .home-card {
@@ -116,11 +110,7 @@ body {
   padding: var(--spacing-md);
   display: flex;
   flex-direction: column;
-  max-height: 95vh;
-  overflow-y: auto;
-  /* Allow targeted scroll if absolutely needed, but goal is none */
-  scrollbar-width: none;
-  /* Firefox */
+  margin: var(--spacing-lg) 0;
 }
 
 .home-card::-webkit-scrollbar {

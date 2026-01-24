@@ -449,12 +449,15 @@ function subscribeToRoomUpdates(
             return;
         }
 
+        // Filter out kicked players for the UI
+        const activePlayers = playersArray.filter(p => !p.isKicked);
+
         // Convert votes object
         const votesObj = (roomData.votes as Record<string, string>) || {};
 
         // Update local state
         set({
-            players: playersArray,
+            players: activePlayers,
             gameState: (roomData.gameState as GameStore['gameState']) || 'lobby',
             secretWord: (roomData.secretWord as string) || '',
             category: (roomData.category as string) || '',

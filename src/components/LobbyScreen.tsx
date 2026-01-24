@@ -43,6 +43,7 @@ export default function LobbyScreen() {
     const [isCreating, setIsCreating] = useState(false);
     const [isJoining, setIsJoining] = useState(false);
     const [showSettings, setShowSettings] = useState(false);
+    const [showCategorySelect, setShowCategorySelect] = useState(false);
     const [copied, setCopied] = useState(false);
 
     useEffect(() => {
@@ -246,22 +247,40 @@ export default function LobbyScreen() {
                 {/* Category Selection */}
                 {amIHost ? (
                     <div className="card mb-md" style={{ border: '1px solid var(--border-accent)' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--spacing-sm)' }}>
-                            <span className="input-label" style={{ marginBottom: 0, fontWeight: 700, color: 'var(--border-accent)' }}>{t.chooseCategory}</span>
-                            <span className="badge" style={{ background: 'var(--accent-purple-glow)', color: 'white', border: '1px solid var(--border-accent)' }}>{t.hostChoice}</span>
+                        <div
+                            style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer' }}
+                            onClick={() => setShowCategorySelect(!showCategorySelect)}
+                        >
+                            <div>
+                                <span className="input-label" style={{ marginBottom: '2px', fontWeight: 700, color: 'var(--border-accent)' }}>{t.category}</span>
+                                <p style={{ fontWeight: 800, fontSize: '1.25rem', color: 'white' }}>
+                                    {(t.categories[selectedCategory as keyof typeof t.categories] || selectedCategory).toUpperCase()}
+                                </p>
+                            </div>
+                            <button className="btn btn-secondary" style={{ padding: '8px 12px', fontSize: '0.75rem', borderRadius: 'var(--radius-md)' }}>
+                                {showCategorySelect ? (language === 'tr' ? 'Kapat' : 'Close') : (language === 'tr' ? 'Değiştir' : 'Change')}
+                            </button>
                         </div>
-                        <div className="settings-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(110px, 1fr))', gap: '8px' }}>
-                            {categoriesList.map((cat) => (
-                                <button
-                                    key={cat}
-                                    onClick={() => setSelectedCategory(cat)}
-                                    className={`btn ${selectedCategory === cat ? 'btn-primary' : 'btn-secondary'}`}
-                                    style={{ fontSize: '0.75rem', padding: 'var(--spacing-sm)', fontWeight: 600 }}
-                                >
-                                    {cat === 'random' ? t.categories.random : t.categories[cat as keyof typeof t.categories] || cat}
-                                </button>
-                            ))}
-                        </div>
+
+                        {showCategorySelect && (
+                            <div className="fade-in mt-md pt-md" style={{ borderTop: '1px solid var(--border-subtle)' }}>
+                                <div className="settings-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))', gap: '8px' }}>
+                                    {categoriesList.map((cat) => (
+                                        <button
+                                            key={cat}
+                                            onClick={() => {
+                                                setSelectedCategory(cat);
+                                                setShowCategorySelect(false);
+                                            }}
+                                            className={`btn ${selectedCategory === cat ? 'btn-primary' : 'btn-secondary'}`}
+                                            style={{ fontSize: '0.7rem', padding: '10px 4px', fontWeight: 600, minHeight: '44px' }}
+                                        >
+                                            {cat === 'random' ? t.categories.random : t.categories[cat as keyof typeof t.categories] || cat}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
                     </div>
                 ) : (
                     <div className="card-sm mb-md text-center" style={{ borderLeft: '4px solid var(--border-accent)' }}>
