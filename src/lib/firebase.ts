@@ -1,15 +1,16 @@
 import { initializeApp, getApps } from 'firebase/app';
 import { getDatabase, ref, set, get, onValue, update } from 'firebase/database';
 
-// Firebase configuration from environment variables
+// Firebase configuration
+// Note: Firebase web API keys are designed to be public. Security comes from Firebase Security Rules.
 const firebaseConfig = {
-    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-    databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
-    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
+    apiKey: "AIzaSyAFNfEEcJUL3Z_ms2ImZAAhNX5T-qy9rEY",
+    authDomain: "imposter-game-f3339.firebaseapp.com",
+    databaseURL: "https://imposter-game-f3339-default-rtdb.firebaseio.com",
+    projectId: "imposter-game-f3339",
+    storageBucket: "imposter-game-f3339.firebasestorage.app",
+    messagingSenderId: "854309145387",
+    appId: "1:854309145387:web:0ba326087349468d4a936e"
 };
 
 // Initialize Firebase
