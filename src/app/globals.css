@@ -684,8 +684,25 @@ body {
 
 /* === RESPONSIVE === */
 @media (max-width: 480px) {
+  :root {
+    --spacing-lg: 1rem;
+    --spacing-xl: 1.25rem;
+  }
+
   .page-container {
     padding: var(--spacing-md);
+  }
+
+  .center-container {
+    padding: var(--spacing-md);
+    justify-content: flex-start;
+    /* Better for tall mobile content */
+    padding-top: 5vh;
+  }
+
+  .home-card {
+    padding: var(--spacing-sm);
+    max-width: 100%;
   }
 
   .title-xl {
@@ -693,6 +710,34 @@ body {
   }
 
   .card {
-    padding: var(--spacing-lg);
+    padding: var(--spacing-md);
+  }
+
+  .btn-lg {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: 1rem;
+  }
+
+  .timer-display {
+    font-size: 3rem;
+  }
+}
+
+/* Landscape or very short screens */
+@media (max-height: 600px) {
+  .center-container {
+    justify-content: flex-start;
+    padding-top: var(--spacing-md);
+  }
+
+  .logo-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .title-xl {
+    font-size: 1.5rem;
   }
 }

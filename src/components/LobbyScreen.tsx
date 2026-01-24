@@ -7,7 +7,7 @@ import { getCategoryNames } from '@/lib/words';
 import {
     UsersIcon, SettingsIcon, LinkIcon, PlayIcon,
     SparklesIcon, LoaderIcon, CheckIcon, PlusIcon,
-    ArrowLeftIcon, UserIcon
+    ArrowLeftIcon, UserIcon, EditIcon
 } from './Icons';
 
 // LocalStorage helpers
@@ -157,23 +157,48 @@ export default function LobbyScreen() {
                             <span className="input-label" style={{ marginBottom: 0 }}>Kullanıcı Adı</span>
                         </div>
 
-                        <div style={{ display: 'flex', gap: 'var(--spacing-sm)' }}>
-                            <input
-                                type="text"
-                                className="input"
-                                value={nameInput}
-                                onChange={(e) => setNameInput(e.target.value)}
-                                placeholder="İsmini gir..."
-                                style={{ flex: 1 }}
-                            />
-                            {nameInput !== getStoredUsername() && nameInput.trim() && (
-                                <button onClick={handleSaveName} className="btn btn-secondary">
+                        {getStoredUsername() && !editingName ? (
+                            /* Saved State - Show name with edit button */
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-sm)' }}>
+                                <div style={{
+                                    flex: 1,
+                                    padding: 'var(--spacing-sm) var(--spacing-md)',
+                                    background: 'var(--bg-tertiary)',
+                                    borderRadius: 'var(--radius-md)',
+                                    fontWeight: 600
+                                }}>
+                                    {getStoredUsername()}
+                                </div>
+                                <button
+                                    onClick={() => setEditingName(true)}
+                                    className="btn btn-secondary"
+                                    title="Düzenle"
+                                >
+                                    <EditIcon size={16} />
+                                </button>
+                            </div>
+                        ) : (
+                            /* Editing State - Show input with save button */
+                            <div style={{ display: 'flex', gap: 'var(--spacing-sm)' }}>
+                                <input
+                                    type="text"
+                                    className="input"
+                                    value={nameInput}
+                                    onChange={(e) => setNameInput(e.target.value)}
+                                    onKeyDown={(e) => e.key === 'Enter' && handleSaveName()}
+                                    placeholder="İsmini gir..."
+                                    style={{ flex: 1 }}
+                                    autoFocus={editingName}
+                                />
+                                <button
+                                    onClick={handleSaveName}
+                                    disabled={!nameInput.trim()}
+                                    className="btn btn-primary"
+                                    title="Kaydet"
+                                >
                                     <CheckIcon size={16} />
                                 </button>
-                            )}
-                        </div>
-                        {getStoredUsername() && nameInput === getStoredUsername() && (
-                            <p className="text-xs text-muted mt-sm">Kaydedildi</p>
+                            </div>
                         )}
                     </div>
 

@@ -182,3 +182,10 @@ export const CardIcon: React.FC<IconProps> = ({ size = 24, color = 'currentColor
         <path d="M8 12h8" />
     </svg>
 );
+
+export const EditIcon: React.FC<IconProps> = ({ size = 24, color = 'currentColor', className }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+        <path d="m15 5 4 4" />
+    </svg>
+);
