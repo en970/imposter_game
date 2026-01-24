@@ -7,7 +7,9 @@ import {
     updateRoomState,
     updatePlayerData,
     subscribeToRoom,
-    checkRoomExists
+    checkRoomExists,
+    removePlayerFromFirebase,
+    setupPlayerPresence
 } from './firebase';
 
 // Generate unique player ID
@@ -75,6 +77,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
             // Subscribe to room updates
             subscribeToRoomUpdates(code, set, get);
+            setupPlayerPresence(code, odaPlayerId);
         } catch (error) {
             console.error('Failed to create room:', error);
         }
@@ -100,6 +103,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
             // Subscribe to room updates
             subscribeToRoomUpdates(code, set, get);
+            setupPlayerPresence(code, odaPlayerId);
         } catch (error) {
             console.error('Failed to join room:', error);
         }
@@ -120,6 +124,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
         try {
             await joinRoomInFirebase(roomCode, odaPlayerId, name);
+            setupPlayerPresence(roomCode, odaPlayerId);
             set({ duplicateNameError: null });
         } catch (error) {
             console.error('Failed to add player:', error);
@@ -321,6 +326,16 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
     resetGame: async () => {
         const { roomCode } = get();
+        const odaPlayerId = getLocalPlayerId();
+
+        // Remove from Firebase if in a room
+        if (roomCode) {
+            try {
+                await removePlayerFromFirebase(roomCode, odaPlayerId);
+            } catch (err) {
+                console.error("Failed to remove player on reset:", err);
+            }
+        }
 
         // Unsubscribe from room
         if (unsubscribeFromRoom) {

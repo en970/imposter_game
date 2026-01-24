@@ -1,5 +1,5 @@
 import { initializeApp, getApps } from 'firebase/app';
-import { getDatabase, ref, set, get, onValue, update } from 'firebase/database';
+import { getDatabase, ref, set, get, onValue, update, remove, onDisconnect } from 'firebase/database';
 
 // Firebase configuration
 // Note: Firebase web API keys are designed to be public. Security comes from Firebase Security Rules.
@@ -84,6 +84,19 @@ export const subscribeToRoom = (roomCode: string, callback: (data: unknown) => v
 export const checkRoomExists = async (roomCode: string): Promise<boolean> => {
     const odaSnap = await get(roomRef(roomCode));
     return odaSnap.exists();
+};
+
+// Remove player from room
+export const removePlayerFromFirebase = async (roomCode: string, odaPlayerId: string) => {
+    await remove(playerRef(roomCode, odaPlayerId));
+};
+
+// Setup player presence (remove on disconnect)
+export const setupPlayerPresence = (roomCode: string, odaPlayerId: string) => {
+    const currentRef = playerRef(roomCode, odaPlayerId);
+    onDisconnect(currentRef).remove().catch((err) => {
+        console.error("Could not establish onDisconnect event", err);
+    });
 };
 
 export { database };
