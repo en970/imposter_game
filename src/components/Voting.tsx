@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { User, Check, Send, Target, Fingerprint } from 'lucide-react';
 import { useGameStore } from '@/lib/gameStore';
 
 export default function Voting() {
@@ -38,111 +37,92 @@ export default function Voting() {
     }, [allVoted]);
 
     return (
-        <div className="min-h-screen flex flex-col container-responsive pb-safe animate-fade-in text-white relative">
+        <div className="page-container fade-in">
             {/* Header */}
-            <div className="text-center mb-6 pt-4">
-                <div className="flex items-center justify-center gap-2 mb-3">
-                    <Fingerprint size={24} className="text-orange-500" />
-                    <h2 className="text-2xl font-black uppercase tracking-tight">OYLAMA</h2>
-                </div>
-                <p className="text-slate-400 font-medium text-sm">
-                    Sence aramızdaki <span className="text-red-500 font-bold">CASUS</span> kim?
-                </p>
+            <div className="text-center mb-lg">
+                <h2 className="title-lg">🕵️ Oylama</h2>
+                <p className="text-muted mt-sm">Sence <span style={{ color: 'var(--accent-red)' }}>Casus</span> kim?</p>
 
-                {/* Progress Tracker */}
-                <div className="mt-6 w-full bg-[#12121a] rounded-full h-1.5 overflow-hidden">
+                <div className="progress-bar mt-md">
                     <div
-                        className="h-full bg-orange-500 transition-all duration-500"
-                        style={{ width: `${(votedCount / players.length) * 100}%` }}
-                    />
+                        className="progress-fill"
+                        style={{
+                            width: `${(votedCount / players.length) * 100}%`,
+                            background: 'var(--accent-orange)'
+                        }}
+                    ></div>
                 </div>
-                <div className="mt-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest text-right">
-                    {votedCount} / {players.length} OY
-                </div>
+                <p className="text-xs text-muted mt-sm">{votedCount} / {players.length} Oy</p>
             </div>
 
-            {/* Candidates List */}
-            <div className="flex-1 overflow-y-auto mb-20 custom-scrollbar pr-1">
+            {/* Vote List or Waiting */}
+            <div className="scroll-area">
                 {hasVoted ? (
-                    <div className="flex flex-col items-center justify-center h-full space-y-6 animate-fade-in">
-                        <div className="w-20 h-20 bg-[#12121a] rounded-full flex items-center justify-center border border-emerald-500/30 shadow-lg">
-                            <Check size={32} className="text-emerald-500" strokeWidth={3} />
-                        </div>
-                        <div className="text-center">
-                            <h3 className="text-xl font-bold text-white mb-2">OYUN ALINDI</h3>
-                            <p className="text-slate-400 font-medium text-sm px-8">
-                                Diğer oyuncuların karar vermesi bekleniyor...
-                            </p>
-                        </div>
+                    <div className="card text-center fade-in">
+                        <div style={{ fontSize: '4rem', marginBottom: 'var(--spacing-md)' }}>✅</div>
+                        <h3 className="title-md">Oyun Alındı</h3>
+                        <p className="text-muted mt-sm">Diğer oyuncular bekleniyor...</p>
 
-                        <div className="w-full space-y-2 mt-4 px-4">
+                        <div className="mt-lg">
                             {players.map(p => (
-                                <div key={p.id} className="flex items-center justify-between p-3 bg-[#12121a] rounded-xl border border-white/5">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-[#1a1a28] text-purple-500 text-xs font-bold">
-                                            <User size={16} />
-                                        </div>
-                                        <span className="text-sm font-bold text-slate-300">{p.name}</span>
+                                <div key={p.id} className="player-item" style={{ opacity: votes[p.id] ? 1 : 0.5 }}>
+                                    <div className="player-avatar" style={{ width: 36, height: 36, fontSize: '0.875rem' }}>
+                                        {p.name[0]}
                                     </div>
-                                    {votes[p.id] && (
-                                        <span className="text-[10px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded-md uppercase tracking-wide">
-                                            OY VERDİ
-                                        </span>
-                                    )}
+                                    <div className="player-info">
+                                        <span style={{ fontWeight: 600 }}>{p.name}</span>
+                                    </div>
+                                    {votes[p.id] && <span className="badge badge-green">Oy Verdi</span>}
                                 </div>
                             ))}
                         </div>
                     </div>
                 ) : (
-                    <div className="grid gap-3 pb-4 px-1">
+                    <div>
                         {players.filter(p => p.id !== currentUserId).map((player) => (
-                            <button
+                            <div
                                 key={player.id}
                                 onClick={() => setSelectedPlayer(player.id)}
-                                className={`w-full flex items-center gap-4 p-4 rounded-xl border transition-all duration-200 relative ${selectedPlayer === player.id
-                                        ? 'border-orange-500 bg-[#1a1a28] shadow-md z-10'
-                                        : 'border-white/5 bg-[#12121a] hover:bg-[#1a1a28]'
-                                    }`}
+                                className="player-item"
+                                style={{
+                                    cursor: 'pointer',
+                                    borderColor: selectedPlayer === player.id ? 'var(--accent-orange)' : 'var(--border-subtle)',
+                                    background: selectedPlayer === player.id ? 'var(--bg-tertiary)' : 'var(--bg-secondary)'
+                                }}
                             >
-                                <div className={`w-12 h-12 rounded-xl flex items-center justify-center font-black text-lg transition-transform ${selectedPlayer === player.id
-                                        ? 'bg-orange-500 text-white scale-110'
-                                        : 'bg-[#1a1a28] text-slate-500'
-                                    }`}>
+                                <div
+                                    className="player-avatar"
+                                    style={{
+                                        background: selectedPlayer === player.id ? 'var(--accent-orange)' : 'var(--bg-tertiary)',
+                                        color: selectedPlayer === player.id ? 'white' : 'var(--accent-purple)'
+                                    }}
+                                >
                                     {player.name[0].toUpperCase()}
                                 </div>
-
-                                <div className="flex-1 text-left">
-                                    <span className={`text-lg font-bold block leading-tight transition-colors ${selectedPlayer === player.id ? 'text-white' : 'text-slate-300'
-                                        }`}>
-                                        {player.name}
-                                    </span>
-                                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wide">
-                                        Şüpheli
-                                    </span>
+                                <div className="player-info">
+                                    <div className="player-name">{player.name}</div>
+                                    <div className="player-role">Şüpheli</div>
                                 </div>
-
                                 {selectedPlayer === player.id && (
-                                    <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center shadow-lg animate-fade-in mr-2">
-                                        <Check size={14} className="text-white" strokeWidth={3} />
-                                    </div>
+                                    <span style={{ color: 'var(--accent-orange)', fontSize: '1.25rem' }}>✓</span>
                                 )}
-                            </button>
+                            </div>
                         ))}
                     </div>
                 )}
             </div>
 
-            {/* Fixed Action Footer */}
+            {/* Vote Button */}
             {!hasVoted && (
-                <div className="fixed bottom-0 left-0 right-0 p-6 bg-[#0a0a0f] border-t border-white/5 z-20">
-                    <div className="max-w-lg mx-auto">
+                <div className="fixed-footer">
+                    <div className="fixed-footer-content">
                         <button
                             onClick={handleVote}
                             disabled={!selectedPlayer}
-                            className="w-full h-16 btn-primary rounded-xl font-bold text-lg text-white flex items-center justify-center gap-3 transition-all active:scale-95 disabled:opacity-50 shadow-lg bg-orange-600 hover:bg-orange-700"
+                            className="btn btn-primary btn-lg btn-full"
+                            style={{ background: 'var(--accent-orange)' }}
                         >
-                            <Send size={20} />
-                            OYU ONAYLA
+                            ✓ Oyu Gönder
                         </button>
                     </div>
                 </div>

@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Users, Plus, Play, Settings, User, Share2, Check, Sparkles, Loader2 } from 'lucide-react';
 import { useGameStore } from '@/lib/gameStore';
 
 export default function LobbyScreen() {
@@ -28,7 +27,6 @@ export default function LobbyScreen() {
     const [urlRoomCode, setUrlRoomCode] = useState<string | null>(null);
     const [isJoining, setIsJoining] = useState(false);
 
-    // Check for room code in URL
     useEffect(() => {
         const code = searchParams.get('room');
         if (code && code !== urlRoomCode) {
@@ -44,14 +42,11 @@ export default function LobbyScreen() {
 
         try {
             if (urlRoomCode) {
-                // Join existing room from URL
                 await joinRoom(urlRoomCode);
                 await addPlayer(nameInput.trim());
             } else if (roomCode) {
-                // Already have a room, just add player
                 await addPlayer(nameInput.trim());
             } else {
-                // Create new room
                 await createRoom();
             }
         } catch (error) {
@@ -68,7 +63,7 @@ export default function LobbyScreen() {
             if (navigator.share) {
                 await navigator.share({
                     title: 'Kelime Avı - Odaya Katıl',
-                    text: `Kelime Avı oyununa katılmak için linke tıkla! Oda Kodu: ${roomCode}`,
+                    text: `Kelime Avı oyununa katıl! Kod: ${roomCode}`,
                     url: url
                 });
             } else {
@@ -85,41 +80,40 @@ export default function LobbyScreen() {
 
     const canStart = players.length >= 3;
 
-    // Entry Screen (not joined yet)
+    // Entry Screen
     if (!currentUser) {
         return (
-            <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-[#0a0a0f] relative overflow-hidden">
-                <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900/20 via-[#0a0a0f] to-[#0a0a0f]" />
-
-                <div className="w-full max-w-sm z-10 animate-fade-in">
-                    <div className="text-center mb-10">
-                        <div className="inline-block p-3 rounded-2xl bg-[#12121a] border border-white/5 mb-4 shadow-lg">
-                            <Sparkles className="text-purple-500 w-8 h-8" />
-                        </div>
-                        <h1 className="text-5xl font-black tracking-tight text-white mb-2">
-                            KELİME <span className="text-purple-500">AVI</span>
+            <div className="center-container">
+                <div style={{ width: '100%', maxWidth: '400px' }} className="fade-in">
+                    {/* Logo */}
+                    <div className="text-center mb-lg">
+                        <div className="logo-icon" style={{ margin: '0 auto' }}>🎭</div>
+                        <h1 className="title-xl">
+                            KELİME <span className="text-accent">AVI</span>
                         </h1>
+                        <p className="description text-center">
+                            Arkadaşlarınla oyna, aralarındaki casusun kim olduğunu bul!
+                        </p>
                     </div>
 
-                    <div className="glass-card rounded-3xl p-8 space-y-6 bg-[#12121a]">
+                    {/* Card */}
+                    <div className="card">
                         {urlRoomCode && (
-                            <div className="bg-purple-500/10 border border-purple-500/20 p-4 rounded-xl text-center">
-                                <p className="text-xs font-bold text-purple-400 uppercase tracking-widest mb-1">ODA BULUNDU</p>
-                                <p className="text-xl font-black text-white font-mono">{urlRoomCode}</p>
+                            <div className="info-box">
+                                <div className="info-box-title">Oda Bulundu</div>
+                                <div className="info-box-value">{urlRoomCode}</div>
                             </div>
                         )}
 
-                        <div className="space-y-3">
-                            <label className="text-xs font-bold uppercase tracking-widest text-slate-500 ml-1">
-                                İSMİN
-                            </label>
+                        <div className="mb-md">
+                            <label className="input-label">İsmin</label>
                             <input
                                 type="text"
+                                className="input"
                                 value={nameInput}
                                 onChange={(e) => setNameInput(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' && handleJoin()}
                                 placeholder="İsmini gir..."
-                                className="w-full h-14 px-6 rounded-xl bg-[#1a1a28] border border-white/5 focus:border-purple-500/50 focus:ring-4 focus:ring-purple-500/10 text-white placeholder:text-slate-600 transition-all outline-none text-lg font-medium"
                                 disabled={isJoining}
                             />
                         </div>
@@ -127,170 +121,137 @@ export default function LobbyScreen() {
                         <button
                             onClick={handleJoin}
                             disabled={!nameInput.trim() || isJoining}
-                            className="w-full h-14 btn-primary rounded-xl font-bold text-lg flex items-center justify-center gap-2 group disabled:opacity-50"
+                            className="btn btn-primary btn-lg btn-full"
                         >
-                            {isJoining ? (
-                                <>
-                                    <Loader2 className="w-5 h-5 animate-spin" />
-                                    Bağlanıyor...
-                                </>
-                            ) : (
-                                <>
-                                    <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform" />
-                                    {urlRoomCode ? 'Odaya Katıl' : 'Oda Oluştur'}
-                                </>
-                            )}
+                            {isJoining ? '⏳ Bağlanıyor...' : urlRoomCode ? '🚀 Odaya Katıl' : '✨ Oda Oluştur'}
                         </button>
                     </div>
 
-                    <p className="mt-6 text-center text-slate-500 text-sm">
-                        {urlRoomCode ? 'Arkadaşının odasına katılmak üzeresin!' : 'Yeni bir oda oluştur ve arkadaşlarını davet et.'}
+                    <p className="description text-center mt-md">
+                        {urlRoomCode
+                            ? 'Arkadaşının odasına katılmak üzeresin!'
+                            : 'Yeni bir oda oluştur ve arkadaşlarını davet et.'}
                     </p>
                 </div>
             </div>
         );
     }
 
-    // Lobby Screen (joined room)
+    // Lobby Screen
     return (
-        <div className="min-h-screen flex flex-col container-responsive pb-safe">
+        <div className="page-container">
             {/* Header */}
-            <div className="flex items-center justify-between mb-8 animate-fade-in pt-4">
+            <div className="header fade-in">
                 <div>
-                    <h1 className="text-2xl font-black text-white tracking-tight">LOBİ</h1>
+                    <h1 className="header-title">Lobi</h1>
                     {roomCode && (
-                        <button
-                            onClick={copyRoomLink}
-                            className="mt-2 flex items-center gap-2 text-xs font-bold text-purple-400 bg-purple-500/10 px-3 py-2 rounded-lg hover:bg-purple-500/20 transition-all active:scale-95 cursor-pointer"
-                        >
-                            <Share2 size={14} />
-                            <span>DAVET: <span className="font-mono text-white/90">{roomCode}</span></span>
-                            {copied && <Check size={14} className="text-green-400" />}
-                        </button>
+                        <div className="room-code" onClick={copyRoomLink}>
+                            🔗 Davet: <span>{roomCode}</span>
+                            {copied && ' ✓'}
+                        </div>
                     )}
                 </div>
                 <button
                     onClick={() => setShowSettings(!showSettings)}
-                    className={`p-3 rounded-xl transition-all ${showSettings
-                            ? 'bg-purple-500 text-white shadow-lg shadow-purple-500/30'
-                            : 'bg-[#1a1a28] text-slate-400 border border-white/5'
-                        }`}
+                    className={`icon-btn ${showSettings ? 'active' : ''}`}
                 >
-                    <Settings size={22} />
+                    ⚙️
                 </button>
             </div>
 
-            {/* Settings Panel */}
+            {/* Settings */}
             {showSettings && (
-                <div className="glass-card rounded-2xl p-6 mb-8 animate-fade-in bg-[#12121a]">
-                    <div className="space-y-6">
-                        <div>
-                            <div className="flex justify-between items-center mb-3">
-                                <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">CASUS SAYISI</span>
-                                <span className="text-xl font-black text-white">{imposterCount}</span>
-                            </div>
-                            <div className="grid grid-cols-3 gap-3">
-                                {[1, 2, 3].map((num) => (
-                                    <button
-                                        key={num}
-                                        onClick={() => setImposterCount(num)}
-                                        className={`h-12 rounded-xl font-bold transition-all border ${imposterCount === num
-                                                ? 'bg-purple-600 border-purple-500 text-white shadow-lg'
-                                                : 'bg-[#1a1a28] border-white/5 text-slate-500 hover:bg-[#202030]'
-                                            }`}
-                                    >
-                                        {num}
-                                    </button>
-                                ))}
-                            </div>
+                <div className="settings-panel fade-in">
+                    <div className="settings-row">
+                        <div className="settings-header">
+                            <span className="settings-label">Casus Sayısı</span>
+                            <span className="settings-value">{imposterCount}</span>
                         </div>
+                        <div className="settings-grid settings-grid-3">
+                            {[1, 2, 3].map((num) => (
+                                <button
+                                    key={num}
+                                    onClick={() => setImposterCount(num)}
+                                    className={`settings-option ${imposterCount === num ? 'active' : ''}`}
+                                >
+                                    {num}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
 
-                        <div>
-                            <div className="flex justify-between items-center mb-3">
-                                <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">SÜRE (SANİYE)</span>
-                                <span className="text-xl font-black text-white">{timerDuration}</span>
-                            </div>
-                            <div className="grid grid-cols-4 gap-2">
-                                {[60, 120, 180, 300].map((sec) => (
-                                    <button
-                                        key={sec}
-                                        onClick={() => setTimerDuration(sec)}
-                                        className={`h-12 rounded-xl text-xs font-bold transition-all border ${timerDuration === sec
-                                                ? 'bg-purple-600 border-purple-500 text-white shadow-lg'
-                                                : 'bg-[#1a1a28] border-white/5 text-slate-500 hover:bg-[#202030]'
-                                            }`}
-                                    >
-                                        {sec}
-                                    </button>
-                                ))}
-                            </div>
+                    <div className="settings-row">
+                        <div className="settings-header">
+                            <span className="settings-label">Süre (Saniye)</span>
+                            <span className="settings-value">{timerDuration}</span>
+                        </div>
+                        <div className="settings-grid settings-grid-4">
+                            {[60, 120, 180, 300].map((sec) => (
+                                <button
+                                    key={sec}
+                                    onClick={() => setTimerDuration(sec)}
+                                    className={`settings-option ${timerDuration === sec ? 'active' : ''}`}
+                                >
+                                    {sec}
+                                </button>
+                            ))}
                         </div>
                     </div>
                 </div>
             )}
 
             {/* Players Section */}
-            <div className="flex-1 space-y-4 mb-24 overflow-y-auto pr-1 custom-scrollbar">
-                <div className="flex items-center gap-2 mb-2 sticky top-0 bg-[#0a0a0f] py-2 z-10">
-                    <Users size={18} className="text-purple-500" />
-                    <span className="text-xs font-black text-slate-500 uppercase tracking-widest">
-                        OYUNCULAR ({players.length})
+            <div className="scroll-area">
+                <div className="section-header">
+                    <span className="section-title">
+                        👥 Oyuncular ({players.length})
                     </span>
-                    <div className="flex-1" />
-                    <div className="flex items-center gap-1 text-xs text-green-400">
-                        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                    <div className="live-indicator">
+                        <div className="live-dot"></div>
                         Canlı
                     </div>
                 </div>
 
-                <div className="grid gap-3 pb-4">
-                    {players.map((player, index) => (
-                        <div
-                            key={player.id}
-                            className="glass-card p-4 rounded-xl flex items-center justify-between border border-white/5 bg-[#12121a] animate-fade-in"
-                            style={{ animationDelay: `${index * 50}ms` }}
-                        >
-                            <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-xl flex items-center justify-center font-bold text-lg bg-[#1a1a28] text-purple-500 shadow-inner">
-                                    <User size={24} />
+                {players.length === 0 ? (
+                    <div className="empty-state">
+                        ⏳ Bağlanıyor...
+                    </div>
+                ) : (
+                    <div>
+                        {players.map((player, index) => (
+                            <div key={player.id} className="player-item fade-in">
+                                <div className="player-avatar">
+                                    {player.name[0].toUpperCase()}
                                 </div>
-                                <div>
-                                    <p className="font-bold text-white flex items-center gap-2 text-lg">
+                                <div className="player-info">
+                                    <div className="player-name">
                                         {player.name}
                                         {player.name === currentUser && (
-                                            <span className="text-[10px] px-2 py-0.5 bg-purple-500/20 text-purple-400 rounded-lg font-bold uppercase tracking-wider">SEN</span>
+                                            <span className="badge badge-purple">Sen</span>
                                         )}
-                                    </p>
-                                    <p className="text-xs font-medium text-slate-500">Oyuncu #{index + 1}</p>
+                                    </div>
+                                    <div className="player-role">Oyuncu #{index + 1}</div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
-
-                    {players.length === 0 && (
-                        <div className="text-center py-10 text-slate-600 text-sm flex flex-col items-center gap-2">
-                            <Loader2 className="w-6 h-6 animate-spin" />
-                            Bağlanıyor...
-                        </div>
-                    )}
-                </div>
+                        ))}
+                    </div>
+                )}
             </div>
 
-            {/* Fixed Bottom Actions */}
-            <div className="fixed bottom-0 left-0 right-0 p-6 bg-[#0a0a0f] border-t border-white/5 z-20">
-                <div className="max-w-lg mx-auto">
+            {/* Fixed Footer */}
+            <div className="fixed-footer">
+                <div className="fixed-footer-content">
                     {!canStart && players.length > 0 && (
-                        <p className="text-center text-xs font-bold text-slate-500 mb-3 uppercase tracking-widest animate-pulse">
+                        <p className="text-xs text-center text-muted mb-sm">
                             Başlamak için en az 3 kişi gerekli ({players.length}/3)
                         </p>
                     )}
                     <button
                         onClick={startGame}
                         disabled={!canStart}
-                        className="w-full h-16 btn-primary rounded-2xl font-black text-xl flex items-center justify-center gap-3 shadow-xl transition-all disabled:opacity-50"
+                        className="btn btn-primary btn-lg btn-full"
                     >
-                        <Play size={24} fill="currentColor" />
-                        BAŞLAT
+                        🎮 BAŞLAT
                     </button>
                 </div>
             </div>
