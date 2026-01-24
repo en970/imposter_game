@@ -39,13 +39,13 @@ export default function Voting() {
 
     return (
         <div className="center-container">
-            <div className="home-card fade-in">
+            <div className="home-card fade-in" style={{ borderRadius: 0, border: '4px solid var(--accent-purple)' }}>
                 {/* Header */}
                 <div className="header">
                     <button onClick={resetToLobby} className="icon-btn">
                         <ArrowLeftIcon size={20} />
                     </button>
-                    <h2 className="title-md" style={{ flex: 1, textAlign: 'center' }}>Oylama</h2>
+                    <h2 className="title-md" style={{ flex: 1, textAlign: 'center', fontWeight: 900 }}>WORDSPY</h2>
                     <div style={{ width: 44 }}></div>
                 </div>
 
@@ -54,24 +54,25 @@ export default function Voting() {
                     <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 'var(--spacing-sm)' }}>
                         <EyeIcon size={32} color="var(--accent-purple)" />
                     </div>
-                    <p className="text-muted">Sence <span style={{ color: 'var(--accent-red)' }}>Casus</span> kim?</p>
+                    <p className="text-muted">Who is the <span style={{ color: 'var(--accent-red)' }}>Impostor</span>?</p>
 
-                    <div className="progress-bar mt-md">
+                    <div className="progress-bar mt-md" style={{ borderRadius: 0, border: '1px solid var(--border-subtle)', height: 10 }}>
                         <div
                             className="progress-fill"
                             style={{
                                 width: `${(votedCount / players.length) * 100}%`,
-                                background: 'var(--accent-orange)'
+                                background: 'var(--accent-purple)',
+                                borderRadius: 0
                             }}
                         ></div>
                     </div>
-                    <p className="text-xs text-muted mt-sm">{votedCount} / {players.length} Oy</p>
+                    <p className="text-xs text-muted mt-sm">{votedCount} / {players.length} VOTES</p>
                 </div>
 
                 {/* Vote List or Waiting */}
                 <div style={{ maxHeight: '280px', overflowY: 'auto', marginBottom: 'var(--spacing-lg)' }}>
                     {hasVoted ? (
-                        <div className="card text-center">
+                        <div className="card text-center" style={{ borderRadius: 0, border: '1px solid var(--border-subtle)' }}>
                             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 'var(--spacing-md)', color: 'var(--accent-green)' }}>
                                 <CheckIcon size={48} />
                             </div>
@@ -109,15 +110,19 @@ export default function Voting() {
                                     className="player-item"
                                     style={{
                                         cursor: 'pointer',
-                                        borderColor: selectedPlayer === player.id ? 'var(--accent-orange)' : 'var(--border-subtle)',
-                                        background: selectedPlayer === player.id ? 'var(--bg-tertiary)' : 'var(--bg-secondary)'
+                                        borderColor: selectedPlayer === player.id ? 'var(--accent-purple)' : 'var(--border-subtle)',
+                                        background: selectedPlayer === player.id ? 'var(--bg-tertiary)' : 'var(--bg-secondary)',
+                                        borderRadius: 0,
+                                        borderWidth: selectedPlayer === player.id ? '2px' : '1px'
                                     }}
                                 >
                                     <div
                                         className="player-avatar"
                                         style={{
-                                            background: selectedPlayer === player.id ? 'var(--accent-orange)' : 'var(--bg-tertiary)',
-                                            color: selectedPlayer === player.id ? 'white' : 'var(--accent-purple)'
+                                            background: selectedPlayer === player.id ? 'var(--accent-purple)' : 'var(--bg-tertiary)',
+                                            color: 'black',
+                                            fontWeight: 900,
+                                            borderRadius: 0
                                         }}
                                     >
                                         {player.name[0].toUpperCase()}
@@ -143,10 +148,10 @@ export default function Voting() {
                         onClick={handleVote}
                         disabled={!selectedPlayer}
                         className="btn btn-primary btn-lg btn-full"
-                        style={{ background: 'var(--accent-orange)' }}
+                        style={{ borderRadius: 0, fontWeight: 900, padding: '1.25rem' }}
                     >
                         <CheckIcon size={20} />
-                        Oyu Gönder
+                        CONFIRM VOTE
                     </button>
                 )}
             </div>

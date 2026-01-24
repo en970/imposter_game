@@ -40,7 +40,7 @@ export default function CardReveal() {
     if (hasSeenCard || confirmed) {
         return (
             <div className="center-container">
-                <div className="home-card fade-in">
+                <div className="home-card fade-in" style={{ borderRadius: 0, border: '4px solid var(--accent-purple)' }}>
                     {/* Header */}
                     <div className="header">
                         <button onClick={resetToLobby} className="icon-btn">
@@ -60,8 +60,8 @@ export default function CardReveal() {
 
                         {/* Progress */}
                         <div className="mt-lg">
-                            <div className="progress-bar">
-                                <div className="progress-fill" style={{ width: `${progress}%` }}></div>
+                            <div className="progress-bar" style={{ borderRadius: 0, height: 12, border: '1px solid var(--border-subtle)' }}>
+                                <div className="progress-fill" style={{ width: `${progress}%`, borderRadius: 0, background: 'var(--accent-purple)' }}></div>
                             </div>
                             <p className="text-xs text-muted mt-sm">{seenCount} / {players.length} Hazır</p>
                         </div>
@@ -97,7 +97,7 @@ export default function CardReveal() {
     // Card reveal flow
     return (
         <div className="center-container">
-            <div className="home-card fade-in">
+            <div className="home-card fade-in" style={{ borderRadius: 0, border: '4px solid var(--accent-purple)' }}>
                 {/* Header */}
                 <div className="header">
                     <button onClick={resetToLobby} className="icon-btn">
@@ -109,8 +109,8 @@ export default function CardReveal() {
 
                 {/* Progress */}
                 <div className="mb-lg">
-                    <div className="progress-bar">
-                        <div className="progress-fill" style={{ width: `${progress}%` }}></div>
+                    <div className="progress-bar" style={{ borderRadius: 0, height: 12, border: '1px solid var(--border-subtle)' }}>
+                        <div className="progress-fill" style={{ width: `${progress}%`, borderRadius: 0, background: 'var(--accent-purple)' }}></div>
                     </div>
                     <p className="text-xs text-muted mt-sm text-center">{seenCount} / {players.length} Hazır</p>
                 </div>
@@ -120,7 +120,7 @@ export default function CardReveal() {
                     <div
                         className="card text-center"
                         onClick={handleReveal}
-                        style={{ cursor: 'pointer' }}
+                        style={{ cursor: 'pointer', borderRadius: 0, border: '2px dashed var(--accent-purple)' }}
                     >
                         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 'var(--spacing-md)' }}>
                             <LockIcon size={64} color="var(--accent-purple)" />
@@ -130,7 +130,7 @@ export default function CardReveal() {
                     </div>
                 ) : (
                     /* Revealed Card */
-                    <div className="card">
+                    <div className="card" style={{ borderRadius: 0, border: '2px solid var(--border-subtle)' }}>
                         {myRole === 'imposter' ? (
                             <div className="text-center">
                                 <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 'var(--spacing-md)', color: 'var(--accent-red)' }}>

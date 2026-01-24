@@ -3,6 +3,7 @@ export interface Player {
   name: string;
   role: 'civilian' | 'imposter' | null;
   hasSeenCard: boolean;
+  isKicked?: boolean;
 }
 
 export type GameState = 'lobby' | 'distributing' | 'playing' | 'voting' | 'result';
@@ -23,6 +24,7 @@ export interface GameStore {
   currentUser: string | null;
   showingCard: boolean;
   selectedCategory: string;
+  duplicateNameError: string | null;
 
   // Actions (many are now async for Firebase)
   setCurrentUser: (name: string) => void;
@@ -43,5 +45,7 @@ export interface GameStore {
   calculateResults: () => { imposters: Player[]; winners: 'civilians' | 'imposters'; voteResults: Record<string, number> };
   resetGame: () => Promise<void> | void;
   resetToLobby: () => Promise<void> | void;
+  kickPlayer: (playerId: string) => Promise<void> | void;
+  clearError: () => void;
   decrementTimer: () => Promise<void> | void;
 }

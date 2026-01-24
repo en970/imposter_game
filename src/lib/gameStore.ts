@@ -42,6 +42,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     currentUser: null,
     showingCard: false,
     selectedCategory: 'random',
+    duplicateNameError: null,
 
     // Actions
     setCurrentUser: (name) => set({ currentUser: name }),
@@ -93,7 +94,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 await joinRoomInFirebase(code, odaPlayerId, currentUser);
             }
 
-            set({ roomCode: code });
+            set({ roomCode: code, duplicateNameError: null });
             if (typeof window !== 'undefined') sessionStorage.setItem('lastRoomCode', code);
 
             // Subscribe to room updates
@@ -104,13 +105,21 @@ export const useGameStore = create<GameStore>((set, get) => ({
     },
 
     addPlayer: async (name: string) => {
-        const { roomCode } = get();
+        const { roomCode, players } = get();
         const odaPlayerId = getLocalPlayerId();
 
         if (!roomCode) return;
 
+        // Check for duplicate name
+        const isDuplicate = players.some(p => p.name.toLowerCase() === name.toLowerCase() && p.id !== odaPlayerId);
+        if (isDuplicate) {
+            set({ duplicateNameError: 'Bu isim zaten odada mevcut. Lütfen başka bir isim seç.' });
+            return;
+        }
+
         try {
             await joinRoomInFirebase(roomCode, odaPlayerId, name);
+            set({ duplicateNameError: null });
         } catch (error) {
             console.error('Failed to add player:', error);
         }
@@ -178,7 +187,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 secretWord: word,
                 category: category,
                 gameState: 'distributing',
-                currentPlayerIndex: 0,
+                currentPlayerIndex: Math.floor(Math.random() * players.length),
                 timer: timerDuration === 9999 ? 9999 : timerDuration,
                 votes: {}
             });
@@ -326,9 +335,29 @@ export const useGameStore = create<GameStore>((set, get) => ({
             timer: 120,
             votes: {},
             roomCode: '',
-            currentUser: null
+            currentUser: null,
+            duplicateNameError: null
         });
     },
+
+    kickPlayer: async (playerId: string) => {
+        const { roomCode, hostId } = get();
+        const odaPlayerId = getLocalPlayerId();
+
+        if (!roomCode || hostId !== odaPlayerId) return;
+
+        try {
+            // Set kicked flag on player
+            await updatePlayerData(roomCode, playerId, { isKicked: true });
+
+            // Actually removing would be better, but flag lets them see the message
+            // Wait a bit then delete? Or just leave it. Let's just remove after 2 sec or let client handle exit.
+        } catch (error) {
+            console.error('Failed to kick player:', error);
+        }
+    },
+
+    clearError: () => set({ duplicateNameError: null }),
 
     resetToLobby: async () => {
         const { roomCode, timerDuration, players, hostId } = get();
@@ -384,7 +413,8 @@ function subscribeToRoomUpdates(
                 id,
                 name: (playerData.name as string) || 'Unknown',
                 role: (playerData.odaRole as 'civilian' | 'imposter' | null) || null,
-                hasSeenCard: (playerData.hasSeenCard as boolean) || false
+                hasSeenCard: (playerData.hasSeenCard as boolean) || false,
+                isKicked: (playerData.isKicked as boolean) || false
             };
         }).sort((a, b) => {
             // Sort by timestamp if available
@@ -392,6 +422,24 @@ function subscribeToRoomUpdates(
             const bTime = (playersObj[b.id] as Record<string, unknown>)?.odaTimestamp as number || 0;
             return aTime - bTime;
         });
+
+        // Check if I am kicked
+        const myId = getLocalPlayerId();
+        const me = playersArray.find(p => p.id === myId);
+        if (me?.isKicked) {
+            // I was kicked!
+            if (unsubscribeFromRoom) {
+                unsubscribeFromRoom();
+                unsubscribeFromRoom = null;
+            }
+            // Clear state and show error (abusing duplicateNameError for kick msg)
+            set({
+                roomCode: '',
+                players: [],
+                duplicateNameError: 'Oda kurucusu tarafından atıldın.'
+            });
+            return;
+        }
 
         // Convert votes object
         const votesObj = (roomData.votes as Record<string, string>) || {};

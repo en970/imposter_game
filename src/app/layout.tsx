@@ -8,10 +8,10 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Kelime Avı - Imposter Oyunu",
-  description: "Arkadaşlarınla oyna, Imposter'ı bul! Tarayıcı tabanlı grup oyunu.",
-  keywords: ["kelime avı", "imposter", "oyun", "grup oyunu", "party game"],
-  authors: [{ name: "Kelime Avı" }],
+  title: "WORDSPY - Who is the Imposter?",
+  description: "Play WORDSPY with friends. Can you find the spy among you? Create a room and start playing the ultimate word imposter game!",
+  keywords: ["WORDSPY", "imposter", "word game", "spy game", "party game online", "find the spy", "who is the spy"],
+  authors: [{ name: "WORDSPY" }],
 };
 
 export const viewport: Viewport = {
@@ -19,7 +19,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-  themeColor: "#0a0a0f",
+  themeColor: "#000000",
 };
 
 export default function RootLayout({
@@ -29,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="tr" className="dark">
-      <body className={`${outfit.variable} font-sans antialiased bg-[#0a0a0f] text-white`}>
+      <body className={`${outfit.variable} font-sans antialiased bg-black text-white`}>
         {children}
       </body>
     </html>

@@ -19,20 +19,25 @@ function GameContent() {
     setMounted(true);
   }, []);
 
+  const Navbar = dynamic(() => import('@/components/Navbar'), { ssr: false });
+
   if (!mounted) return null;
 
   return (
-    <main className="min-h-screen bg-[#0a0a0f] text-white font-sans selection:bg-purple-500/30">
-      {gameState === 'lobby' && (
-        <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Yükleniyor...</div>}>
-          <LobbyScreen />
-        </Suspense>
-      )}
-      {gameState === 'distributing' && <CardReveal />}
-      {gameState === 'playing' && <GamePlay />}
-      {gameState === 'voting' && <Voting />}
-      {gameState === 'result' && <Results />}
-    </main>
+    <div className="app-container">
+      <Navbar />
+      <main className="flex-1">
+        {gameState === 'lobby' && (
+          <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Yükleniyor...</div>}>
+            <LobbyScreen />
+          </Suspense>
+        )}
+        {gameState === 'distributing' && <CardReveal />}
+        {gameState === 'playing' && <GamePlay />}
+        {gameState === 'voting' && <Voting />}
+        {gameState === 'result' && <Results />}
+      </main>
+    </div>
   );
 }
 

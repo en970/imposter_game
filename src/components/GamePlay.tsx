@@ -47,19 +47,19 @@ export default function GamePlay() {
 
     return (
         <div className="center-container">
-            <div className="home-card fade-in">
+            <div className="home-card fade-in" style={{ borderRadius: 0, border: '4px solid var(--accent-purple)' }}>
                 {/* Header */}
                 <div className="header">
                     <button onClick={resetToLobby} className="icon-btn">
                         <ArrowLeftIcon size={20} />
                     </button>
-                    <h2 className="title-md" style={{ flex: 1, textAlign: 'center' }}>Oyun</h2>
+                    <h2 className="title-md" style={{ flex: 1, textAlign: 'center', fontWeight: 900 }}>WORDSPY</h2>
                     <div style={{ width: 44 }}></div>
                 </div>
 
                 {/* Timer */}
                 <div className="text-center mb-lg">
-                    <div className={`timer-display ${timerClass}`}>
+                    <div className={`timer-display ${timerClass}`} style={{ borderRadius: 0, border: '2px solid var(--border-accent)', background: 'var(--bg-tertiary)', padding: 'var(--spacing-md)', fontSize: '3rem', fontWeight: 900 }}>
                         {formatTime(timer)}
                     </div>
 
@@ -72,30 +72,29 @@ export default function GamePlay() {
                 </div>
 
                 {/* Category */}
-                <div className="card-sm text-center mb-lg">
-                    <span className="text-xs text-muted">Kategori</span>
-                    <p style={{ fontSize: '1.25rem', fontWeight: 700, marginTop: 'var(--spacing-xs)' }}>
+                <div className="card-sm text-center mb-lg" style={{ borderRadius: 0, borderLeft: '8px solid var(--accent-purple)', background: 'var(--bg-secondary)' }}>
+                    <span className="text-xs text-muted" style={{ fontWeight: 800 }}>CATEGORY</span>
+                    <p style={{ fontSize: '1.5rem', fontWeight: 900, marginTop: 'var(--spacing-xs)', textTransform: 'uppercase' }}>
                         {category}
                     </p>
                 </div>
 
                 {/* Current Player */}
-                <div className="card text-center mb-lg">
+                <div className="card text-center mb-lg" style={{ borderRadius: 0, border: '2px solid var(--border-subtle)' }}>
                     <div className="player-avatar" style={{
-                        width: 80,
-                        height: 80,
-                        fontSize: '2rem',
+                        width: 100,
+                        height: 100,
+                        fontSize: '2.5rem',
                         margin: '0 auto var(--spacing-md)',
                         background: 'var(--accent-purple)',
-                        color: 'white'
+                        color: 'black',
+                        fontWeight: 900,
+                        borderRadius: 0
                     }}>
                         {currentPlayer?.name[0].toUpperCase()}
                     </div>
-                    <h3 className="title-lg">{currentPlayer?.name}</h3>
-                    <div className="badge badge-purple mt-sm">Sıra Onda</div>
-                    <p className="description mt-md">
-                        Kelime hakkında ipucu veriyor. <span style={{ color: 'var(--accent-red)' }}>Casus</span>u bul!
-                    </p>
+                    <h3 className="title-lg" style={{ fontWeight: 900 }}>{currentPlayer?.name.toUpperCase()}</h3>
+                    <div className="badge badge-purple mt-sm" style={{ borderRadius: 0, border: '1px solid black' }}>CURRENT TURN</div>
                 </div>
 
                 {/* Player Queue */}
@@ -109,11 +108,12 @@ export default function GamePlay() {
                         <div
                             key={p.id}
                             style={{
-                                width: idx === currentPlayerIndex ? 24 : 8,
-                                height: 8,
-                                borderRadius: 'var(--radius-full)',
+                                width: idx === currentPlayerIndex ? 30 : 10,
+                                height: 6,
+                                borderRadius: 0,
                                 background: idx === currentPlayerIndex ? 'var(--accent-purple)' : 'var(--bg-tertiary)',
-                                transition: 'all 0.3s ease'
+                                transition: 'all 0.3s ease',
+                                border: '1px solid var(--border-subtle)'
                             }}
                         />
                     ))}
@@ -125,20 +125,19 @@ export default function GamePlay() {
                         onClick={nextPlayerTurn}
                         disabled={!isMyTurn}
                         className="btn btn-secondary btn-lg"
-                        title={isMyTurn ? 'Sırayı Geç' : 'Senin Sıran Değil'}
-                        style={{ opacity: isMyTurn ? 1 : 0.6 }}
+                        style={{ opacity: isMyTurn ? 1 : 0.6, borderRadius: 0, border: '2px solid var(--border-subtle)', fontWeight: 900 }}
                     >
                         <ArrowRightIcon size={18} />
-                        {isMyTurn ? 'Sırayı Geç' : 'Bekle'}
+                        {isMyTurn ? 'NEXT TURN' : 'WAITING'}
                     </button>
                     {isHost ? (
-                        <button onClick={goToVoting} className="btn btn-primary btn-lg">
+                        <button onClick={goToVoting} className="btn btn-primary btn-lg" style={{ borderRadius: 0, fontWeight: 900 }}>
                             <VoteIcon size={18} />
-                            Oylama
+                            GO TO VOTE
                         </button>
                     ) : (
-                        <div className="badge badge-purple btn-full text-center" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', padding: '0 1rem' }}>
-                            Host...
+                        <div className="badge badge-purple btn-full text-center" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', padding: '0 1rem', borderRadius: 0 }}>
+                            WAITING...
                         </div>
                     )}
                 </div>

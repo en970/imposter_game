@@ -16,24 +16,25 @@
 
 /* === CSS VARIABLES === */
 :root {
-  /* Colors */
-  --bg-primary: #0a0a0f;
-  --bg-secondary: #12121a;
-  --bg-tertiary: #1a1a28;
-  --bg-hover: #222233;
+  /* Bold High-Contrast Theme */
+  --bg-primary: #000000;
+  --bg-secondary: #080808;
+  --bg-tertiary: #111111;
+  --bg-hover: #1a1a1a;
 
-  --accent-purple: #8b5cf6;
-  --accent-purple-glow: rgba(139, 92, 246, 0.3);
-  --accent-orange: #f97316;
-  --accent-green: #10b981;
-  --accent-red: #ef4444;
+  --accent-purple: #FFD700;
+  /* Gold */
+  --accent-purple-glow: rgba(255, 215, 0, 0.1);
+  --accent-orange: #FFA500;
+  --accent-green: #00FF00;
+  --accent-red: #FF3333;
 
   --text-primary: #ffffff;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
+  --text-secondary: #cccccc;
+  --text-muted: #888888;
 
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-accent: rgba(139, 92, 246, 0.5);
+  --border-subtle: #222222;
+  --border-accent: #FFD700;
 
   /* Typography */
   --font-family: 'Outfit', 'Inter', 'Segoe UI', system-ui, sans-serif;
@@ -42,26 +43,22 @@
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
   --spacing-md: 0.75rem;
-  /* Reduced from 1rem */
   --spacing-lg: 1rem;
-  /* Reduced from 1.5rem */
   --spacing-xl: 1.5rem;
-  /* Reduced from 2rem */
   --spacing-2xl: 2rem;
-  /* Reduced from 3rem */
 
-  /* Border Radius */
-  --radius-sm: 0.5rem;
-  --radius-md: 0.75rem;
-  --radius-lg: 1rem;
-  --radius-xl: 1.25rem;
-  --radius-full: 9999px;
+  /* Sharp Design - No more ultra-rounded corners */
+  --radius-sm: 0px;
+  --radius-md: 2px;
+  --radius-lg: 4px;
+  --radius-xl: 4px;
+  --radius-full: 4px;
 
-  /* Shadows */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 20px var(--accent-purple-glow);
+  /* Bold Shadows - Fixed offset strokes */
+  --shadow-sm: 2px 2px 0px #1a1a1a;
+  --shadow-md: 4px 4px 0px #000000;
+  --shadow-lg: 8px 8px 0px #000000;
+  --shadow-glow: none;
 }
 
 /* === BASE STYLES === */
@@ -633,8 +630,55 @@ body {
   gap: var(--spacing-sm);
 }
 
+/* === DESKTOP OPTIMIZATION === */
+@media (min-width: 1024px) {
+  .desktop-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl);
+    width: 100%;
+    align-items: start;
+  }
+
+  .home-card {
+    max-width: 900px;
+    padding: var(--spacing-xl);
+  }
+
+  .center-container {
+    padding: var(--spacing-xl);
+  }
+}
+
 .gap-md {
   gap: var(--spacing-md);
+}
+
+.mr-sm {
+  margin-right: var(--spacing-sm);
+}
+
+/* === NAVBAR/AD === */
+.ad-navbar {
+  width: 100%;
+  height: 50px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.ad-placeholder {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 4px 12px;
+  border: 1px dashed var(--border-subtle);
+  border-radius: var(--radius-sm);
 }
 
 /* === EMPTY STATE === */

@@ -16,13 +16,15 @@ export default function Results() {
 
     return (
         <div className="center-container">
-            <div className="home-card fade-in">
+            <div className="home-card fade-in" style={{ borderRadius: 0, border: '4px solid var(--accent-purple)' }}>
                 {/* Winner Banner */}
                 <div
                     className="card text-center mb-lg"
                     style={{
                         borderColor: winners === 'civilians' ? 'var(--accent-green)' : 'var(--accent-red)',
-                        borderWidth: 2
+                        borderWidth: 4,
+                        borderRadius: 0,
+                        background: 'var(--bg-secondary)'
                     }}
                 >
                     <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 'var(--spacing-md)' }}>
@@ -33,14 +35,15 @@ export default function Results() {
                         )}
                     </div>
                     <h2 style={{
-                        fontSize: '1.5rem',
-                        fontWeight: 800,
-                        color: winners === 'civilians' ? 'var(--accent-green)' : 'var(--accent-red)'
+                        fontSize: '2rem',
+                        fontWeight: 900,
+                        color: winners === 'civilians' ? 'var(--accent-green)' : 'var(--accent-red)',
+                        textTransform: 'uppercase'
                     }}>
-                        {winners === 'civilians' ? 'Siviller Kazandı!' : 'Casus Kazandı!'}
+                        {winners === 'civilians' ? 'CIVILIANS WIN!' : 'IMPOSTOR WINS!'}
                     </h2>
                     <p className="text-muted mt-sm" style={{ fontSize: '0.875rem' }}>
-                        {winners === 'civilians' ? 'Casus yakalandı!' : 'Casus kendini gizledi.'}
+                        {winners === 'civilians' ? 'The Impostor was caught!' : 'The Impostor escaped!'}
                     </p>
                 </div>
 
@@ -48,21 +51,21 @@ export default function Results() {
                 <div className="mb-md">
                     <h4 className="section-title mb-sm">
                         <SkullIcon size={14} color="var(--accent-red)" />
-                        Casus
+                        IMPOSTOR
                     </h4>
                     {imposters.map((imposter) => (
                         <div
                             key={imposter.id}
                             className="player-item"
-                            style={{ borderLeft: '3px solid var(--accent-red)' }}
+                            style={{ borderLeft: '8px solid var(--accent-red)', borderRadius: 0, background: 'var(--bg-tertiary)' }}
                         >
-                            <div className="player-avatar" style={{ width: 36, height: 36, fontSize: '0.875rem', color: 'var(--accent-red)' }}>
+                            <div className="player-avatar" style={{ width: 40, height: 40, fontSize: '1rem', color: 'var(--accent-red)', borderRadius: 0, fontWeight: 900 }}>
                                 {imposter.name[0]}
                             </div>
                             <div className="player-info">
-                                <div className="player-name" style={{ fontSize: '0.875rem' }}>{imposter.name}</div>
+                                <div className="player-name" style={{ fontSize: '1.125rem', fontWeight: 900 }}>{imposter.name.toUpperCase()}</div>
                             </div>
-                            <span className="badge badge-red">{voteResults[imposter.id] || 0} Oy</span>
+                            <span className="badge badge-red" style={{ borderRadius: 0 }}>{voteResults[imposter.id] || 0} VOTES</span>
                         </div>
                     ))}
                 </div>
@@ -73,19 +76,22 @@ export default function Results() {
                     style={{
                         display: 'flex',
                         justifyContent: 'space-between',
-                        alignItems: 'center'
+                        alignItems: 'center',
+                        borderRadius: 0,
+                        border: '1px solid var(--border-subtle)',
+                        background: 'var(--bg-secondary)'
                     }}
                 >
-                    <div>
-                        <span className="text-xs text-muted">Kelime</span>
-                        <p style={{ fontSize: '1rem', fontWeight: 700, marginTop: '2px' }}>
-                            {secretWord}
+                    <div style={{ borderLeft: '4px solid var(--accent-purple)', paddingLeft: 'var(--spacing-sm)' }}>
+                        <span className="text-xs text-muted" style={{ fontWeight: 800 }}>WORD</span>
+                        <p style={{ fontSize: '1.25rem', fontWeight: 900, marginTop: '2px', color: 'var(--accent-purple)' }}>
+                            {secretWord.toUpperCase()}
                         </p>
                     </div>
                     <div style={{ textAlign: 'right' }}>
-                        <span className="text-xs text-muted">Kategori</span>
-                        <p style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--accent-purple)', marginTop: '2px' }}>
-                            {category}
+                        <span className="text-xs text-muted" style={{ fontWeight: 800 }}>CATEGORY</span>
+                        <p style={{ fontSize: '0.875rem', fontWeight: 900, color: 'white', marginTop: '2px' }}>
+                            {category.toUpperCase()}
                         </p>
                     </div>
                 </div>
@@ -94,7 +100,7 @@ export default function Results() {
                 <div className="mb-lg" style={{ maxHeight: '160px', overflowY: 'auto' }}>
                     <h4 className="section-title mb-sm">
                         <ChartIcon size={14} color="var(--accent-purple)" />
-                        Oy Dağılımı
+                        VOTE DISTRIBUTION
                     </h4>
                     {sortedPlayers.map((player) => {
                         const votz = voteResults[player.id] || 0;
@@ -138,14 +144,14 @@ export default function Results() {
 
                 {/* Play Again */}
                 {hostId === (typeof window !== 'undefined' ? sessionStorage.getItem('playerId') : null) ? (
-                    <button onClick={resetToLobby} className="btn btn-primary btn-lg btn-full">
+                    <button onClick={resetToLobby} className="btn btn-primary btn-lg btn-full" style={{ borderRadius: 0, fontWeight: 900, padding: '1.25rem' }}>
                         <RefreshIcon size={20} />
-                        Tekrar Oyna
+                        PLAY AGAIN
                     </button>
                 ) : (
-                    <div className="badge badge-purple btn-full text-center py-md" style={{ display: 'flex', justifyContent: 'center', padding: '1rem' }}>
-                        <LoaderIcon size={16} />
-                        Hostun tekrar başlatması bekleniyor...
+                    <div className="badge badge-purple btn-full text-center py-md" style={{ display: 'flex', justifyContent: 'center', padding: '1.25rem', borderRadius: 0 }}>
+                        <LoaderIcon size={16} className="mr-sm" />
+                        WAITING FOR HOST TO RESTART...
                     </div>
                 )}
             </div>
