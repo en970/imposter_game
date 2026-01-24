@@ -2,173 +2,168 @@
 
 import { useState } from 'react';
 import { useGameStore } from '@/lib/gameStore';
-import { LockIcon, CheckIcon, EyeIcon, SmartphoneIcon, ArrowLeftIcon } from './Icons';
+import { LockIcon, CheckIcon, EyeIcon, ArrowLeftIcon, UsersIcon } from './Icons';
 
 export default function CardReveal() {
     const {
         players,
-        currentPlayerIndex,
         secretWord,
         category,
-        showingCard,
         currentUser,
-        showCard,
-        hideCard,
         confirmCard,
         resetToLobby
     } = useGameStore();
 
-    const [animating, setAnimating] = useState(false);
+    const [revealed, setRevealed] = useState(false);
+    const [confirmed, setConfirmed] = useState(false);
 
-    const currentPlayer = players[currentPlayerIndex];
-    const isCurrentUserTurn = currentPlayer?.name === currentUser;
+    // Find current user's player data
+    const myPlayer = players.find(p => p.name === currentUser);
+    const myRole = myPlayer?.role;
+    const hasSeenCard = myPlayer?.hasSeenCard || false;
 
-    const handleShowCard = () => {
-        setAnimating(true);
-        setTimeout(() => {
-            showCard();
-            setAnimating(false);
-        }, 200);
+    // Count how many have seen their cards
+    const seenCount = players.filter(p => p.hasSeenCard).length;
+    const progress = (seenCount / players.length) * 100;
+    const allSeen = seenCount === players.length;
+
+    const handleReveal = () => {
+        setRevealed(true);
     };
 
-    const handleConfirm = () => {
-        hideCard();
-        setTimeout(() => {
-            confirmCard();
-        }, 200);
+    const handleConfirm = async () => {
+        setConfirmed(true);
+        await confirmCard();
     };
 
-    const progress = (players.filter(p => p.hasSeenCard).length / players.length) * 100;
+    // If already confirmed, show waiting screen
+    if (hasSeenCard || confirmed) {
+        return (
+            <div className="center-container">
+                <div className="home-card fade-in">
+                    {/* Header */}
+                    <div className="header">
+                        <button onClick={resetToLobby} className="icon-btn">
+                            <ArrowLeftIcon size={20} />
+                        </button>
+                        <h2 className="title-md" style={{ flex: 1, textAlign: 'center' }}>Kart Dağıtımı</h2>
+                        <div style={{ width: 44 }}></div>
+                    </div>
 
-    return (
-        <div className="page-container fade-in">
-            {/* Header with Back Button */}
-            <div className="header">
-                <button onClick={resetToLobby} className="icon-btn">
-                    <ArrowLeftIcon size={20} />
-                </button>
-                <h2 className="title-md" style={{ flex: 1, textAlign: 'center' }}>Kart Dağıtımı</h2>
-                <div style={{ width: 44 }}></div>
-            </div>
-
-            {/* Progress */}
-            <div className="text-center mb-lg">
-                <div className="progress-bar">
-                    <div className="progress-fill" style={{ width: `${progress}%` }}></div>
-                </div>
-                <p className="text-xs text-muted mt-sm">
-                    {players.filter(p => p.hasSeenCard).length} / {players.length} Kontrol Edildi
-                </p>
-            </div>
-
-            {/* Players Grid */}
-            <div className="scroll-area">
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--spacing-sm)' }}>
-                    {players.map((player, index) => (
-                        <div
-                            key={player.id}
-                            className="card-sm"
-                            style={{
-                                borderColor: index === currentPlayerIndex
-                                    ? 'var(--accent-purple)'
-                                    : player.hasSeenCard
-                                        ? 'var(--accent-green)'
-                                        : 'var(--border-subtle)',
-                                opacity: player.hasSeenCard ? 0.6 : 1
-                            }}
-                        >
-                            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-sm)' }}>
-                                <div className="player-avatar" style={{ width: 40, height: 40, fontSize: '1rem' }}>
-                                    {player.name[0]}
-                                </div>
-                                <span style={{ fontWeight: 600, fontSize: '0.875rem' }}>{player.name}</span>
-                                {player.hasSeenCard && (
-                                    <span style={{ marginLeft: 'auto', color: 'var(--accent-green)' }}>
-                                        <CheckIcon size={16} />
-                                    </span>
-                                )}
-                                {index === currentPlayerIndex && !player.hasSeenCard && (
-                                    <span style={{ marginLeft: 'auto', color: 'var(--accent-purple)' }}>
-                                        <EyeIcon size={16} />
-                                    </span>
-                                )}
-                            </div>
+                    {/* Confirmed State */}
+                    <div className="card text-center">
+                        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 'var(--spacing-md)', color: 'var(--accent-green)' }}>
+                            <CheckIcon size={64} />
                         </div>
-                    ))}
-                </div>
-            </div>
+                        <h3 className="title-lg">Kartın Görüldü</h3>
+                        <p className="text-muted mt-sm">Diğer oyuncular bekleniyor...</p>
 
-            {/* Overlay for Current Player */}
-            {currentPlayer && !currentPlayer.hasSeenCard && (
-                <div style={{
-                    position: 'fixed',
-                    inset: 0,
-                    background: 'rgba(10, 10, 15, 0.95)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: 'var(--spacing-lg)',
-                    zIndex: 200
-                }} className="fade-in">
-                    {isCurrentUserTurn ? (
-                        <div style={{ width: '100%', maxWidth: 360 }}>
-                            {!showingCard ? (
-                                <div
-                                    className="card text-center"
-                                    onClick={handleShowCard}
-                                    style={{ cursor: 'pointer', opacity: animating ? 0.5 : 1 }}
-                                >
-                                    <div style={{ marginBottom: 'var(--spacing-md)', display: 'flex', justifyContent: 'center' }}>
-                                        <LockIcon size={64} color="var(--accent-purple)" />
+                        {/* Progress */}
+                        <div className="mt-lg">
+                            <div className="progress-bar">
+                                <div className="progress-fill" style={{ width: `${progress}%` }}></div>
+                            </div>
+                            <p className="text-xs text-muted mt-sm">{seenCount} / {players.length} Hazır</p>
+                        </div>
+
+                        {/* Player Status List */}
+                        <div className="mt-lg" style={{ maxHeight: '200px', overflowY: 'auto' }}>
+                            {players.map((player) => (
+                                <div key={player.id} className="player-item" style={{ opacity: player.hasSeenCard ? 1 : 0.5 }}>
+                                    <div className="player-avatar" style={{ width: 36, height: 36, fontSize: '0.875rem' }}>
+                                        {player.name[0]}
                                     </div>
-                                    <h3 className="title-lg">{currentPlayer.name}</h3>
-                                    <p className="text-muted mt-sm">Kartını görmek için dokun</p>
-                                </div>
-                            ) : (
-                                <div className="card">
-                                    {currentPlayer.role === 'imposter' ? (
-                                        <div className="text-center">
-                                            <div style={{ marginBottom: 'var(--spacing-md)', color: 'var(--accent-red)' }}>
-                                                <EyeIcon size={64} />
-                                            </div>
-                                            <h3 style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--accent-red)' }}>CASUSSUN!</h3>
-                                            <p className="text-muted mt-md">
-                                                Gizli kelimeyi bilmiyorsun.<br />
-                                                <strong>Belli etme!</strong>
-                                            </p>
-                                        </div>
+                                    <div className="player-info">
+                                        <span style={{ fontWeight: 600 }}>{player.name}</span>
+                                    </div>
+                                    {player.hasSeenCard ? (
+                                        <CheckIcon size={16} color="var(--accent-green)" />
                                     ) : (
-                                        <div className="text-center">
-                                            <span className="badge badge-purple mb-md">{category}</span>
-                                            <h3 style={{ fontSize: '2.5rem', fontWeight: 800, marginTop: 'var(--spacing-md)' }}>
-                                                {secretWord}
-                                            </h3>
-                                            <p className="text-muted mt-md">
-                                                Kelimeyi tarif et ama <span style={{ color: 'var(--accent-red)' }}>Casus</span>a dikkat!
-                                            </p>
-                                        </div>
+                                        <span className="text-xs text-muted">Bekliyor</span>
                                     )}
-                                    <button
-                                        onClick={handleConfirm}
-                                        className="btn btn-primary btn-lg btn-full mt-lg"
-                                    >
-                                        <CheckIcon size={20} />
-                                        Anladım
-                                    </button>
                                 </div>
-                            )}
+                            ))}
                         </div>
-                    ) : (
-                        <div className="card text-center" style={{ maxWidth: 360 }}>
-                            <div style={{ marginBottom: 'var(--spacing-md)', display: 'flex', justifyContent: 'center' }}>
-                                <SmartphoneIcon size={64} color="var(--accent-purple)" />
-                            </div>
-                            <h3 className="title-lg">{currentPlayer.name}</h3>
-                            <p className="text-muted mt-sm">Cihazı bu oyuncuya ver</p>
-                        </div>
-                    )}
+
+                        {allSeen && (
+                            <div className="badge badge-green mt-lg">Herkes hazır! Oyun başlıyor...</div>
+                        )}
+                    </div>
                 </div>
-            )}
+            </div>
+        );
+    }
+
+    // Card reveal flow
+    return (
+        <div className="center-container">
+            <div className="home-card fade-in">
+                {/* Header */}
+                <div className="header">
+                    <button onClick={resetToLobby} className="icon-btn">
+                        <ArrowLeftIcon size={20} />
+                    </button>
+                    <h2 className="title-md" style={{ flex: 1, textAlign: 'center' }}>Kart Dağıtımı</h2>
+                    <div style={{ width: 44 }}></div>
+                </div>
+
+                {/* Progress */}
+                <div className="mb-lg">
+                    <div className="progress-bar">
+                        <div className="progress-fill" style={{ width: `${progress}%` }}></div>
+                    </div>
+                    <p className="text-xs text-muted mt-sm text-center">{seenCount} / {players.length} Hazır</p>
+                </div>
+
+                {!revealed ? (
+                    /* Locked Card */
+                    <div
+                        className="card text-center"
+                        onClick={handleReveal}
+                        style={{ cursor: 'pointer' }}
+                    >
+                        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 'var(--spacing-md)' }}>
+                            <LockIcon size={64} color="var(--accent-purple)" />
+                        </div>
+                        <h3 className="title-lg">{currentUser}</h3>
+                        <p className="text-muted mt-sm">Kartını görmek için dokun</p>
+                    </div>
+                ) : (
+                    /* Revealed Card */
+                    <div className="card">
+                        {myRole === 'imposter' ? (
+                            <div className="text-center">
+                                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 'var(--spacing-md)', color: 'var(--accent-red)' }}>
+                                    <EyeIcon size={64} />
+                                </div>
+                                <h3 style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--accent-red)' }}>CASUSSUN!</h3>
+                                <p className="text-muted mt-md">
+                                    Gizli kelimeyi bilmiyorsun.<br />
+                                    <strong>Belli etme!</strong>
+                                </p>
+                            </div>
+                        ) : (
+                            <div className="text-center">
+                                <span className="badge badge-purple">{category}</span>
+                                <h3 style={{ fontSize: '2.5rem', fontWeight: 800, marginTop: 'var(--spacing-md)' }}>
+                                    {secretWord}
+                                </h3>
+                                <p className="text-muted mt-md">
+                                    Kelimeyi tarif et ama <span style={{ color: 'var(--accent-red)' }}>Casus</span>a dikkat!
+                                </p>
+                            </div>
+                        )}
+
+                        <button
+                            onClick={handleConfirm}
+                            className="btn btn-primary btn-lg btn-full mt-lg"
+                        >
+                            <CheckIcon size={20} />
+                            Anladım
+                        </button>
+                    </div>
+                )}
+            </div>
         </div>
     );
 }

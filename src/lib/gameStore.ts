@@ -172,18 +172,22 @@ export const useGameStore = create<GameStore>((set, get) => ({
     hideCard: () => set({ showingCard: false }),
 
     confirmCard: async () => {
-        const { roomCode, players, currentPlayerIndex } = get();
-        const odaPlayerId = players[currentPlayerIndex]?.id;
+        const { roomCode, players, currentUser } = get();
 
-        if (!roomCode || !odaPlayerId) return;
+        // Find current user's player ID
+        const myPlayer = players.find(p => p.name === currentUser);
+        if (!roomCode || !myPlayer) return;
 
         try {
-            await updatePlayerData(roomCode, odaPlayerId, { hasSeenCard: true });
+            await updatePlayerData(roomCode, myPlayer.id, { hasSeenCard: true });
 
             // Check if all players have seen their cards
-            if (currentPlayerIndex < players.length - 1) {
-                await updateRoomState(roomCode, { currentPlayerIndex: currentPlayerIndex + 1 });
-            } else {
+            const updatedPlayers = players.map(p =>
+                p.id === myPlayer.id ? { ...p, hasSeenCard: true } : p
+            );
+            const allSeen = updatedPlayers.every(p => p.hasSeenCard);
+
+            if (allSeen) {
                 await updateRoomState(roomCode, { gameState: 'playing', currentPlayerIndex: 0 });
             }
         } catch (error) {
