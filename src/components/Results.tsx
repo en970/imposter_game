@@ -1,6 +1,7 @@
 'use client';
 
 import { useGameStore } from '@/lib/gameStore';
+import { TrophyIcon, SkullIcon, ChartIcon, RefreshIcon } from './Icons';
 
 export default function Results() {
     const { players, secretWord, category, calculateResults, resetToLobby } = useGameStore();
@@ -23,8 +24,12 @@ export default function Results() {
                     borderWidth: 2
                 }}
             >
-                <div style={{ fontSize: '4rem', marginBottom: 'var(--spacing-md)' }}>
-                    {winners === 'civilians' ? '🏆' : '👺'}
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 'var(--spacing-md)' }}>
+                    {winners === 'civilians' ? (
+                        <TrophyIcon size={64} color="var(--accent-green)" />
+                    ) : (
+                        <SkullIcon size={64} color="var(--accent-red)" />
+                    )}
                 </div>
                 <h2 style={{
                     fontSize: '1.75rem',
@@ -34,13 +39,16 @@ export default function Results() {
                     {winners === 'civilians' ? 'Siviller Kazandı!' : 'Casus Kazandı!'}
                 </h2>
                 <p className="text-muted mt-sm">
-                    {winners === 'civilians' ? 'Casus yakalandı! 🎉' : 'Casus kendini gizlemeyi başardı.'}
+                    {winners === 'civilians' ? 'Casus yakalandı!' : 'Casus kendini gizlemeyi başardı.'}
                 </p>
             </div>
 
             {/* Imposter Reveal */}
             <div className="mb-lg">
-                <h4 className="section-title mb-sm">💀 Casus Kimdi?</h4>
+                <h4 className="section-title mb-sm">
+                    <SkullIcon size={16} color="var(--accent-red)" />
+                    Casus Kimdi?
+                </h4>
                 {imposters.map((imposter) => (
                     <div
                         key={imposter.id}
@@ -84,7 +92,10 @@ export default function Results() {
 
             {/* Vote Distribution */}
             <div className="scroll-area">
-                <h4 className="section-title mb-sm">📊 Oy Dağılımı</h4>
+                <h4 className="section-title mb-sm">
+                    <ChartIcon size={16} color="var(--accent-purple)" />
+                    Oy Dağılımı
+                </h4>
                 {sortedPlayers.map((player) => {
                     const votz = voteResults[player.id] || 0;
                     const progress = maxVotes > 0 ? (votz / maxVotes) * 100 : 0;
@@ -128,7 +139,8 @@ export default function Results() {
             <div className="fixed-footer">
                 <div className="fixed-footer-content">
                     <button onClick={resetToLobby} className="btn btn-secondary btn-lg btn-full">
-                        🔄 Ana Sayfaya Dön
+                        <RefreshIcon size={20} />
+                        Ana Sayfaya Dön
                     </button>
                 </div>
             </div>

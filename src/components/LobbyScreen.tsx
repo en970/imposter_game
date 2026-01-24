@@ -3,6 +3,10 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useGameStore } from '@/lib/gameStore';
+import {
+    UsersIcon, SettingsIcon, LinkIcon, PlayIcon,
+    SparklesIcon, LoaderIcon, CheckIcon, PlusIcon
+} from './Icons';
 
 export default function LobbyScreen() {
     const searchParams = useSearchParams();
@@ -87,7 +91,9 @@ export default function LobbyScreen() {
                 <div style={{ width: '100%', maxWidth: '400px' }} className="fade-in">
                     {/* Logo */}
                     <div className="text-center mb-lg">
-                        <div className="logo-icon" style={{ margin: '0 auto' }}>🎭</div>
+                        <div className="logo-icon" style={{ margin: '0 auto' }}>
+                            <SparklesIcon size={32} color="var(--accent-purple)" />
+                        </div>
                         <h1 className="title-xl">
                             KELİME <span className="text-accent">AVI</span>
                         </h1>
@@ -123,7 +129,22 @@ export default function LobbyScreen() {
                             disabled={!nameInput.trim() || isJoining}
                             className="btn btn-primary btn-lg btn-full"
                         >
-                            {isJoining ? '⏳ Bağlanıyor...' : urlRoomCode ? '🚀 Odaya Katıl' : '✨ Oda Oluştur'}
+                            {isJoining ? (
+                                <>
+                                    <LoaderIcon size={20} />
+                                    Bağlanıyor...
+                                </>
+                            ) : urlRoomCode ? (
+                                <>
+                                    <PlayIcon size={20} />
+                                    Odaya Katıl
+                                </>
+                            ) : (
+                                <>
+                                    <PlusIcon size={20} />
+                                    Oda Oluştur
+                                </>
+                            )}
                         </button>
                     </div>
 
@@ -146,8 +167,9 @@ export default function LobbyScreen() {
                     <h1 className="header-title">Lobi</h1>
                     {roomCode && (
                         <div className="room-code" onClick={copyRoomLink}>
-                            🔗 Davet: <span>{roomCode}</span>
-                            {copied && ' ✓'}
+                            <LinkIcon size={14} />
+                            Davet: <span>{roomCode}</span>
+                            {copied && <CheckIcon size={14} color="var(--accent-green)" />}
                         </div>
                     )}
                 </div>
@@ -155,7 +177,7 @@ export default function LobbyScreen() {
                     onClick={() => setShowSettings(!showSettings)}
                     className={`icon-btn ${showSettings ? 'active' : ''}`}
                 >
-                    ⚙️
+                    <SettingsIcon size={20} />
                 </button>
             </div>
 
@@ -204,7 +226,8 @@ export default function LobbyScreen() {
             <div className="scroll-area">
                 <div className="section-header">
                     <span className="section-title">
-                        👥 Oyuncular ({players.length})
+                        <UsersIcon size={16} color="var(--accent-purple)" />
+                        Oyuncular ({players.length})
                     </span>
                     <div className="live-indicator">
                         <div className="live-dot"></div>
@@ -214,7 +237,8 @@ export default function LobbyScreen() {
 
                 {players.length === 0 ? (
                     <div className="empty-state">
-                        ⏳ Bağlanıyor...
+                        <LoaderIcon size={24} />
+                        <p className="mt-sm">Bağlanıyor...</p>
                     </div>
                 ) : (
                     <div>
@@ -251,7 +275,8 @@ export default function LobbyScreen() {
                         disabled={!canStart}
                         className="btn btn-primary btn-lg btn-full"
                     >
-                        🎮 BAŞLAT
+                        <PlayIcon size={20} />
+                        BAŞLAT
                     </button>
                 </div>
             </div>

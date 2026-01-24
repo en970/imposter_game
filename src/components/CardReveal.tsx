@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useGameStore } from '@/lib/gameStore';
+import { LockIcon, CheckIcon, EyeIcon, SmartphoneIcon } from './Icons';
 
 export default function CardReveal() {
     const {
@@ -42,7 +43,7 @@ export default function CardReveal() {
         <div className="page-container fade-in">
             {/* Header */}
             <div className="text-center mb-lg">
-                <h2 className="title-md">🃏 Kart Seçimi</h2>
+                <h2 className="title-md">Kart Seçimi</h2>
 
                 <div className="progress-bar mt-md">
                     <div className="progress-fill" style={{ width: `${progress}%` }}></div>
@@ -73,9 +74,15 @@ export default function CardReveal() {
                                     {player.name[0]}
                                 </div>
                                 <span style={{ fontWeight: 600, fontSize: '0.875rem' }}>{player.name}</span>
-                                {player.hasSeenCard && <span style={{ marginLeft: 'auto', color: 'var(--accent-green)' }}>✓</span>}
+                                {player.hasSeenCard && (
+                                    <span style={{ marginLeft: 'auto', color: 'var(--accent-green)' }}>
+                                        <CheckIcon size={16} />
+                                    </span>
+                                )}
                                 {index === currentPlayerIndex && !player.hasSeenCard && (
-                                    <span style={{ marginLeft: 'auto', color: 'var(--accent-purple)' }}>👁</span>
+                                    <span style={{ marginLeft: 'auto', color: 'var(--accent-purple)' }}>
+                                        <EyeIcon size={16} />
+                                    </span>
                                 )}
                             </div>
                         </div>
@@ -103,7 +110,9 @@ export default function CardReveal() {
                                     onClick={handleShowCard}
                                     style={{ cursor: 'pointer', opacity: animating ? 0.5 : 1 }}
                                 >
-                                    <div style={{ fontSize: '4rem', marginBottom: 'var(--spacing-md)' }}>🔒</div>
+                                    <div style={{ marginBottom: 'var(--spacing-md)', display: 'flex', justifyContent: 'center' }}>
+                                        <LockIcon size={64} color="var(--accent-purple)" />
+                                    </div>
                                     <h3 className="title-lg">{currentPlayer.name}</h3>
                                     <p className="text-muted mt-sm">Kartını görmek için dokun</p>
                                 </div>
@@ -111,7 +120,9 @@ export default function CardReveal() {
                                 <div className="card">
                                     {currentPlayer.role === 'imposter' ? (
                                         <div className="text-center">
-                                            <div style={{ fontSize: '4rem', marginBottom: 'var(--spacing-md)' }}>🤫</div>
+                                            <div style={{ marginBottom: 'var(--spacing-md)', color: 'var(--accent-red)' }}>
+                                                <EyeIcon size={64} />
+                                            </div>
                                             <h3 style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--accent-red)' }}>CASUSSUN!</h3>
                                             <p className="text-muted mt-md">
                                                 Gizli kelimeyi bilmiyorsun.<br />
@@ -133,14 +144,17 @@ export default function CardReveal() {
                                         onClick={handleConfirm}
                                         className="btn btn-primary btn-lg btn-full mt-lg"
                                     >
-                                        ✓ Anladım
+                                        <CheckIcon size={20} />
+                                        Anladım
                                     </button>
                                 </div>
                             )}
                         </div>
                     ) : (
                         <div className="card text-center" style={{ maxWidth: 360 }}>
-                            <div style={{ fontSize: '4rem', marginBottom: 'var(--spacing-md)' }}>📱</div>
+                            <div style={{ marginBottom: 'var(--spacing-md)', display: 'flex', justifyContent: 'center' }}>
+                                <SmartphoneIcon size={64} color="var(--accent-purple)" />
+                            </div>
                             <h3 className="title-lg">{currentPlayer.name}</h3>
                             <p className="text-muted mt-sm">Cihazı bu oyuncuya ver</p>
                         </div>

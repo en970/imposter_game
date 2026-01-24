@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useGameStore } from '@/lib/gameStore';
+import { CheckIcon, EyeIcon, LoaderIcon } from './Icons';
 
 export default function Voting() {
     const { players, votes, currentUser, castVote } = useGameStore();
@@ -40,7 +41,10 @@ export default function Voting() {
         <div className="page-container fade-in">
             {/* Header */}
             <div className="text-center mb-lg">
-                <h2 className="title-lg">🕵️ Oylama</h2>
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 'var(--spacing-sm)' }}>
+                    <EyeIcon size={32} color="var(--accent-purple)" />
+                </div>
+                <h2 className="title-lg">Oylama</h2>
                 <p className="text-muted mt-sm">Sence <span style={{ color: 'var(--accent-red)' }}>Casus</span> kim?</p>
 
                 <div className="progress-bar mt-md">
@@ -59,7 +63,9 @@ export default function Voting() {
             <div className="scroll-area">
                 {hasVoted ? (
                     <div className="card text-center fade-in">
-                        <div style={{ fontSize: '4rem', marginBottom: 'var(--spacing-md)' }}>✅</div>
+                        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 'var(--spacing-md)', color: 'var(--accent-green)' }}>
+                            <CheckIcon size={64} />
+                        </div>
                         <h3 className="title-md">Oyun Alındı</h3>
                         <p className="text-muted mt-sm">Diğer oyuncular bekleniyor...</p>
 
@@ -104,7 +110,9 @@ export default function Voting() {
                                     <div className="player-role">Şüpheli</div>
                                 </div>
                                 {selectedPlayer === player.id && (
-                                    <span style={{ color: 'var(--accent-orange)', fontSize: '1.25rem' }}>✓</span>
+                                    <span style={{ color: 'var(--accent-orange)' }}>
+                                        <CheckIcon size={20} />
+                                    </span>
                                 )}
                             </div>
                         ))}
@@ -122,7 +130,8 @@ export default function Voting() {
                             className="btn btn-primary btn-lg btn-full"
                             style={{ background: 'var(--accent-orange)' }}
                         >
-                            ✓ Oyu Gönder
+                            <CheckIcon size={20} />
+                            Oyu Gönder
                         </button>
                     </div>
                 </div>

@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { useGameStore } from '@/lib/gameStore';
+import { ArrowRightIcon, VoteIcon, AlertIcon, ClockIcon } from './Icons';
 
 export default function GamePlay() {
     const {
@@ -46,7 +47,10 @@ export default function GamePlay() {
                 </div>
 
                 {timer <= 20 && (
-                    <div className="badge badge-red mt-sm">⚠️ Süre Bitiyor!</div>
+                    <div className="badge badge-red mt-sm" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                        <AlertIcon size={12} />
+                        Süre Bitiyor!
+                    </div>
                 )}
             </div>
 
@@ -101,10 +105,12 @@ export default function GamePlay() {
             {/* Actions */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--spacing-sm)' }}>
                 <button onClick={nextPlayerTurn} className="btn btn-secondary btn-lg">
-                    ⏭ Devam Et
+                    <ArrowRightIcon size={18} />
+                    Devam Et
                 </button>
                 <button onClick={goToVoting} className="btn btn-primary btn-lg">
-                    🗳 Oylama
+                    <VoteIcon size={18} />
+                    Oylama
                 </button>
             </div>
         </div>
