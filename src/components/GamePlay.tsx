@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useGameStore } from '@/lib/gameStore';
-import { ArrowRightIcon, VoteIcon, AlertIcon, ArrowLeftIcon } from './Icons';
+import { ArrowRightIcon, VoteIcon, AlertIcon, ArrowLeftIcon, LoaderIcon } from './Icons';
 
 export default function GamePlay() {
     const {
@@ -13,17 +13,22 @@ export default function GamePlay() {
         nextPlayerTurn,
         goToVoting,
         decrementTimer,
-        resetToLobby
+        resetToLobby,
+        currentUser,
+        hostId
     } = useGameStore();
 
     const currentPlayer = players[currentPlayerIndex];
+    const isMyTurn = currentPlayer?.name === currentUser;
+    const isHost = hostId === (typeof window !== 'undefined' ? sessionStorage.getItem('playerId') : null);
 
     useEffect(() => {
+        if (timer === 9999) return;
         const interval = setInterval(() => {
             decrementTimer();
         }, 1000);
         return () => clearInterval(interval);
-    }, [decrementTimer]);
+    }, [decrementTimer, timer]);
 
     useEffect(() => {
         if (timer === 0) {
@@ -32,12 +37,13 @@ export default function GamePlay() {
     }, [timer, goToVoting]);
 
     const formatTime = (seconds: number) => {
+        if (seconds === 9999) return '∞';
         const mins = Math.floor(seconds / 60);
         const secs = seconds % 60;
         return `${mins}:${secs.toString().padStart(2, '0')}`;
     };
 
-    const timerClass = timer > 60 ? '' : timer > 20 ? 'timer-warning' : 'timer-danger';
+    const timerClass = timer === 9999 ? '' : timer > 60 ? '' : timer > 20 ? 'timer-warning' : 'timer-danger';
 
     return (
         <div className="center-container">
@@ -57,7 +63,7 @@ export default function GamePlay() {
                         {formatTime(timer)}
                     </div>
 
-                    {timer <= 20 && (
+                    {timer !== 9999 && timer <= 20 && (
                         <div className="badge badge-red mt-sm" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
                             <AlertIcon size={12} />
                             Süre Bitiyor!
@@ -115,14 +121,26 @@ export default function GamePlay() {
 
                 {/* Actions */}
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--spacing-sm)' }}>
-                    <button onClick={nextPlayerTurn} className="btn btn-secondary btn-lg">
+                    <button
+                        onClick={nextPlayerTurn}
+                        disabled={!isMyTurn}
+                        className="btn btn-secondary btn-lg"
+                        title={isMyTurn ? 'Sırayı Geç' : 'Senin Sıran Değil'}
+                        style={{ opacity: isMyTurn ? 1 : 0.6 }}
+                    >
                         <ArrowRightIcon size={18} />
-                        Devam
+                        {isMyTurn ? 'Sırayı Geç' : 'Bekle'}
                     </button>
-                    <button onClick={goToVoting} className="btn btn-primary btn-lg">
-                        <VoteIcon size={18} />
-                        Oylama
-                    </button>
+                    {isHost ? (
+                        <button onClick={goToVoting} className="btn btn-primary btn-lg">
+                            <VoteIcon size={18} />
+                            Oylama
+                        </button>
+                    ) : (
+                        <div className="badge badge-purple btn-full text-center" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', padding: '0 1rem' }}>
+                            Host...
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

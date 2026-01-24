@@ -1,10 +1,10 @@
 'use client';
 
 import { useGameStore } from '@/lib/gameStore';
-import { TrophyIcon, SkullIcon, ChartIcon, RefreshIcon } from './Icons';
+import { TrophyIcon, SkullIcon, ChartIcon, RefreshIcon, LoaderIcon } from './Icons';
 
 export default function Results() {
-    const { players, secretWord, category, calculateResults, resetToLobby } = useGameStore();
+    const { players, secretWord, category, calculateResults, resetToLobby, hostId } = useGameStore();
 
     const { imposters, winners, voteResults } = calculateResults();
 
@@ -137,10 +137,17 @@ export default function Results() {
                 </div>
 
                 {/* Play Again */}
-                <button onClick={resetToLobby} className="btn btn-primary btn-lg btn-full">
-                    <RefreshIcon size={20} />
-                    Tekrar Oyna
-                </button>
+                {hostId === (typeof window !== 'undefined' ? sessionStorage.getItem('playerId') : null) ? (
+                    <button onClick={resetToLobby} className="btn btn-primary btn-lg btn-full">
+                        <RefreshIcon size={20} />
+                        Tekrar Oyna
+                    </button>
+                ) : (
+                    <div className="badge badge-purple btn-full text-center py-md" style={{ display: 'flex', justifyContent: 'center', padding: '1rem' }}>
+                        <LoaderIcon size={16} />
+                        Hostun tekrar başlatması bekleniyor...
+                    </div>
+                )}
             </div>
         </div>
     );

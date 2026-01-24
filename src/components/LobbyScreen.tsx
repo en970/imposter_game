@@ -41,7 +41,8 @@ export default function LobbyScreen() {
         setImposterCount,
         setTimerDuration,
         startGame,
-        resetGame
+        resetGame,
+        hostId
     } = useGameStore();
 
     const [nameInput, setNameInput] = useState('');
@@ -242,6 +243,15 @@ export default function LobbyScreen() {
                                 {isJoining ? <LoaderIcon size={18} /> : <PlayIcon size={18} />}
                             </button>
                         </div>
+                        {typeof window !== 'undefined' && sessionStorage.getItem('lastRoomCode') && !joinCodeInput && (
+                            <button
+                                onClick={() => setJoinCodeInput(sessionStorage.getItem('lastRoomCode') || '')}
+                                className="text-xs text-accent mt-sm"
+                                style={{ background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', padding: 0 }}
+                            >
+                                Son odaya geri dön: {sessionStorage.getItem('lastRoomCode')}
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>
@@ -265,12 +275,14 @@ export default function LobbyScreen() {
                             {copied && <CheckIcon size={14} color="var(--accent-green)" />}
                         </div>
                     </div>
-                    <button
-                        onClick={() => setShowSettings(!showSettings)}
-                        className={`icon-btn ${showSettings ? 'active' : ''}`}
-                    >
-                        <SettingsIcon size={20} />
-                    </button>
+                    {hostId === (typeof window !== 'undefined' ? sessionStorage.getItem('playerId') : null) && (
+                        <button
+                            onClick={() => setShowSettings(!showSettings)}
+                            className={`icon-btn ${showSettings ? 'active' : ''}`}
+                        >
+                            <SettingsIcon size={20} />
+                        </button>
+                    )}
                 </div>
 
                 {/* Settings */}
@@ -300,13 +312,13 @@ export default function LobbyScreen() {
                                 <span className="settings-value">{timerDuration}</span>
                             </div>
                             <div className="settings-grid settings-grid-4">
-                                {[60, 120, 180, 300].map((sec) => (
+                                {[60, 120, 180, 300, 9999].map((sec) => (
                                     <button
                                         key={sec}
                                         onClick={() => setTimerDuration(sec)}
                                         className={`settings-option ${timerDuration === sec ? 'active' : ''}`}
                                     >
-                                        {sec}
+                                        {sec === 9999 ? 'Süresiz' : sec}
                                     </button>
                                 ))}
                             </div>
@@ -381,14 +393,21 @@ export default function LobbyScreen() {
                             Başlamak için en az 3 kişi gerekli ({players.length}/3)
                         </p>
                     )}
-                    <button
-                        onClick={startGame}
-                        disabled={!canStart}
-                        className="btn btn-primary btn-lg btn-full"
-                    >
-                        <PlayIcon size={20} />
-                        BAŞLAT
-                    </button>
+                    {hostId === (typeof window !== 'undefined' ? sessionStorage.getItem('playerId') : null) ? (
+                        <button
+                            onClick={startGame}
+                            disabled={!canStart}
+                            className="btn btn-primary btn-lg btn-full"
+                        >
+                            <PlayIcon size={20} />
+                            BAŞLAT
+                        </button>
+                    ) : (
+                        <div className="badge badge-purple btn-full text-center py-md" style={{ display: 'flex', justifyContent: 'center', padding: '1rem' }}>
+                            <LoaderIcon size={16} />
+                            Hostun başlatması bekleniyor...
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

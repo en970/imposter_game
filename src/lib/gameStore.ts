@@ -38,6 +38,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     timerDuration: 120,
     votes: {},
     roomCode: '',
+    hostId: null,
     currentUser: null,
     showingCard: false,
     selectedCategory: 'random',
@@ -45,7 +46,18 @@ export const useGameStore = create<GameStore>((set, get) => ({
     // Actions
     setCurrentUser: (name) => set({ currentUser: name }),
 
-    setSelectedCategory: (category) => set({ selectedCategory: category }),
+    setSelectedCategory: async (category) => {
+        const { roomCode, hostId } = get();
+        const odaPlayerId = getLocalPlayerId();
+        if (roomCode && hostId === odaPlayerId) {
+            try {
+                await updateRoomState(roomCode, { selectedCategory: category });
+            } catch (error) {
+                console.error('Failed to update category:', error);
+            }
+        }
+        set({ selectedCategory: category });
+    },
 
     createRoom: async () => {
         const code = Math.random().toString(36).substring(2, 8).toUpperCase();
@@ -57,6 +69,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         try {
             await createRoomInFirebase(code, odaPlayerId, currentUser);
             set({ roomCode: code });
+            if (typeof window !== 'undefined') sessionStorage.setItem('lastRoomCode', code);
 
             // Subscribe to room updates
             subscribeToRoomUpdates(code, set, get);
@@ -81,6 +94,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
             }
 
             set({ roomCode: code });
+            if (typeof window !== 'undefined') sessionStorage.setItem('lastRoomCode', code);
 
             // Subscribe to room updates
             subscribeToRoomUpdates(code, set, get);
@@ -135,14 +149,16 @@ export const useGameStore = create<GameStore>((set, get) => ({
     },
 
     startGame: async () => {
-        const { roomCode, imposterCount, timerDuration } = get();
-        if (!roomCode) return;
+        const { roomCode, imposterCount, timerDuration, hostId } = get();
+        const odaPlayerId = getLocalPlayerId();
+
+        // Only host can start
+        if (!roomCode || hostId !== odaPlayerId) return;
 
         try {
             // Get current players from Firebase
-            const { selectedCategory } = get();
+            const { selectedCategory, players } = get();
             const { word, category } = getRandomWord(selectedCategory);
-            const { players } = get();
 
             // Assign roles
             const shuffledPlayers = [...players].sort(() => 0.5 - Math.random());
@@ -163,7 +179,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 category: category,
                 gameState: 'distributing',
                 currentPlayerIndex: 0,
-                timer: timerDuration,
+                timer: timerDuration === 9999 ? 9999 : timerDuration,
                 votes: {}
             });
         } catch (error) {
@@ -202,8 +218,12 @@ export const useGameStore = create<GameStore>((set, get) => ({
     },
 
     nextPlayerTurn: async () => {
-        const { roomCode, players, currentPlayerIndex } = get();
+        const { roomCode, players, currentPlayerIndex, currentUser } = get();
         if (!roomCode) return;
+
+        // Only the current player can advance the turn
+        const currentPlayer = players[currentPlayerIndex];
+        if (currentPlayer?.name !== currentUser) return;
 
         const nextIndex = (currentPlayerIndex + 1) % players.length;
 
@@ -215,8 +235,11 @@ export const useGameStore = create<GameStore>((set, get) => ({
     },
 
     goToVoting: async () => {
-        const { roomCode } = get();
-        if (!roomCode) return;
+        const { roomCode, hostId } = get();
+        const odaPlayerId = getLocalPlayerId();
+
+        // Only host can start voting
+        if (!roomCode || hostId !== odaPlayerId) return;
 
         try {
             await updateRoomState(roomCode, { gameState: 'voting' });
@@ -269,20 +292,19 @@ export const useGameStore = create<GameStore>((set, get) => ({
     },
 
     decrementTimer: async () => {
-        const { timer, gameState, roomCode } = get();
+        const { timer, gameState, roomCode, hostId } = get();
+        const odaPlayerId = getLocalPlayerId();
 
-        if (timer > 0 && gameState === 'playing') {
+        // Only host updates the shared timer
+        if (roomCode && hostId === odaPlayerId && gameState === 'playing' && timer > 0 && timer !== 9999) {
             const newTimer = timer - 1;
-            set({ timer: newTimer });
-
-            // Only host updates timer in Firebase (to prevent conflicts)
-            // For now, update locally and sync occasionally
-            if (roomCode && newTimer % 10 === 0) {
-                try {
-                    await updateRoomState(roomCode, { timer: newTimer });
-                } catch {
-                    // Ignore timer sync errors
-                }
+            try {
+                // To minimize Firebase spam, host updates locally and syncs to Firebase
+                // Actually, let's keep it simple and update Firebase every second for now 
+                // since consistency is key for all players.
+                await updateRoomState(roomCode, { timer: newTimer });
+            } catch {
+                // Ignore sync errors
             }
         }
     },
@@ -309,8 +331,11 @@ export const useGameStore = create<GameStore>((set, get) => ({
     },
 
     resetToLobby: async () => {
-        const { roomCode, timerDuration, players } = get();
-        if (!roomCode) return;
+        const { roomCode, timerDuration, players, hostId } = get();
+        const odaPlayerId = getLocalPlayerId();
+
+        // Only host can reset
+        if (!roomCode || hostId !== odaPlayerId) return;
 
         try {
             // Reset player roles
@@ -381,6 +406,8 @@ function subscribeToRoomUpdates(
             currentPlayerIndex: (roomData.currentPlayerIndex as number) || 0,
             timer: (roomData.timer as number) || 120,
             timerDuration: (roomData.timerDuration as number) || 120,
+            hostId: (roomData.hostId as string) || null,
+            selectedCategory: (roomData.selectedCategory as string) || 'random',
             votes: votesObj
         });
     });

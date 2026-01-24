@@ -137,6 +137,7 @@ export default function CardReveal() {
                                     <EyeIcon size={64} />
                                 </div>
                                 <h3 style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--accent-red)' }}>CASUSSUN!</h3>
+                                <div className="badge badge-purple mt-sm">Kategori: {category}</div>
                                 <p className="text-muted mt-md">
                                     Gizli kelimeyi bilmiyorsun.<br />
                                     <strong>Belli etme!</strong>

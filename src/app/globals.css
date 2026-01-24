@@ -3,6 +3,8 @@
    Modern, Clean, Reliable
    ============================================ */
 
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap');
+
 /* === CSS RESET === */
 *,
 *::before,
@@ -34,21 +36,25 @@
   --border-accent: rgba(139, 92, 246, 0.5);
 
   /* Typography */
-  --font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+  --font-family: 'Outfit', 'Inter', 'Segoe UI', system-ui, sans-serif;
 
   /* Spacing */
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
-  --spacing-md: 1rem;
-  --spacing-lg: 1.5rem;
-  --spacing-xl: 2rem;
-  --spacing-2xl: 3rem;
+  --spacing-md: 0.75rem;
+  /* Reduced from 1rem */
+  --spacing-lg: 1rem;
+  /* Reduced from 1.5rem */
+  --spacing-xl: 1.5rem;
+  /* Reduced from 2rem */
+  --spacing-2xl: 2rem;
+  /* Reduced from 3rem */
 
   /* Border Radius */
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;
   --radius-lg: 1rem;
-  --radius-xl: 1.5rem;
+  --radius-xl: 1.25rem;
   --radius-full: 9999px;
 
   /* Shadows */
@@ -62,45 +68,67 @@
 html {
   scroll-behavior: smooth;
   -webkit-tap-highlight-color: transparent;
+  overflow: hidden;
+  /* Prevent body scroll */
 }
 
 body {
   font-family: var(--font-family);
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  min-height: 100vh;
-  line-height: 1.6;
-  overflow-x: hidden;
+  height: 100vh;
+  line-height: 1.5;
+  overflow: hidden;
+  /* Prevent body scroll */
+  position: fixed;
+  /* iOS rubber band fix */
+  width: 100%;
 }
 
 /* === LAYOUT === */
 .app-container {
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .page-container {
   width: 100%;
   max-width: 480px;
   margin: 0 auto;
-  padding: var(--spacing-lg);
-  min-height: 100vh;
+  padding: var(--spacing-md);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .center-container {
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: var(--spacing-lg);
+  padding: var(--spacing-md);
+  overflow: hidden;
 }
 
 .home-card {
   width: 100%;
   max-width: 420px;
-  padding: var(--spacing-lg);
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  max-height: 95vh;
+  overflow-y: auto;
+  /* Allow targeted scroll if absolutely needed, but goal is none */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.home-card::-webkit-scrollbar {
+  display: none;
+  /* Chrome/Safari */
 }
 
 /* === TYPOGRAPHY === */

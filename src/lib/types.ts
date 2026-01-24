@@ -19,6 +19,7 @@ export interface GameStore {
   timerDuration: number;
   votes: Record<string, string>;
   roomCode: string;
+  hostId: string | null;
   currentUser: string | null;
   showingCard: boolean;
   selectedCategory: string;
