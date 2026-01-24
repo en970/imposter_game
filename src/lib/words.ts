@@ -1,134 +1,128 @@
-export interface WordCategory {
-    category: string;
-    words: string[];
-}
-
-export const categories: WordCategory[] = [
+// Word categories for the game - Turkish version
+export const wordCategories = [
     {
-        "category": "Mekanlar & Yerler",
-        "words": [
-            "Hastane", "Okul", "Hapishane", "Uzay İstasyonu", "Denizaltı", "Sirk",
-            "Korsan Gemisi", "Süpermarket", "Mezarlık", "Sinema", "Kütüphane",
-            "Spor Salonu", "Hamam", "Havalimanı", "Düğün Salonu", "Kutup Üssü",
-            "Çöl", "Lunapark", "Kumarhane (Casino)", "Müze", "Hayvanat Bahçesi",
-            "Metro İstasyonu", "Camii", "İnşaat Şantiyesi", "Banka Kasası",
-            "Stadyum", "Sauna", "Vapur", "Kamp Alanı", "Kayak Merkezi",
-            "Fabrika", "Laboratuvar", "Tiyatro Sahnesi", "Berber/Kuaför", "Otobüs Terminali"
+        category: "Mekanlar",
+        words: [
+            "Havalimanı", "Hastane", "Okul", "Restoran", "Otel", "Plaj", "Müze", "Stadyum",
+            "Sinema", "Kütüphane", "AVM", "Metro", "Park", "Cami", "Kilise", "Hamam",
+            "Kuaför", "Eczane", "Banka", "Postane"
         ]
     },
     {
-        "category": "Yiyecek & İçecek",
-        "words": [
-            "Lahmacun", "Sushi", "Hamburger", "Brokoli", "Baklava", "Döner",
-            "Pizza", "Çiğ Köfte", "Mantı", "Kruvasan", "Taco", "Menemen",
-            "Kuru Fasulye", "Patlamış Mısır", "Dondurma", "Karpuz", "Sarımsak",
-            "Soğan", "Çikolata", "Kahve", "Türk Kahvesi", "Ayran", "Şalgam",
-            "Makarna", "İskender", "Kestane", "Midye Dolma", "Simit", "Kokoreç",
-            "Lazanya", "Waffle", "Hurma", "Turşu", "Zeytin", "Peynir"
+        category: "Yiyecekler",
+        words: [
+            "Pizza", "Hamburger", "Döner", "Lahmacun", "Köfte", "Sushi", "Makarna", "Pilav",
+            "Kebap", "İmam Bayıldı", "Kumpir", "Tantuni", "Çiğ Köfte", "Mantı", "Pide",
+            "Baklava", "Künefe", "Simit", "Poğaça", "Börek"
         ]
     },
     {
-        "category": "Hayvanlar Alemi",
-        "words": [
-            "Aslan", "Penguen", "Zürafa", "Timsah", "Yarasa", "Sivrisinek",
-            "Köpekbalığı", "Kanguru", "Ornitorenk", "Bukalemun", "Ahtapot",
-            "Panda", "Koala", "Tavuk", "Horoz", "Hindi", "Kirpi", "Yılan",
-            "Örümcek", "Arı", "Karınca", "Fil", "Gergedan", "Su Aygırı",
-            "Yunus", "Balina", "Kartal", "Baykuş", "Papağan", "Flamingo",
-            "Hamam Böceği", "Fare", "Köstebek", "Solucan", "Deniz Anası"
+        category: "Meslekler",
+        words: [
+            "Doktor", "Öğretmen", "Mühendis", "Aşçı", "Pilot", "Avukat", "Polis", "İtfaiyeci",
+            "Hemşire", "Garson", "Kasap", "Terzi", "Berber", "Şoför", "Müzisyen",
+            "Ressam", "Yazılımcı", "Mimar", "Veteriner", "Gazeteci"
         ]
     },
     {
-        "category": "Ünlüler & Tarihi Kişiler",
-        "words": [
-            "Mustafa Kemal Atatürk", "Elon Musk", "Cristiano Ronaldo", "Lionel Messi",
-            "Michael Jackson", "Marilyn Monroe", "Albert Einstein", "Nikola Tesla",
-            "Barış Manço", "Tarkan", "Cem Yılmaz", "Nusret", "Acun Ilıcalı",
-            "Müslüm Gürses", "Kemal Sunal", "Adile Naşit", "Shakespeare",
-            "Leonardo da Vinci", "Pablo Picasso", "Steve Jobs", "Mark Zuckerberg",
-            "Bill Gates", "Kraliçe Elizabeth", "Donald Trump", "Hitler",
-            "Napolyon", "Kleopatra", "Sezen Aksu", "Fatih Terim", "Arda Güler"
+        category: "Spor",
+        words: [
+            "Futbol", "Basketbol", "Voleybol", "Tenis", "Yüzme", "Koşu", "Bisiklet", "Boks",
+            "Güreş", "Karate", "Jimnastik", "Kayak", "Satranç", "Bilardo", "Bowling",
+            "Golf", "Hokey", "Okçuluk", "Dalış", "Sörf"
         ]
     },
     {
-        "category": "Film & Dizi Karakterleri",
-        "words": [
-            "Joker", "Batman", "Örümcek Adam", "Harry Potter", "Darth Vader",
-            "Yoda", "Iron Man", "Kaptan Amerika", "Thanos", "Deadpool",
-            "Walter White (Heisenberg)", "Polat Alemdar", "Behzat Ç.", "Hürrem Sultan",
-            "Ramiz Dayı", "İsmail Abi", "Recep İvedik", "Gora (Arif)",
-            "Sherlock Holmes", "James Bond", "John Wick", "Jack Sparrow",
-            "Forrest Gump", "Shrek", "Buzz Lightyear", "Mickey Mouse",
-            "Sünger Bob", "Rick Sanchez", "Gandalf", "Gollum", "Voldemort",
-            "Barbie", "Wednesday Addams", "Tommy Shelby"
+        category: "Hayvanlar",
+        words: [
+            "Köpek", "Kedi", "Aslan", "Fil", "Zürafa", "Maymun", "Penguen", "Yunus",
+            "Kartal", "Timsah", "Yılan", "Kaplumbağa", "Tavşan", "At", "İnek",
+            "Koyun", "Tavuk", "Arı", "Kelebek", "Balık"
         ]
     },
     {
-        "category": "Oyun Karakterleri",
-        "words": [
-            "Mario", "Pikachu", "Kratos (God of War)", "Steve (Minecraft)",
-            "Master Chief", "Lara Croft", "Sonic", "Pac-Man", "CJ (GTA San Andreas)",
-            "Arthur Morgan (RDR2)", "Geralt (Witcher)", "Yasuo (LoL)", "Teemo",
-            "Jett (Valorant)", "Sage (Valorant)", "Ellie (The Last of Us)",
-            "Joel (The Last of Us)", "Link (Zelda)", "Zelda", "Scorpion (Mortal Kombat)",
-            "Sub-Zero", "Ryu (Street Fighter)", "Crash Bandicoot", "Agent 47",
-            "Gordon Freeman", "Doom Guy", "P.E.K.K.A (Clash)", "Barbar Kral"
+        category: "Ülkeler",
+        words: [
+            "Türkiye", "Almanya", "Fransa", "İtalya", "İspanya", "Japonya", "Çin", "Amerika",
+            "Brezilya", "Meksika", "Mısır", "Hindistan", "Rusya", "İngiltere", "Avustralya",
+            "Kanada", "Arjantin", "Yunanistan", "Hollanda", "İsviçre"
         ]
     },
     {
-        "category": "Araçlar & Taşıtlar",
-        "words": [
-            "Togg", "Ferrari", "Traktör", "Bisiklet", "Kaykay", "Paten",
-            "Helikopter", "F-16 Savaş Uçağı", "Zeplin", "Sıcak Hava Balonu",
-            "Denizaltı", "Kamyon", "Tır", "Metrobüs", "Teleferik",
-            "Tank", "UFO", "Süpürge (Cadı)", "Uçan Halı", "Batmobile",
-            "Titanic", "Ambulans", "İtfaiye Aracı", "Polis Arabası", "Çöp Kamyonu",
-            "Vinç", "Dozer", "At Arabası", "Kağnı", "Segway", "Martı (Scooter)"
+        category: "Yerli Diziler",
+        words: [
+            "Kurtlar Vadisi", "Aşk-ı Memnu", "Ezel", "Avrupa Yakası", "Yaprak Dökümü",
+            "Muhteşem Yüzyıl", "Behzat Ç.", "Leyla ile Mecnun", "Gibi", "Kardeş Payı",
+            "İşler Güçler", "Cennet Mahallesi", "Arka Sokaklar", "Sihirli Annem", "Selena",
+            "Kızılcık Şerbeti", "Yalı Çapkını", "Kuzey Güney", "Medcezir", "Çukur",
+            "İçerde", "Şahsiyet", "Bir Başkadır", "Yargı", "Seksenler",
+            "Çocuklar Duymasın", "Pis Yedili", "Yalan Dünya", "Jet Sosyete", "Bizimkiler"
         ]
     },
     {
-        "category": "Meslekler",
-        "words": [
-            "Doktor", "Öğretmen", "Polis", "İtfaiyeci", "Astronot",
-            "Pilot", "Kasiyer", "Çöpçü", "Muslukçu (Tesisatçı)", "Youtuber",
-            "Influencer", "Yazılımcı", "Hacker", "Avukat", "Hakim",
-            "Cumhurbaşkanı", "Asker", "Casus", "Dedektif", "Palyaço",
-            "Sihirbaz", "İmam", "Papaz", "Hemşire", "Veteriner",
-            "Dişçi", "Boksör", "Futbolcu", "Şarkıcı", "Ressam",
-            "Mimar", "Kurye", "Taksici", "Çiftçi", "Madenci"
+        category: "Yabancı Diziler",
+        words: [
+            "Game of Thrones", "Breaking Bad", "La Casa de Papel", "Squid Game", "Stranger Things",
+            "Friends", "The Office", "How I Met Your Mother", "Sherlock", "Black Mirror",
+            "Prison Break", "Lost", "The Walking Dead", "Dark", "Peaky Blinders",
+            "Vikings", "Better Call Saul", "Narcos", "Wednesday", "The Last of Us",
+            "The Boys", "House of the Dragon", "The Witcher", "Mandalorian", "The Big Bang Theory",
+            "Brooklyn Nine-Nine", "Rick and Morty", "Suits", "Lucifer", "Grey's Anatomy"
         ]
     },
     {
-        "category": "Eşyalar & Objeler",
-        "words": [
-            "iPhone", "Klavye", "Mouse", "Kulaklık", "Ütü", "Çamaşır Makinesi",
-            "Bulaşık Süngeri", "Diş Fırçası", "Tuvalet Kağıdı", "Sabun",
-            "Şampuan", "Parfüm", "Ruj", "Topuklu Ayakkabı", "Şemsiye",
-            "Gözlük", "Saat", "Yüzük", "Kumbara", "Kredi Kartı",
-            "Pasaport", "Anahtar", "Çakmak", "Kibrit", "Mum",
-            "Ampul", "Priz", "Tencere", "Çay Bardağı", "Oklava",
-            "Balta", "Testere", "Matkap", "Teleskop", "Mikroskop"
+        category: "Yerli Filmler",
+        words: [
+            "G.O.R.A", "A.R.O.G", "Yahşi Batı", "Recep İvedik", "Organize İşler",
+            "Vizontele", "Babam ve Oğlum", "Eyvah Eyvah", "Düğün Dernek", "Hababam Sınıfı",
+            "Tosun Paşa", "Süt Kardeşler", "Kibar Feyzo", "Çöpçüler Kralı", "Davaro",
+            "Züğürt Ağa", "Eşkıya", "Kış Uykusu", "Ayla", "7. Koğuştaki Mucize",
+            "Dağ", "Müslüm", "Bergen", "Nefes", "Kelebeğin Rüyası"
         ]
     },
     {
-        "category": "Spor & Aktiviteler",
-        "words": [
-            "Futbol", "Basketbol", "Voleybol", "Tenis", "Yüzme",
-            "Güreş", "Yağlı Güreş", "Sumo Güreşi", "Boks", "Kick Boks",
-            "Formula 1", "Satranç", "Tavla", "Okey", "Saklambaç",
-            "Körebe", "Yakar Top", "İp Atlama", "Uçurtma Uçurma", "Balık Tutma",
-            "Kamp Yapma", "Yoga", "Pilates", "Crossfit", "Maraton",
-            "Okçuluk", "Atıcılık", "Golf", "Bowling", "Bilardo"
+        category: "Yabancı Filmler",
+        words: [
+            "The Godfather", "Pulp Fiction", "Fight Club", "Forrest Gump", "Inception",
+            "Interstellar", "The Dark Knight", "Joker", "Matrix", "Harry Potter",
+            "Star Wars", "Avengers", "Titanic", "Avatar", "Terminator",
+            "Jurassic Park", "Pirates of the Caribbean", "John Wick", "Gladiator", "Parasite",
+            "Oppenheimer", "Barbie", "Shrek", "Lion King", "Toy Story"
+        ]
+    },
+    {
+        category: "Anime & Çizgi Dizi",
+        words: [
+            "Pokemon", "Naruto", "One Piece", "Dragon Ball Z", "Attack on Titan",
+            "Death Note", "Demon Slayer", "Tom ve Jerry", "Scooby Doo", "Sünger Bob",
+            "Ben 10", "Samurai Jack", "Powerpuff Girls", "Adventure Time", "Gumball",
+            "Ninja Kaplumbağalar", "Transformers", "Garfield", "Looney Tunes", "Şirinler"
         ]
     }
 ];
 
-export function getRandomWord(): { category: string; word: string } {
-    const categoryIndex = Math.floor(Math.random() * categories.length);
-    const selectedCategory = categories[categoryIndex];
-    const wordIndex = Math.floor(Math.random() * selectedCategory.words.length);
+// Get random word from a specific category or random category
+export const getRandomWord = (selectedCategory?: string): { word: string; category: string } => {
+    let categoryData;
+
+    if (selectedCategory && selectedCategory !== 'random') {
+        categoryData = wordCategories.find(c => c.category === selectedCategory);
+    }
+
+    if (!categoryData) {
+        // Random category
+        categoryData = wordCategories[Math.floor(Math.random() * wordCategories.length)];
+    }
+
+    const randomWord = categoryData.words[Math.floor(Math.random() * categoryData.words.length)];
+
     return {
-        category: selectedCategory.category,
-        word: selectedCategory.words[wordIndex]
+        word: randomWord,
+        category: categoryData.category
     };
-}
+};
+
+// Get all category names
+export const getCategoryNames = (): string[] => {
+    return wordCategories.map(c => c.category);
+};

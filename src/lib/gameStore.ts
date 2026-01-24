@@ -40,9 +40,12 @@ export const useGameStore = create<GameStore>((set, get) => ({
     roomCode: '',
     currentUser: null,
     showingCard: false,
+    selectedCategory: 'random',
 
     // Actions
     setCurrentUser: (name) => set({ currentUser: name }),
+
+    setSelectedCategory: (category) => set({ selectedCategory: category }),
 
     createRoom: async () => {
         const code = Math.random().toString(36).substring(2, 8).toUpperCase();
@@ -137,7 +140,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
         try {
             // Get current players from Firebase
-            const { word, category } = getRandomWord();
+            const { selectedCategory } = get();
+            const { word, category } = getRandomWord(selectedCategory);
             const { players } = get();
 
             // Assign roles

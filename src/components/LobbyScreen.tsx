@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useGameStore } from '@/lib/gameStore';
+import { getCategoryNames } from '@/lib/words';
 import {
     UsersIcon, SettingsIcon, LinkIcon, PlayIcon,
     SparklesIcon, LoaderIcon, CheckIcon, PlusIcon,
@@ -21,6 +22,8 @@ const setStoredUsername = (name: string) => {
     }
 };
 
+const categories = ['random', ...getCategoryNames()];
+
 export default function LobbyScreen() {
     const searchParams = useSearchParams();
     const {
@@ -28,8 +31,10 @@ export default function LobbyScreen() {
         roomCode,
         imposterCount,
         timerDuration,
+        selectedCategory,
         currentUser,
         setCurrentUser,
+        setSelectedCategory,
         createRoom,
         joinRoom,
         addPlayer,
@@ -280,6 +285,26 @@ export default function LobbyScreen() {
                                     </button>
                                 ))}
                             </div>
+                        </div>
+
+                        <div className="settings-row">
+                            <div className="settings-header">
+                                <span className="settings-label">Kategori</span>
+                                <span className="settings-value" style={{ fontSize: '0.75rem' }}>
+                                    {selectedCategory === 'random' ? 'Rastgele' : selectedCategory}
+                                </span>
+                            </div>
+                            <select
+                                value={selectedCategory}
+                                onChange={(e) => setSelectedCategory(e.target.value)}
+                                className="input"
+                                style={{ fontSize: '0.875rem' }}
+                            >
+                                <option value="random">Rastgele</option>
+                                {categories.filter(c => c !== 'random').map((cat) => (
+                                    <option key={cat} value={cat}>{cat}</option>
+                                ))}
+                            </select>
                         </div>
                     </div>
                 )}

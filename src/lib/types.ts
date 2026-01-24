@@ -21,9 +21,11 @@ export interface GameStore {
   roomCode: string;
   currentUser: string | null;
   showingCard: boolean;
+  selectedCategory: string;
 
   // Actions (many are now async for Firebase)
   setCurrentUser: (name: string) => void;
+  setSelectedCategory: (category: string) => void;
   createRoom: () => Promise<void> | void;
   joinRoom: (code: string) => Promise<void> | void;
   addPlayer: (name: string) => Promise<void> | void;
