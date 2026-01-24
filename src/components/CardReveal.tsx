@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { Eye, EyeOff, Check, User, Bot, LayoutGrid } from 'lucide-react';
+import { useState } from 'react';
+import { Eye, EyeOff, Check, User, LayoutGrid } from 'lucide-react';
 import { useGameStore } from '@/lib/gameStore';
 
 export default function CardReveal() {
@@ -22,15 +22,6 @@ export default function CardReveal() {
     const currentPlayer = players[currentPlayerIndex];
     const isCurrentUserTurn = currentPlayer?.name === currentUser;
 
-    useEffect(() => {
-        if (currentPlayer?.isBot && !currentPlayer.hasSeenCard) {
-            const timer = setTimeout(() => {
-                confirmCard();
-            }, 1000);
-            return () => clearTimeout(timer);
-        }
-    }, [currentPlayerIndex, currentPlayer, confirmCard]);
-
     const handleShowCard = () => {
         setAnimating(true);
         setTimeout(() => {
@@ -49,58 +40,59 @@ export default function CardReveal() {
     const progress = (players.filter(p => p.hasSeenCard).length / players.length) * 100;
 
     return (
-        <div className="min-h-screen flex flex-col p-6 max-w-lg mx-auto pb-safe animate-fade-in text-white">
+        <div className="min-h-screen flex flex-col container-responsive pb-safe animate-fade-in text-white relative">
             {/* Header */}
-            <div className="text-center mb-10">
+            <div className="text-center mb-8 pt-4">
                 <div className="flex items-center justify-center gap-2 mb-2">
                     <LayoutGrid size={20} className="text-purple-500" />
-                    <h2 className="text-xl font-black uppercase tracking-[0.2em]">KART SEÇİMİ</h2>
+                    <h2 className="text-xl font-black uppercase tracking-widest text-slate-300">KART SEÇİMİ</h2>
                 </div>
 
                 {/* Progress Bar Container */}
-                <div className="mt-6 glass-panel p-1 rounded-full w-full">
+                <div className="mt-4 bg-[#12121a] p-1 rounded-full w-full border border-white/5">
                     <div className="h-2 rounded-full overflow-hidden bg-black/20">
                         <div
-                            className="h-full bg-gradient-to-r from-purple-500 via-purple-400 to-orange-500 transition-all duration-700 ease-out"
+                            className="h-full bg-purple-600 transition-all duration-500 ease-out"
                             style={{ width: `${progress}%` }}
                         />
                     </div>
                 </div>
-                <p className="text-[10px] font-black text-slate-500 mt-2 uppercase tracking-widest">
-                    {players.filter(p => p.hasSeenCard).length} / {players.length} OYUNCU KONTROL ETTİ
+                <p className="text-[10px] font-bold text-slate-500 mt-2 uppercase tracking-widest">
+                    {players.filter(p => p.hasSeenCard).length} / {players.length} KONTROL EDİLDİ
                 </p>
             </div>
 
             {/* Grid of Players */}
-            <div className="flex-1 overflow-y-auto mb-8 pr-1 custom-scrollbar">
-                <div className="grid grid-cols-2 gap-3">
+            <div className="flex-1 overflow-y-auto mb-24 custom-scrollbar">
+                <div className="grid grid-cols-2 gap-3 pb-4">
                     {players.map((player, index) => (
                         <div
                             key={player.id}
-                            className={`relative p-5 rounded-3xl border-2 transition-all duration-500 ${index === currentPlayerIndex
-                                    ? 'border-purple-500 bg-purple-500/10 shadow-[0_0_20px_rgba(139,92,246,0.2)] scale-[1.02]'
+                            className={`relative p-4 rounded-xl border transition-all duration-300 ${index === currentPlayerIndex
+                                    ? 'border-purple-500 bg-[#1a1a28] shadow-md scale-[1.02] z-10'
                                     : player.hasSeenCard
-                                        ? 'border-emerald-500/30 bg-emerald-500/5 opacity-60'
-                                        : 'border-white/5 bg-white/[0.02]'
+                                        ? 'border-emerald-500/20 bg-emerald-500/5 opacity-50'
+                                        : 'border-white/5 bg-[#12121a]'
                                 }`}
                         >
                             <div className="flex items-center gap-3">
-                                <div className={`w-10 h-10 rounded-2xl flex items-center justify-center text-sm font-black ${player.isBot ? 'bg-orange-500/20 text-orange-500' : 'bg-purple-500/20 text-purple-500'
-                                    }`}>
-                                    {player.isBot ? <Bot size={20} /> : <User size={20} />}
+                                <div className="w-10 h-10 rounded-lg flex items-center justify-center text-sm font-black bg-[#1a1a28] text-purple-500 border border-white/5">
+                                    <User size={20} />
                                 </div>
-                                <span className="font-bold text-sm truncate">{player.name}</span>
+                                <span className={`font-bold text-sm truncate ${index === currentPlayerIndex ? 'text-white' : 'text-slate-400'}`}>
+                                    {player.name}
+                                </span>
                             </div>
 
                             {player.hasSeenCard && (
-                                <div className="absolute top-4 right-4 text-emerald-500">
-                                    <Check size={18} strokeWidth={3} />
+                                <div className="absolute top-3 right-3 text-emerald-500">
+                                    <Check size={16} strokeWidth={3} />
                                 </div>
                             )}
 
                             {index === currentPlayerIndex && !player.hasSeenCard && (
-                                <div className="absolute top-4 right-4 text-purple-500 animate-pulse">
-                                    <Eye size={18} strokeWidth={3} />
+                                <div className="absolute top-3 right-3 text-purple-500 animate-pulse">
+                                    <Eye size={16} strokeWidth={3} />
                                 </div>
                             )}
                         </div>
@@ -108,78 +100,68 @@ export default function CardReveal() {
                 </div>
             </div>
 
-            {/* Action Zone */}
+            {/* Action Overlay */}
             {currentPlayer && !currentPlayer.hasSeenCard && (
-                <div className="mt-auto animate-fade-in">
-                    {currentPlayer.isBot ? (
-                        <div className="glass-card rounded-[2.5rem] p-10 text-center border-orange-500/20">
-                            <div className="w-20 h-20 bg-orange-500/20 rounded-3xl flex items-center justify-center mx-auto mb-6">
-                                <Bot size={40} className="text-orange-500 animate-bounce" />
-                            </div>
-                            <h3 className="text-xl font-black text-white mb-2">{currentPlayer.name}</h3>
-                            <p className="text-slate-400 font-medium">Sisteme giriş yapılıyor...</p>
-                        </div>
-                    ) : isCurrentUserTurn ? (
-                        <div className={`transition-all duration-300 ${animating ? 'scale-95 blur-sm opacity-50' : 'scale-100'}`}>
-                            {!showingCard ? (
-                                <button
-                                    onClick={handleShowCard}
-                                    className="w-full h-[280px] glass-card rounded-[3rem] p-8 border-2 border-dashed border-purple-500/30 hover:border-purple-500 transition-all flex flex-col items-center justify-center group"
-                                >
-                                    <div className="w-24 h-24 bg-purple-500/10 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-purple-500/20 transition-all shadow-inner">
-                                        <EyeOff size={40} className="text-purple-400" />
-                                    </div>
-                                    <h3 className="text-2xl font-black text-white mb-2">{currentPlayer.name}</h3>
-                                    <p className="text-purple-400/60 font-black tracking-widest text-xs uppercase underline underline-offset-8">GÖRÜNTÜLEMEK İÇİN DOKUN</p>
-                                </button>
-                            ) : (
-                                <div className="glass-card rounded-[3rem] overflow-hidden border-2 border-purple-500/40 shadow-[0_0_50px_rgba(139,92,246,0.1)]">
-                                    <div className={`p-10 text-center ${currentPlayer.role === 'imposter'
-                                            ? 'bg-gradient-to-b from-red-500/10 to-transparent'
-                                            : 'bg-gradient-to-b from-emerald-500/10 to-transparent'
-                                        }`}>
-                                        {currentPlayer.role === 'imposter' ? (
-                                            <>
-                                                <div className="text-7xl mb-6 drop-shadow-lg">🤫</div>
-                                                <h3 className="text-3xl font-black text-red-500 mb-4 tracking-tighter">CASUSSUN!</h3>
-                                                <p className="text-slate-300 font-medium leading-relaxed">
-                                                    Gizli kelimeyi bilmiyorsun.<br />
-                                                    <span className="text-orange-500 font-black text-lg">ASLA ÇAKTIRMA!</span>
-                                                </p>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <div className="text-7xl mb-6 drop-shadow-lg">🎯</div>
-                                                <p className="text-xs font-black text-slate-500 uppercase tracking-[0.2em] mb-2 font-mono">{category}</p>
-                                                <h3 className="text-5xl font-black text-emerald-400 mb-6 tracking-tighter uppercase drop-shadow-[0_0_20px_rgba(16,185,129,0.3)]">
-                                                    {secretWord}
-                                                </h3>
-                                                <p className="text-slate-400 font-medium">
-                                                    Kelimeyi arkadaşlarına tarif et ama <span className="text-red-400 font-bold">Casus</span>&apos;a dikkat et!
-                                                </p>
-                                            </>
-                                        )}
-                                    </div>
-
+                <div className="fixed inset-0 z-50 flex flex-col bg-[#0a0a0f]/95 backdrop-blur-md p-6 animate-fade-in">
+                    <div className="flex-1 flex flex-col items-center justify-center">
+                        {isCurrentUserTurn ? (
+                            <div className={`w-full max-w-sm transition-all duration-300 ${animating ? 'scale-95 opacity-50' : 'scale-100'}`}>
+                                {!showingCard ? (
                                     <button
-                                        onClick={handleConfirm}
-                                        className="w-full h-20 bg-white/5 hover:bg-white/10 text-white font-black text-lg transition-all border-t border-white/5 active:scale-95 flex items-center justify-center gap-3"
+                                        onClick={handleShowCard}
+                                        className="w-full aspect-square bg-[#12121a] rounded-[2rem] border border-white/10 hover:border-purple-500/50 transition-all flex flex-col items-center justify-center group shadow-2xl"
                                     >
-                                        <Check size={24} className="text-emerald-400" />
-                                        ANLADIM, KAPAT
+                                        <div className="w-20 h-20 bg-[#1a1a28] rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-inner border border-white/5">
+                                            <EyeOff size={32} className="text-purple-500" />
+                                        </div>
+                                        <h3 className="text-3xl font-black text-white mb-2">{currentPlayer.name}</h3>
+                                        <p className="text-slate-500 font-bold tracking-widest text-xs uppercase">GÖRMEK İÇİN DOKUN</p>
                                     </button>
-                                </div>
-                            )}
-                        </div>
-                    ) : (
-                        <div className="glass-panel rounded-[2.5rem] p-10 text-center border-purple-500/10">
-                            <div className="w-20 h-20 bg-purple-500/10 rounded-3xl flex items-center justify-center mx-auto mb-6">
-                                <User size={40} className="text-purple-500" />
+                                ) : (
+                                    <div className="w-full bg-[#12121a] rounded-[2rem] overflow-hidden border border-purple-500/20 shadow-2xl">
+                                        <div className="p-10 text-center min-h-[320px] flex flex-col items-center justify-center">
+                                            {currentPlayer.role === 'imposter' ? (
+                                                <>
+                                                    <div className="text-6xl mb-6 drop-shadow-lg">🤫</div>
+                                                    <h3 className="text-4xl font-black text-red-500 mb-4 tracking-tighter">CASUSSUN!</h3>
+                                                    <p className="text-slate-300 font-medium text-lg leading-relaxed">
+                                                        Gizli kelimeyi bilmiyorsun.<br />
+                                                        <span className="text-white font-black">BELLİ ETME!</span>
+                                                    </p>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <p className="text-xs font-black text-slate-500 uppercase tracking-[0.2em] mb-4 border border-white/10 px-3 py-1 rounded-full">{category}</p>
+                                                    <h3 className="text-5xl font-black text-white mb-6 tracking-tighter uppercase break-words w-full">
+                                                        {secretWord}
+                                                    </h3>
+                                                    <p className="text-slate-400 font-medium">
+                                                        Kelimeyi tarif et ama <span className="text-red-400 font-bold">Casus</span>'a dikkat et!
+                                                    </p>
+                                                </>
+                                            )}
+                                        </div>
+
+                                        <button
+                                            onClick={handleConfirm}
+                                            className="w-full h-20 bg-purple-600 hover:bg-purple-700 text-white font-black text-xl transition-all active:scale-95 flex items-center justify-center gap-3"
+                                        >
+                                            <Check size={24} />
+                                            ANLADIM
+                                        </button>
+                                    </div>
+                                )}
                             </div>
-                            <h3 className="text-xl font-black text-white mb-2">{currentPlayer.name}</h3>
-                            <p className="text-slate-500 font-medium">Cihazı bu oyuncuya verin.</p>
-                        </div>
-                    )}
+                        ) : (
+                            <div className="bg-[#12121a] rounded-[2rem] p-10 text-center border border-white/10 w-full max-w-sm">
+                                <div className="w-20 h-20 bg-[#1a1a28] rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-inner">
+                                    <User size={40} className="text-purple-500" />
+                                </div>
+                                <h3 className="text-2xl font-black text-white mb-2">{currentPlayer.name}</h3>
+                                <p className="text-slate-400 font-medium">Cihazı bu oyuncuya verin.</p>
+                            </div>
+                        )}
+                    </div>
                 </div>
             )}
         </div>

@@ -2,7 +2,6 @@ export interface Player {
   id: string;
   name: string;
   role: 'civilian' | 'imposter' | null;
-  isBot: boolean;
   hasSeenCard: boolean;
 }
 
@@ -22,13 +21,12 @@ export interface GameStore {
   roomCode: string;
   currentUser: string | null;
   showingCard: boolean;
-  
+
   // Actions
   setCurrentUser: (name: string) => void;
   createRoom: () => void;
-  addPlayer: (name: string, isBot?: boolean) => void;
+  addPlayer: (name: string) => void;
   removePlayer: (id: string) => void;
-  addBots: (count: number) => void;
   setImposterCount: (count: number) => void;
   setTimerDuration: (seconds: number) => void;
   startGame: () => void;
@@ -39,6 +37,7 @@ export interface GameStore {
   goToVoting: () => void;
   castVote: (voterId: string, targetId: string) => void;
   calculateResults: () => { imposters: Player[]; winners: 'civilians' | 'imposters'; voteResults: Record<string, number> };
-  resetGame: () => void;
+  resetGame: () => void;     // Complete reset (new group)
+  resetToLobby: () => void;  // Keep players (same group)
   decrementTimer: () => void;
 }

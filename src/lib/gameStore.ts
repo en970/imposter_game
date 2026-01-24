@@ -1,102 +1,80 @@
 import { create } from 'zustand';
-import { Player, GameState, GameStore } from './types';
+import { GameStore, Player, GameState } from './types';
 import { getRandomWord } from './words';
 
-function generateRoomCode(): string {
-    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-    let code = '';
-    for (let i = 0; i < 6; i++) {
-        code += chars[Math.floor(Math.random() * chars.length)];
-    }
-    return code;
-}
-
-function generateId(): string {
-    return Math.random().toString(36).substring(2, 9);
-}
-
 export const useGameStore = create<GameStore>((set, get) => ({
-    // Initial state
+    // Initial State
     players: [],
     gameState: 'lobby',
     secretWord: '',
     category: '',
     imposterCount: 1,
     currentPlayerIndex: 0,
-    timer: 120,
-    timerDuration: 120,
+    timer: 60,
+    timerDuration: 60,
     votes: {},
     roomCode: '',
     currentUser: null,
     showingCard: false,
 
     // Actions
-    setCurrentUser: (name: string) => set({ currentUser: name }),
+    setCurrentUser: (name) => set({ currentUser: name }),
 
-    createRoom: () => set({ roomCode: generateRoomCode() }),
+    createRoom: () => {
+        const code = Math.random().toString(36).substring(2, 8).toUpperCase();
+        set({ roomCode: code });
+    },
 
-    addPlayer: (name: string, isBot = false) => set((state) => ({
-        players: [...state.players, {
-            id: generateId(),
-            name,
-            role: null,
-            isBot,
-            hasSeenCard: false
-        }]
-    })),
-
-    removePlayer: (id: string) => set((state) => ({
-        players: state.players.filter(p => p.id !== id)
-    })),
-
-    addBots: (count: number) => set((state) => {
-        const existingBotCount = state.players.filter(p => p.isBot).length;
-        const newBots: Player[] = [];
-        for (let i = 0; i < count; i++) {
-            newBots.push({
-                id: generateId(),
-                name: `Bot ${existingBotCount + i + 1}`,
+    addPlayer: (name) => set((state) => ({
+        players: [
+            ...state.players,
+            {
+                id: Math.random().toString(36).substring(2, 9),
+                name,
                 role: null,
-                isBot: true,
                 hasSeenCard: false
-            });
-        }
-        return { players: [...state.players, ...newBots] };
+            }
+        ]
+    })),
+
+    removePlayer: (id) => set((state) => ({
+        players: state.players.filter((p) => p.id !== id)
+    })),
+
+    setImposterCount: (count) => set({ imposterCount: count }),
+
+    setTimerDuration: (seconds) => set({
+        timerDuration: seconds,
+        timer: seconds
     }),
 
-    setImposterCount: (count: number) => set({ imposterCount: count }),
-
-    setTimerDuration: (seconds: number) => set({ timerDuration: seconds, timer: seconds }),
-
     startGame: () => {
-        const state = get();
-        const { category, word } = getRandomWord();
+        const { players, imposterCount, timerDuration } = get();
 
-        // Randomly assign imposters
-        const playersCopy = [...state.players];
-        const shuffled = playersCopy.sort(() => Math.random() - 0.5);
+        // Select Random Word
+        const { word, category } = getRandomWord();
 
-        const imposterIndices = new Set<number>();
-        while (imposterIndices.size < Math.min(state.imposterCount, state.players.length - 1)) {
-            imposterIndices.add(Math.floor(Math.random() * state.players.length));
-        }
+        // Assign Roles
+        const shuffledPlayers = [...players].sort(() => 0.5 - Math.random());
+        const imps = shuffledPlayers.slice(0, imposterCount);
+        const civs = shuffledPlayers.slice(imposterCount);
 
-        const playersWithRoles = state.players.map((player, index) => ({
-            ...player,
-            role: imposterIndices.has(index) ? 'imposter' : 'civilian',
-            hasSeenCard: false
-        })) as Player[];
-
-        // Shuffle player order for card distribution
-        const shuffledPlayers = playersWithRoles.sort(() => Math.random() - 0.5);
+        const playersWithRoles = players.map(p => {
+            const isImposter = imps.find(i => i.id === p.id);
+            return {
+                ...p,
+                role: isImposter ? 'imposter' : 'civilian',
+                hasSeenCard: false
+            } as Player;
+        });
 
         set({
-            players: shuffledPlayers,
+            players: playersWithRoles,
             secretWord: word,
-            category,
-            gameState: 'distributing',
+            category: category,
+            gameState: 'distributing', // Start with distributing cards
             currentPlayerIndex: 0,
-            timer: state.timerDuration,
+            timer: timerDuration,
             votes: {}
         });
     },
@@ -106,87 +84,99 @@ export const useGameStore = create<GameStore>((set, get) => ({
     hideCard: () => set({ showingCard: false }),
 
     confirmCard: () => {
-        const state = get();
-        const updatedPlayers = [...state.players];
-        updatedPlayers[state.currentPlayerIndex] = {
-            ...updatedPlayers[state.currentPlayerIndex],
-            hasSeenCard: true
-        };
+        const { players, currentPlayerIndex } = get();
+        const updatedPlayers = [...players];
+        updatedPlayers[currentPlayerIndex].hasSeenCard = true;
 
-        const nextIndex = state.currentPlayerIndex + 1;
+        set({ players: updatedPlayers });
 
-        if (nextIndex >= state.players.length) {
-            // All players have seen their cards
-            set({
-                players: updatedPlayers,
-                gameState: 'playing',
-                currentPlayerIndex: 0,
-                showingCard: false
-            });
+        // Move to next player or start game if all seen
+        if (currentPlayerIndex < players.length - 1) {
+            set({ currentPlayerIndex: currentPlayerIndex + 1 });
         } else {
-            set({
-                players: updatedPlayers,
-                currentPlayerIndex: nextIndex,
-                showingCard: false
-            });
+            set({ gameState: 'playing', currentPlayerIndex: 0 }); // Start playing
         }
     },
 
-    nextPlayerTurn: () => set((state) => ({
-        currentPlayerIndex: (state.currentPlayerIndex + 1) % state.players.length
-    })),
+    nextPlayerTurn: () => {
+        const { players, currentPlayerIndex } = get();
+        const nextIndex = (currentPlayerIndex + 1) % players.length;
+        set({ currentPlayerIndex: nextIndex });
+    },
 
-    goToVoting: () => set({ gameState: 'voting', votes: {} }),
+    goToVoting: () => set({ gameState: 'voting' }),
 
-    castVote: (voterId: string, targetId: string) => set((state) => ({
+    castVote: (voterId, targetId) => set((state) => ({
         votes: { ...state.votes, [voterId]: targetId }
     })),
 
     calculateResults: () => {
-        const state = get();
-        const imposters = state.players.filter(p => p.role === 'imposter');
+        const { players, votes } = get();
 
-        // Count votes
+        // Calculate Vote Counts
         const voteResults: Record<string, number> = {};
-        state.players.forEach(p => { voteResults[p.id] = 0; });
-        Object.values(state.votes).forEach(targetId => {
+        Object.values(votes).forEach(targetId => {
             voteResults[targetId] = (voteResults[targetId] || 0) + 1;
         });
 
-        // Find most voted
+        // Find Imposters
+        const imposters = players.filter(p => p.role === 'imposter');
+
+        // Determine Winner logic
+        // Simple logic: if any imposter gets the most votes, Civilians win.
+        // Else, Imposters win.
+
+        // Find player with max votes
         let maxVotes = 0;
-        let mostVoted = '';
-        Object.entries(voteResults).forEach(([id, votes]) => {
-            if (votes > maxVotes) {
-                maxVotes = votes;
-                mostVoted = id;
-            }
+        Object.entries(voteResults).forEach(([_, count]) => {
+            if (count > maxVotes) maxVotes = count;
         });
 
-        // Check if imposter was caught
-        const imposterIds = imposters.map(p => p.id);
-        const civilianWins = imposterIds.includes(mostVoted);
+        const mostVotedPlayers = players.filter(p => (voteResults[p.id] || 0) === maxVotes);
+
+        // If any of the most voted players is an imposter, Civilians win
+        const imposterCaught = mostVotedPlayers.some(p => p.role === 'imposter');
 
         return {
             imposters,
-            winners: civilianWins ? 'civilians' : 'imposters',
+            winners: imposterCaught ? 'civilians' : 'imposters',
             voteResults
         };
     },
 
+    decrementTimer: () => set((state) => {
+        if (state.timer > 0 && state.gameState === 'playing') {
+            return { timer: state.timer - 1 };
+        }
+        return {};
+    }),
+
+    // Full Reset (New Group)
     resetGame: () => set({
         players: [],
         gameState: 'lobby',
         secretWord: '',
         category: '',
-        currentPlayerIndex: 0,
+        timer: 60,
         votes: {},
         roomCode: '',
-        currentUser: null,
-        showingCard: false
+        currentUser: null
     }),
 
-    decrementTimer: () => set((state) => ({
-        timer: Math.max(0, state.timer - 1)
+    // Keep Players (Same Group)
+    resetToLobby: () => set((state) => ({
+        gameState: 'lobby',
+        secretWord: '',
+        category: '',
+        timer: state.timerDuration,
+        votes: {},
+        currentPlayerIndex: 0,
+        showingCard: false,
+        players: state.players.map(p => ({
+            ...p,
+            role: null,
+            hasSeenCard: false
+        }))
     }))
+
 }));
