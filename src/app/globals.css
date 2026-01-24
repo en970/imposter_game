@@ -47,11 +47,11 @@
   --spacing-xl: 1.5rem;
   --spacing-2xl: 2rem;
 
-  /* Modern Design - Subtle rounding */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
+  /* Modern Design - Softer corners */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
   --radius-full: 9999px;
 
   /* Subtle Shadows */
