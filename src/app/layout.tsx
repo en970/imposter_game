@@ -8,10 +8,10 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "WORDSPY - Who is the Imposter?",
-  description: "Play WORDSPY with friends. Can you find the spy among you? Create a room and start playing the ultimate word imposter game!",
-  keywords: ["WORDSPY", "imposter", "word game", "spy game", "party game online", "find the spy", "who is the spy"],
-  authors: [{ name: "WORDSPY" }],
+  title: "KelimeCasusu / WordImposter - Find the Spy",
+  description: "KelimeCasusu (TR) ve WordImposter (EN) ile arkadaşlarınızla eğlenin. İçinizdeki casusu bulun! Create a room and start playing the ultimate word imposter game!",
+  keywords: ["KelimeCasusu", "WordImposter", "imposter", "word game", "spy game", "party game online", "find the spy", "who is the spy", "kelime oyunu", "casus bulmaca"],
+  authors: [{ name: "KelimeCasusu" }],
 };
 
 export const viewport: Viewport = {

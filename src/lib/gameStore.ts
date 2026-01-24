@@ -43,6 +43,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     showingCard: false,
     selectedCategory: 'random',
     duplicateNameError: null,
+    language: 'tr',
 
     // Actions
     setCurrentUser: (name) => set({ currentUser: name }),
@@ -385,6 +386,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
             });
         } catch (error) {
             console.error('Failed to reset to lobby:', error);
+        }
+    },
+
+    setLanguage: (lang) => {
+        set({ language: lang });
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('kelimeavi_lang', lang);
         }
     }
 }));

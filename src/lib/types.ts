@@ -25,6 +25,7 @@ export interface GameStore {
   showingCard: boolean;
   selectedCategory: string;
   duplicateNameError: string | null;
+  language: 'tr' | 'en';
 
   // Actions (many are now async for Firebase)
   setCurrentUser: (name: string) => void;
@@ -48,4 +49,5 @@ export interface GameStore {
   kickPlayer: (playerId: string) => Promise<void> | void;
   clearError: () => void;
   decrementTimer: () => Promise<void> | void;
+  setLanguage: (lang: 'tr' | 'en') => void;
 }
