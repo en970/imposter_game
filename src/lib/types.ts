@@ -22,23 +22,23 @@ export interface GameStore {
   currentUser: string | null;
   showingCard: boolean;
 
-  // Actions
+  // Actions (many are now async for Firebase)
   setCurrentUser: (name: string) => void;
-  createRoom: () => void;
-  joinRoom: (code: string) => void;
-  addPlayer: (name: string) => void;
-  removePlayer: (id: string) => void;
-  setImposterCount: (count: number) => void;
-  setTimerDuration: (seconds: number) => void;
-  startGame: () => void;
+  createRoom: () => Promise<void> | void;
+  joinRoom: (code: string) => Promise<void> | void;
+  addPlayer: (name: string) => Promise<void> | void;
+  removePlayer: (id: string) => Promise<void> | void;
+  setImposterCount: (count: number) => Promise<void> | void;
+  setTimerDuration: (seconds: number) => Promise<void> | void;
+  startGame: () => Promise<void> | void;
   showCard: () => void;
   hideCard: () => void;
-  confirmCard: () => void;
-  nextPlayerTurn: () => void;
-  goToVoting: () => void;
-  castVote: (voterId: string, targetId: string) => void;
+  confirmCard: () => Promise<void> | void;
+  nextPlayerTurn: () => Promise<void> | void;
+  goToVoting: () => Promise<void> | void;
+  castVote: (voterId: string, targetId: string) => Promise<void> | void;
   calculateResults: () => { imposters: Player[]; winners: 'civilians' | 'imposters'; voteResults: Record<string, number> };
-  resetGame: () => void;     // Complete reset (new group)
-  resetToLobby: () => void;  // Keep players (same group)
-  decrementTimer: () => void;
+  resetGame: () => Promise<void> | void;
+  resetToLobby: () => Promise<void> | void;
+  decrementTimer: () => Promise<void> | void;
 }
