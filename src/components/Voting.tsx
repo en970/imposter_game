@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { useGameStore } from '@/lib/gameStore';
-import { CheckIcon, EyeIcon, LoaderIcon } from './Icons';
+import { CheckIcon, EyeIcon, ArrowLeftIcon } from './Icons';
 
 export default function Voting() {
-    const { players, votes, currentUser, castVote } = useGameStore();
+    const { players, votes, currentUser, castVote, resetToLobby } = useGameStore();
     const [selectedPlayer, setSelectedPlayer] = useState<string | null>(null);
     const [hasVoted, setHasVoted] = useState(false);
 
@@ -39,13 +39,21 @@ export default function Voting() {
 
     return (
         <div className="page-container fade-in">
-            {/* Header */}
+            {/* Header with Back Button */}
+            <div className="header">
+                <button onClick={resetToLobby} className="icon-btn">
+                    <ArrowLeftIcon size={20} />
+                </button>
+                <h2 className="title-md" style={{ flex: 1, textAlign: 'center' }}>Oylama</h2>
+                <div style={{ width: 44 }}></div>
+            </div>
+
+            {/* Progress */}
             <div className="text-center mb-lg">
                 <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 'var(--spacing-sm)' }}>
                     <EyeIcon size={32} color="var(--accent-purple)" />
                 </div>
-                <h2 className="title-lg">Oylama</h2>
-                <p className="text-muted mt-sm">Sence <span style={{ color: 'var(--accent-red)' }}>Casus</span> kim?</p>
+                <p className="text-muted">Sence <span style={{ color: 'var(--accent-red)' }}>Casus</span> kim?</p>
 
                 <div className="progress-bar mt-md">
                     <div

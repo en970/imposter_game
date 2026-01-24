@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useGameStore } from '@/lib/gameStore';
-import { ArrowRightIcon, VoteIcon, AlertIcon, ClockIcon } from './Icons';
+import { ArrowRightIcon, VoteIcon, AlertIcon, ArrowLeftIcon } from './Icons';
 
 export default function GamePlay() {
     const {
@@ -12,7 +12,8 @@ export default function GamePlay() {
         category,
         nextPlayerTurn,
         goToVoting,
-        decrementTimer
+        decrementTimer,
+        resetToLobby
     } = useGameStore();
 
     const currentPlayer = players[currentPlayerIndex];
@@ -40,6 +41,15 @@ export default function GamePlay() {
 
     return (
         <div className="page-container fade-in">
+            {/* Header with Back Button */}
+            <div className="header">
+                <button onClick={resetToLobby} className="icon-btn">
+                    <ArrowLeftIcon size={20} />
+                </button>
+                <h2 className="title-md" style={{ flex: 1, textAlign: 'center' }}>Oyun</h2>
+                <div style={{ width: 44 }}></div>
+            </div>
+
             {/* Timer */}
             <div className="text-center mb-lg">
                 <div className={`timer-display ${timerClass}`}>
@@ -77,7 +87,7 @@ export default function GamePlay() {
                 <h3 className="title-lg">{currentPlayer?.name}</h3>
                 <div className="badge badge-purple mt-sm">Sıra Sende</div>
                 <p className="description mt-md">
-                    Kelime hakkında ipucu ver ama <span style={{ color: 'var(--accent-red)' }}>Casus</span>'u şüphelendirme!
+                    Kelime hakkında ipucu ver ama <span style={{ color: 'var(--accent-red)' }}>Casus</span>u şüphelendirme!
                 </p>
             </div>
 

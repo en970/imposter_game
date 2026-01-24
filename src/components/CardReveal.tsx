@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useGameStore } from '@/lib/gameStore';
-import { LockIcon, CheckIcon, EyeIcon, SmartphoneIcon } from './Icons';
+import { LockIcon, CheckIcon, EyeIcon, SmartphoneIcon, ArrowLeftIcon } from './Icons';
 
 export default function CardReveal() {
     const {
@@ -14,7 +14,8 @@ export default function CardReveal() {
         currentUser,
         showCard,
         hideCard,
-        confirmCard
+        confirmCard,
+        resetToLobby
     } = useGameStore();
 
     const [animating, setAnimating] = useState(false);
@@ -41,11 +42,18 @@ export default function CardReveal() {
 
     return (
         <div className="page-container fade-in">
-            {/* Header */}
-            <div className="text-center mb-lg">
-                <h2 className="title-md">Kart Seçimi</h2>
+            {/* Header with Back Button */}
+            <div className="header">
+                <button onClick={resetToLobby} className="icon-btn">
+                    <ArrowLeftIcon size={20} />
+                </button>
+                <h2 className="title-md" style={{ flex: 1, textAlign: 'center' }}>Kart Dağıtımı</h2>
+                <div style={{ width: 44 }}></div>
+            </div>
 
-                <div className="progress-bar mt-md">
+            {/* Progress */}
+            <div className="text-center mb-lg">
+                <div className="progress-bar">
                     <div className="progress-fill" style={{ width: `${progress}%` }}></div>
                 </div>
                 <p className="text-xs text-muted mt-sm">
@@ -136,7 +144,7 @@ export default function CardReveal() {
                                                 {secretWord}
                                             </h3>
                                             <p className="text-muted mt-md">
-                                                Kelimeyi tarif et ama <span style={{ color: 'var(--accent-red)' }}>Casus</span>'a dikkat!
+                                                Kelimeyi tarif et ama <span style={{ color: 'var(--accent-red)' }}>Casus</span>a dikkat!
                                             </p>
                                         </div>
                                     )}
