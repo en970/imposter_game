@@ -668,13 +668,15 @@ body {
 /* === NAVBAR/AD === */
 .ad-navbar {
   width: 100%;
-  height: 32px;
+  height: 50px;
+  max-height: 50px;
   background: var(--bg-secondary);
   border-bottom: 1px solid var(--border-subtle);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  overflow: hidden;
 }
 
 .ad-placeholder {
@@ -764,41 +766,57 @@ body {
 /* === RESPONSIVE === */
 @media (max-width: 480px) {
   :root {
-    --spacing-lg: 1rem;
-    --spacing-xl: 1.25rem;
+    --spacing-lg: 0.75rem;
+    --spacing-xl: 1rem;
   }
 
   .page-container {
-    padding: var(--spacing-md);
+    padding: var(--spacing-sm);
   }
 
   .center-container {
-    padding: var(--spacing-md);
+    padding: var(--spacing-sm);
     justify-content: flex-start;
-    /* Better for tall mobile content */
-    padding-top: 5vh;
+    padding-top: 2vh;
+    min-height: calc(100vh - 50px);
+    overflow: hidden;
   }
 
   .home-card {
     padding: var(--spacing-sm);
     max-width: 100%;
+    margin: 0;
   }
 
   .title-xl {
-    font-size: 2rem;
+    font-size: 1.75rem;
   }
 
   .card {
-    padding: var(--spacing-md);
+    padding: var(--spacing-sm);
   }
 
   .btn-lg {
-    padding: var(--spacing-md) var(--spacing-lg);
-    font-size: 1rem;
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: 0.9rem;
   }
 
   .timer-display {
-    font-size: 3rem;
+    font-size: 2.5rem;
+  }
+
+  /* Kurallar kartı mobilde daha kompakt */
+  .rules-card {
+    padding: var(--spacing-sm) !important;
+  }
+
+  .rules-card ul {
+    font-size: 0.8rem !important;
+    line-height: 1.5 !important;
+  }
+
+  .rules-card li {
+    padding: 2px 0 !important;
   }
 }
 
