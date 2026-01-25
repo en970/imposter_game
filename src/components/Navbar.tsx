@@ -48,17 +48,17 @@ export default function Navbar() {
                     flex: 1,
                     display: 'flex',
                     justifyContent: 'center',
-                    maxHeight: '50px',
+                    alignItems: 'center',
                     overflow: 'hidden',
-                    minWidth: '120px'
+                    minWidth: '100px'
                 }}>
                     <ins
                         className="adsbygoogle"
                         style={{ display: 'block', width: '320px', height: '50px' }}
                         data-ad-client="ca-pub-8793006985867588"
                         data-ad-slot="4426624617"
-                        data-ad-format="horizontal"
-                        data-full-width-responsive="false"
+                        data-ad-format="auto"
+                        data-full-width-responsive="true"
                     />
                 </div>
 
