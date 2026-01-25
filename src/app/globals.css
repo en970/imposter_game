@@ -632,10 +632,19 @@ body {
   .home-card {
     max-width: 900px;
     padding: var(--spacing-xl);
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .center-container {
     padding: var(--spacing-xl);
+  }
+
+  /* Kurallar kartı masaüstünde ortalı */
+  .rules-card {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 

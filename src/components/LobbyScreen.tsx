@@ -112,11 +112,11 @@ export default function LobbyScreen() {
                     </div>
 
                     {/* How to Play / Rules */}
-                    <div className="card mb-lg" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)' }}>
+                    <div className="card mb-lg rules-card" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', textAlign: 'center' }}>
                         <h4 className="text-xs font-bold mb-md" style={{ color: 'var(--border-accent)', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '4px' }}>{t.howToPlay}</h4>
-                        <ul className="rules-list" style={{ paddingLeft: '1.25rem', fontSize: '0.875rem', lineHeight: '1.6', color: 'var(--text-secondary)' }}>
+                        <ul className="rules-list" style={{ paddingLeft: 0, fontSize: '0.875rem', lineHeight: '1.8', color: 'var(--text-secondary)', listStyle: 'none' }}>
                             {t.rules.map((rule, idx) => (
-                                <li key={idx} className="mb-xs">{rule}</li>
+                                <li key={idx} className="mb-xs" style={{ padding: '4px 0' }}>{rule}</li>
                             ))}
                         </ul>
                     </div>
