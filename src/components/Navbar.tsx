@@ -4,6 +4,11 @@ import { useGameStore } from '@/lib/gameStore';
 import { translations } from '@/lib/translations';
 import { GlobeIcon } from './Icons';
 
+// ==========================================
+// REKLAM AYARLARI - Google AdSense
+// Publisher ID: ca-pub-8793006985867588
+// ==========================================
+
 export default function Navbar() {
     const { language, setLanguage } = useGameStore();
     const t = translations[language];
@@ -14,8 +19,16 @@ export default function Navbar() {
 
     return (
         <nav className="ad-navbar">
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', maxWidth: '1200px', width: '100%', padding: '0 var(--spacing-md)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-xs)' }}>
+            <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                maxWidth: '1200px',
+                width: '100%',
+                padding: '0 var(--spacing-md)',
+                gap: 'var(--spacing-md)'
+            }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-xs)', flexShrink: 0 }}>
                     <span style={{ fontWeight: 900, fontSize: '1.25rem', letterSpacing: '-0.02em', color: 'white' }}>
                         {t.appName.split('Casusu')[0].split('Imposter')[0]}
                         <span style={{ color: 'var(--border-accent)' }}>
@@ -24,8 +37,19 @@ export default function Navbar() {
                     </span>
                 </div>
 
-                <div className="ad-placeholder" style={{ display: 'none' }}>
-                    Reklam Alanı
+                {/* Otomatik Reklam Alanı - Google bu alanı otomatik dolduracak */}
+                <div
+                    style={{
+                        flex: 1,
+                        display: 'flex',
+                        justifyContent: 'center',
+                        maxHeight: '50px',
+                        overflow: 'hidden',
+                        minWidth: '120px'
+                    }}
+                    className="auto-ad-container"
+                >
+                    {/* Google otomatik reklamlar bu container'ı kullanabilir */}
                 </div>
 
                 <button
@@ -39,7 +63,8 @@ export default function Navbar() {
                         gap: '6px',
                         borderRadius: 'var(--radius-md)',
                         background: 'var(--bg-tertiary)',
-                        border: '1px solid var(--border-subtle)'
+                        border: '1px solid var(--border-subtle)',
+                        flexShrink: 0
                     }}
                 >
                     <GlobeIcon size={14} />
