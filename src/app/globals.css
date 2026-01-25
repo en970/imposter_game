@@ -631,29 +631,45 @@ body {
   }
 
   .home-card {
-    max-width: 900px;
-    padding: var(--spacing-xl);
+    max-width: 800px;
+    padding: var(--spacing-lg);
     margin-left: auto;
     margin-right: auto;
+    margin-top: 0;
+    margin-bottom: 0;
   }
 
   .center-container {
-    padding: var(--spacing-xl);
+    padding: var(--spacing-md);
+    min-height: calc(100vh - 50px);
+    max-height: calc(100vh - 50px);
+    overflow: hidden;
+    justify-content: center;
   }
 
-  /* Kurallar kartı masaüstünde ortalı */
+  /* Kurallar kartı masaüstünde ortalı ve kompakt */
   .rules-card {
-    max-width: 700px;
+    max-width: 600px;
     margin-left: auto;
     margin-right: auto;
+    padding: var(--spacing-md) !important;
+  }
+
+  .rules-card ul {
+    font-size: 0.85rem;
+    line-height: 1.6;
   }
 
   /* Form elemanları masaüstünde ortalı */
   .action-container {
-    max-width: 500px;
+    max-width: 450px;
     margin-left: auto;
     margin-right: auto;
     width: 100%;
+  }
+
+  .title-xl {
+    font-size: 2.25rem;
   }
 }
 
