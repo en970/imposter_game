@@ -1,13 +1,9 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useGameStore } from '@/lib/gameStore';
 import { translations } from '@/lib/translations';
 import { GlobeIcon } from './Icons';
-
-// ==========================================
-// REKLAM AYARLARI - Google AdSense
-// Publisher ID: ca-pub-8793006985867588
-// ==========================================
 
 export default function Navbar() {
     const { language, setLanguage } = useGameStore();
@@ -16,6 +12,16 @@ export default function Navbar() {
     const toggleLanguage = () => {
         setLanguage(language === 'tr' ? 'en' : 'tr');
     };
+
+    // AdSense reklamını başlat
+    useEffect(() => {
+        try {
+            // @ts-ignore
+            (window.adsbygoogle = window.adsbygoogle || []).push({});
+        } catch (e) {
+            console.error('AdSense error:', e);
+        }
+    }, []);
 
     return (
         <nav className="ad-navbar">
@@ -37,19 +43,23 @@ export default function Navbar() {
                     </span>
                 </div>
 
-                {/* Otomatik Reklam Alanı - Google bu alanı otomatik dolduracak */}
-                <div
-                    style={{
-                        flex: 1,
-                        display: 'flex',
-                        justifyContent: 'center',
-                        maxHeight: '50px',
-                        overflow: 'hidden',
-                        minWidth: '120px'
-                    }}
-                    className="auto-ad-container"
-                >
-                    {/* Google otomatik reklamlar bu container'ı kullanabilir */}
+                {/* NAVBAR Reklam Alanı - Google AdSense */}
+                <div style={{
+                    flex: 1,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    maxHeight: '50px',
+                    overflow: 'hidden',
+                    minWidth: '120px'
+                }}>
+                    <ins
+                        className="adsbygoogle"
+                        style={{ display: 'block', width: '320px', height: '50px' }}
+                        data-ad-client="ca-pub-8793006985867588"
+                        data-ad-slot="4426624617"
+                        data-ad-format="horizontal"
+                        data-full-width-responsive="false"
+                    />
                 </div>
 
                 <button
