@@ -646,6 +646,14 @@ body {
     margin-left: auto;
     margin-right: auto;
   }
+
+  /* Form elemanları masaüstünde ortalı */
+  .action-container {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
 }
 
 .gap-md {

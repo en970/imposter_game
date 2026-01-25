@@ -121,94 +121,90 @@ export default function LobbyScreen() {
                         </ul>
                     </div>
 
-                    <div className="desktop-grid-2">
-                        {/* Left Column: Actions */}
-                        <div>
-                            {/* Username Section */}
-                            <div className="card mb-md">
-                                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-sm)', marginBottom: 'var(--spacing-sm)' }}>
-                                    <UserIcon size={16} color="var(--border-accent)" />
-                                    <span className="input-label" style={{ marginBottom: 0 }}>{t.username}</span>
-                                </div>
-
-                                {(getStoredUsername() || currentUser) && !editingName ? (
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-sm)' }}>
-                                        <div style={{ flex: 1, padding: 'var(--spacing-sm) var(--spacing-md)', background: 'var(--bg-tertiary)', borderRadius: 'var(--radius-md)', fontWeight: 600 }}>
-                                            {currentUser || getStoredUsername()}
-                                        </div>
-                                        <button onClick={() => setEditingName(true)} className="btn btn-secondary" title={language === 'tr' ? 'Düzenle' : 'Edit'}>
-                                            <EditIcon size={16} />
-                                        </button>
-                                    </div>
-                                ) : (
-                                    <div style={{ display: 'flex', gap: 'var(--spacing-sm)' }}>
-                                        <input
-                                            type="text"
-                                            className="input"
-                                            value={nameInput}
-                                            onChange={(e) => setNameInput(e.target.value)}
-                                            onKeyDown={(e) => e.key === 'Enter' && handleSaveName()}
-                                            placeholder={t.enterName}
-                                            style={{ flex: 1 }}
-                                            autoFocus={editingName}
-                                        />
-                                        <button onClick={handleSaveName} disabled={!nameInput.trim()} className="btn btn-primary" title={language === 'tr' ? 'Kaydet' : 'Save'}>
-                                            <CheckIcon size={16} />
-                                        </button>
-                                    </div>
-                                )}
+                    {/* Actions Container - Masaüstünde ortalanır */}
+                    <div className="action-container">
+                        {/* Username Section */}
+                        <div className="card mb-md">
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-sm)', marginBottom: 'var(--spacing-sm)' }}>
+                                <UserIcon size={16} color="var(--border-accent)" />
+                                <span className="input-label" style={{ marginBottom: 0 }}>{t.username}</span>
                             </div>
 
-                            {/* Create Room */}
-                            <button
-                                onClick={handleCreateRoom}
-                                disabled={!nameInput.trim() || isCreating}
-                                className="btn btn-primary btn-lg btn-full mb-md"
-                                style={{ boxShadow: 'var(--shadow-lg)' }}
-                            >
-                                {isCreating ? <> <LoaderIcon size={20} className="spin" /> {t.connecting} </> : <> <PlusIcon size={20} /> {t.createRoom.toUpperCase()} </>}
-                            </button>
-
-                            {/* Join Room */}
-                            <div className="card">
-                                <span className="input-label">{t.joinRoom.toUpperCase()}</span>
+                            {(getStoredUsername() || currentUser) && !editingName ? (
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-sm)' }}>
+                                    <div style={{ flex: 1, padding: 'var(--spacing-sm) var(--spacing-md)', background: 'var(--bg-tertiary)', borderRadius: 'var(--radius-md)', fontWeight: 600 }}>
+                                        {currentUser || getStoredUsername()}
+                                    </div>
+                                    <button onClick={() => setEditingName(true)} className="btn btn-secondary" title={language === 'tr' ? 'Düzenle' : 'Edit'}>
+                                        <EditIcon size={16} />
+                                    </button>
+                                </div>
+                            ) : (
                                 <div style={{ display: 'flex', gap: 'var(--spacing-sm)' }}>
                                     <input
                                         type="text"
                                         className="input"
-                                        value={joinCodeInput}
-                                        onChange={(e) => setJoinCodeInput(e.target.value.toUpperCase())}
-                                        placeholder={t.roomCodePlaceholder}
-                                        style={{ flex: 1, fontFamily: 'monospace', letterSpacing: '0.1em' }}
-                                        maxLength={6}
+                                        value={nameInput}
+                                        onChange={(e) => setNameInput(e.target.value)}
+                                        onKeyDown={(e) => e.key === 'Enter' && handleSaveName()}
+                                        placeholder={t.enterName}
+                                        style={{ flex: 1 }}
+                                        autoFocus={editingName}
                                     />
-                                    <button onClick={handleJoinRoom} disabled={!nameInput.trim() || !joinCodeInput.trim() || isJoining} className="btn btn-primary">
-                                        {isJoining ? <LoaderIcon size={18} className="spin" /> : <PlayIcon size={18} />}
+                                    <button onClick={handleSaveName} disabled={!nameInput.trim()} className="btn btn-primary" title={language === 'tr' ? 'Kaydet' : 'Save'}>
+                                        <CheckIcon size={16} />
                                     </button>
-                                </div>
-                                {typeof window !== 'undefined' && sessionStorage.getItem('lastRoomCode') && !joinCodeInput && (
-                                    <button
-                                        onClick={() => setJoinCodeInput(sessionStorage.getItem('lastRoomCode') || '')}
-                                        className="text-xs mt-sm"
-                                        style={{ background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', padding: 0, color: 'var(--border-accent)' }}
-                                    >
-                                        {t.rejoinLastRoom} {sessionStorage.getItem('lastRoomCode')}
-                                    </button>
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Right Column: Error Notice */}
-                        <div className="desktop-only">
-                            {duplicateNameError && (
-                                <div className="card" style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', color: 'var(--accent-red)', border: '1px solid var(--accent-red)' }}>
-                                    <AlertIcon size={48} className="mb-md" />
-                                    <h3 className="title-md">{language === 'tr' ? 'Hata!' : 'Error!'}</h3>
-                                    <p className="description" style={{ fontSize: '0.875rem' }}>{duplicateNameError}</p>
-                                    <button onClick={clearError} className="btn btn-secondary mt-lg">{language === 'tr' ? 'Anladım' : 'Understood'}</button>
                                 </div>
                             )}
                         </div>
+
+                        {/* Create Room */}
+                        <button
+                            onClick={handleCreateRoom}
+                            disabled={!nameInput.trim() || isCreating}
+                            className="btn btn-primary btn-lg btn-full mb-md"
+                            style={{ boxShadow: 'var(--shadow-lg)' }}
+                        >
+                            {isCreating ? <> <LoaderIcon size={20} className="spin" /> {t.connecting} </> : <> <PlusIcon size={20} /> {t.createRoom.toUpperCase()} </>}
+                        </button>
+
+                        {/* Join Room */}
+                        <div className="card">
+                            <span className="input-label">{t.joinRoom.toUpperCase()}</span>
+                            <div style={{ display: 'flex', gap: 'var(--spacing-sm)' }}>
+                                <input
+                                    type="text"
+                                    className="input"
+                                    value={joinCodeInput}
+                                    onChange={(e) => setJoinCodeInput(e.target.value.toUpperCase())}
+                                    placeholder={t.roomCodePlaceholder}
+                                    style={{ flex: 1, fontFamily: 'monospace', letterSpacing: '0.1em' }}
+                                    maxLength={6}
+                                />
+                                <button onClick={handleJoinRoom} disabled={!nameInput.trim() || !joinCodeInput.trim() || isJoining} className="btn btn-primary">
+                                    {isJoining ? <LoaderIcon size={18} className="spin" /> : <PlayIcon size={18} />}
+                                </button>
+                            </div>
+                            {typeof window !== 'undefined' && sessionStorage.getItem('lastRoomCode') && !joinCodeInput && (
+                                <button
+                                    onClick={() => setJoinCodeInput(sessionStorage.getItem('lastRoomCode') || '')}
+                                    className="text-xs mt-sm"
+                                    style={{ background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', padding: 0, color: 'var(--border-accent)' }}
+                                >
+                                    {t.rejoinLastRoom} {sessionStorage.getItem('lastRoomCode')}
+                                </button>
+                            )}
+                        </div>
+
+                        {/* Error Notice */}
+                        {duplicateNameError && (
+                            <div className="card mt-md" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', color: 'var(--accent-red)', border: '1px solid var(--accent-red)' }}>
+                                <AlertIcon size={48} className="mb-md" />
+                                <h3 className="title-md">{language === 'tr' ? 'Hata!' : 'Error!'}</h3>
+                                <p className="description" style={{ fontSize: '0.875rem' }}>{duplicateNameError}</p>
+                                <button onClick={clearError} className="btn btn-secondary mt-lg">{language === 'tr' ? 'Anladım' : 'Understood'}</button>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
