@@ -6,7 +6,7 @@ import { translations } from '@/lib/translations';
 import {
     UsersIcon, SettingsIcon, LinkIcon, PlayIcon,
     SparklesIcon, LoaderIcon, CheckIcon, PlusIcon,
-    ArrowLeftIcon, UserIcon, EditIcon, XIcon, AlertIcon, TrashIcon
+    ArrowLeftIcon, UserIcon, EditIcon, XIcon, AlertIcon, TrashIcon, ShareIcon
 } from './Icons';
 
 // LocalStorage helpers
@@ -85,9 +85,29 @@ export default function LobbyScreen() {
     };
 
     const copyRoomLink = () => {
-        navigator.clipboard.writeText(roomCode);
+        const url = window.location.href;
+        navigator.clipboard.writeText(url);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
+    };
+
+    const shareRoomLink = async () => {
+        const shareData = {
+            title: t.appName,
+            text: `${t.shareMessage}${roomCode}`,
+            url: window.location.href
+        };
+
+        if (navigator.share) {
+            try {
+                await navigator.share(shareData);
+            } catch (err) {
+                console.error('Error sharing:', err);
+                copyRoomLink();
+            }
+        } else {
+            copyRoomLink();
+        }
     };
 
     const categoriesList = ['random', 'Genel', 'Yemek', 'Eşya', 'Şehirler', 'Diziler', 'Filmler', 'Spor', 'Hayvanlar'];
@@ -228,12 +248,33 @@ export default function LobbyScreen() {
                     <button onClick={resetGame} className="icon-btn">
                         <ArrowLeftIcon size={20} />
                     </button>
-                    <div style={{ flex: 1, textAlign: 'center' }}>
+                    <div style={{ flex: 1, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
                         <h1 className="header-title" style={{ fontSize: '1.25rem', fontWeight: 800 }}>{t.appName.toUpperCase()}</h1>
-                        <div className="room-code" onClick={copyRoomLink} style={{ background: 'var(--bg-tertiary)', border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}>
-                            <LinkIcon size={14} color="var(--border-accent)" />
-                            <span>{roomCode}</span>
-                            {copied && <CheckIcon size={14} color="var(--accent-green)" />}
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                            <div className="room-code" onClick={copyRoomLink} style={{ background: 'var(--bg-tertiary)', border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}>
+                                <LinkIcon size={14} color="var(--border-accent)" />
+                                <span>{roomCode}</span>
+                                {copied && <CheckIcon size={14} color="var(--accent-green)" />}
+                            </div>
+                            <button
+                                onClick={shareRoomLink}
+                                className="icon-btn"
+                                style={{
+                                    height: '38px',
+                                    width: '38px',
+                                    background: 'var(--bg-tertiary)',
+                                    border: '1px solid var(--border-subtle)',
+                                    borderRadius: '12px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.2s ease'
+                                }}
+                                title={t.shareText}
+                            >
+                                <ShareIcon size={18} color="var(--border-accent)" />
+                            </button>
                         </div>
                     </div>
                     {amIHost && (

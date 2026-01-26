@@ -70,7 +70,9 @@ export const translations = {
             Filmler: 'Filmler',
             Spor: 'Spor',
             Hayvanlar: 'Hayvanlar'
-        }
+        },
+        shareText: 'Paylaş',
+        shareMessage: 'Hadi KelimeCasusu oynayalım! Oda kodu: ',
     },
     en: {
         appName: 'WordImposter',
@@ -141,6 +143,8 @@ export const translations = {
             Filmler: 'Movies',
             Spor: 'Sports',
             Hayvanlar: 'Animals'
-        }
+        },
+        shareText: 'Share',
+        shareMessage: 'Let\'s play WordImposter! Room code: ',
     }
 };
