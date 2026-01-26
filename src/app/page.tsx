@@ -10,6 +10,7 @@ const CardReveal = dynamic(() => import('@/components/CardReveal'), { ssr: false
 const GamePlay = dynamic(() => import('@/components/GamePlay'), { ssr: false });
 const Voting = dynamic(() => import('@/components/Voting'), { ssr: false });
 const Results = dynamic(() => import('@/components/Results'), { ssr: false });
+const Footer = dynamic(() => import('@/components/Footer'), { ssr: false });
 
 function GameContent() {
   const gameState = useGameStore((state) => state.gameState);
@@ -37,6 +38,7 @@ function GameContent() {
         {gameState === 'voting' && <Voting />}
         {gameState === 'result' && <Results />}
       </main>
+      {gameState === 'lobby' && <Footer />}
     </div>
   );
 }
@@ -48,3 +50,4 @@ export default function Home() {
     </Suspense>
   );
 }
+
