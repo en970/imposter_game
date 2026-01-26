@@ -30,6 +30,10 @@ export default function RootLayout({
   return (
     <html lang="tr" className="dark">
       <head>
+        {/* Favicon */}
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="apple-touch-icon" href="/apple-icon.png" />
+
         {/* Google AdSense Meta Etiketi - Site Doğrulama */}
         <meta name="google-adsense-account" content="ca-pub-8793006985867588" />
 

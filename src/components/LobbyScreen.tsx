@@ -142,6 +142,8 @@ export default function LobbyScreen() {
                             ) : (
                                 <div style={{ display: 'flex', gap: 'var(--spacing-sm)' }}>
                                     <input
+                                        id="username"
+                                        name="username"
                                         type="text"
                                         className="input"
                                         value={nameInput}
@@ -150,6 +152,7 @@ export default function LobbyScreen() {
                                         placeholder={t.enterName}
                                         style={{ flex: 1 }}
                                         autoFocus={editingName}
+                                        autoComplete="nickname"
                                     />
                                     <button onClick={handleSaveName} disabled={!nameInput.trim()} className="btn btn-primary" title={language === 'tr' ? 'Kaydet' : 'Save'}>
                                         <CheckIcon size={16} />
@@ -173,6 +176,8 @@ export default function LobbyScreen() {
                             <span className="input-label">{t.joinRoom.toUpperCase()}</span>
                             <div style={{ display: 'flex', gap: 'var(--spacing-sm)' }}>
                                 <input
+                                    id="roomCode"
+                                    name="roomCode"
                                     type="text"
                                     className="input"
                                     value={joinCodeInput}
@@ -180,6 +185,7 @@ export default function LobbyScreen() {
                                     placeholder={t.roomCodePlaceholder}
                                     style={{ flex: 1, fontFamily: 'monospace', letterSpacing: '0.1em' }}
                                     maxLength={6}
+                                    autoComplete="off"
                                 />
                                 <button onClick={handleJoinRoom} disabled={!nameInput.trim() || !joinCodeInput.trim() || isJoining} className="btn btn-primary">
                                     {isJoining ? <LoaderIcon size={18} className="spin" /> : <PlayIcon size={18} />}
