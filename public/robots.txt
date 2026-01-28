@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemaps (optional, but keep for future)
+Sitemap: https://wordimposter.fun/sitemap.xml
