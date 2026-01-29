@@ -1,340 +1,238 @@
 'use client';
 
-import { useGameStore } from '@/lib/gameStore';
 import Link from 'next/link';
+import { useState } from 'react';
 
 export default function FAQPage() {
-    const { language } = useGameStore();
+    const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-    const content = {
-        tr: {
-            title: 'Sık Sorulan Sorular (SSS)',
-            subtitle: 'KelimeCasusu hakkında merak ettikleriniz',
-            
-            sections: [
+    const faqSections = [
+        {
+            category: 'General Questions',
+            icon: '❓',
+            faqs: [
                 {
-                    category: 'Genel Sorular',
-                    faqs: [
-                        {
-                            q: 'KelimeCasusu ücretsiz mi?',
-                            a: 'Evet! KelimeCasusu tamamen ücretsizdir. Hiçbir ücret talep etmiyoruz, kayıt veya üyelik de gerekmez. Oyunu doğrudan tarayıcınızdan oynayabilirsiniz.'
-                        },
-                        {
-                            q: 'Kaç kişiyle oynanabilir?',
-                            a: 'KelimeCasusu minimum 3, maksimum 10 oyuncu ile oynanabilir. İdeal oyuncu sayısı 5-8 kişidir. Daha az oyuncuyla oyun hızlı olur, daha fazla oyuncuyla daha karmaşık ve heyecanlı olur.'
-                        },
-                        {
-                            q: 'Hesap oluşturmam gerekiyor mu?',
-                            a: 'Hayır! Hesap oluşturmanıza veya giriş yapmanıza gerek yoktur. Sadece bir takma ad seçin ve hemen oynamaya başlayın.'
-                        },
-                        {
-                            q: 'Oyun hangi dillerde mevcut?',
-                            a: 'Şu anda Türkçe ve İngilizce dillerinde oynanabilir. Daha fazla dil desteği (Almanca, Fransızca, İspanyolca vb.) üzerinde çalışıyoruz.'
-                        }
-                    ]
+                    q: 'Is WordImposter free to play?',
+                    a: 'Yes! WordImposter is completely free. No fees, no registration, no downloads required. Just open the website and start playing with your friends instantly.'
                 },
                 {
-                    category: 'Teknik Sorular',
-                    faqs: [
-                        {
-                            q: 'Hangi cihazlarda çalışır?',
-                            a: 'KelimeCasusu tüm modern cihazlarda çalışır: masaüstü bilgisayar, laptop, tablet ve akıllı telefonlar. Modern bir web tarayıcısı yeterlidir (Chrome, Firefox, Safari, Edge).'
-                        },
-                        {
-                            q: 'Mobil uygulama var mı?',
-                            a: 'Şu anda mobil uygulama yoktur, ancak web sitesi mobil cihazlarda mükemmel çalışır. Mobil uygulama indirmenize gerek yoktur - tarayıcıdan oynayabilirsiniz. iOS ve Android uygulamaları gelecek güncellemelerde gelecek.'
-                        },
-                        {
-                            q: 'İnternet bağlantısı gerekli mi?',
-                            a: 'Evet, KelimeCasusu online bir oyundur ve internet bağlantısı gerektirir. Tüm oyuncuların Firebase Realtime Database üzerinden gerçek zamanlı olarak senkronize olması gerekir.'
-                        },
-                        {
-                            q: 'Oyun donuyor veya hata veriyor, ne yapmalıyım?',
-                            a: 'Sayfayı yenileyin ve tekrar deneyin. Sorun devam ederse: 1) Tarayıcı önbelleğinizi temizleyin, 2) Farklı bir tarayıcı deneyin, 3) İnternet bağlantınızı kontrol edin. Sorun sürerse bizimle iletişime geçin.'
-                        }
-                    ]
+                    q: 'How many players can play?',
+                    a: 'WordImposter supports 3-10 players. The sweet spot is 5-8 players for the best experience. With fewer players, games are faster. With more players, there is more deception and excitement!'
                 },
                 {
-                    category: 'Oynanış Soruları',
-                    faqs: [
-                        {
-                            q: 'Nasıl oda oluşturabilirim?',
-                            a: 'Ana sayfada "Oda Oluştur" butonuna tıklayın. Sistem otomatik olarak 4 haneli benzersiz bir oda kodu oluşturacaktır. Bu kodu arkadaşlarınızla paylaşın.'
-                        },
-                        {
-                            q: 'Arkadaşlarım odaya nasıl katılır?',
-                            a: 'Arkadaşlarınız ana sayfada "Odaya Katıl" butonuna tıklayıp sizin paylaştığınız 4 haneli oda kodunu girebilir. Herkes bir takma ad seçer ve odaya katılır.'
-                        },
-                        {
-                            q: 'Casus kimdir ve ne yapar?',
-                            a: 'Her oyunda rastgele seçilen BİR oyuncu Casus\'tur. Casus, diğer oyuncuların bildiği gizli kelimeyi bilmez - sadece kategoriyi görür. Casus\'un amacı kelimeyi tahmin etmek ve Sivil gibi görünmektir.'
-                        },
-                        {
-                            q: 'İpucu nasıl verilir?',
-                            a: 'Her oyuncu sırayla, kelime hakkında TEK KELİMELİK bir ipucu verir. İpuçlar kelimeyi açıkça belli etmemeli ama Sivil olduğunuzu kanıtlamalıdır. Kelimeyi veya türevlerini söylemek yasaktır!'
-                        },
-                        {
-                            q: 'Oyun nasıl kazanılır?',
-                            a: 'Siviller: Casus\'u doğru tespit ederek kazanır. Casus: Yanlış bir oyuncu oylanırsa veya kelimeyi doğru tahmin ederse kazanır.'
-                        },
-                        {
-                            q: 'Kaç tur oynanır?',
-                            a: 'Her oyun 1 tur sürer. Ancak istediğiniz kadar yeni oyun başlatabilirsiniz. Genellikle gruplar birkaç tur üst üste oynar ve kim daha çok kazandı sağlar.'
-                        }
-                    ]
+                    q: 'Do I need to create an account?',
+                    a: 'No account needed! Just pick a nickname and you are ready to play. We believe in instant fun without barriers.'
                 },
                 {
-                    category: 'Kategoriler ve Kelimeler',
-                    faqs: [
-                        {
-                            q: 'Hangi kategoriler var?',
-                            a: 'Onlarca kategori mevcut: Mekanlar, Yiyecekler, Meslekler, Sporlar, Hayvanlar, Ülkeler, Yerli/Yabancı Diziler, Yerli/Yabancı Filmler, Anime & Çizgi Diziler, Şarkılar ve daha fazlası!'
-                        },
-                        {
-                            q: 'Kaç kelime var?',
-                            a: 'Veritabanımızda binlerce kelime bulunur ve sürekli yeni kelimeler eklenmektedir. Her kategoride 20-30 farklı kelime vardır.'
-                        },
-                        {
-                            q: 'Özel kelime ekleyebilir miyim?',
-                            a: 'Şu anda kullanıcıların özel kelime eklemesi mümkün değildir, ancak bu özellik gelecek güncellemelerde eklenecektir. Kelime önerileri için bizimle iletişime geçebilirsiniz.'
-                        },
-                        {
-                            q: 'Kategorilerin listesini görebilir miyim?',
-                            a: 'Evet! "Kategoriler" sayfamızda tüm kategorileri ve örnek kelimeleri görebilirsiniz.'
-                        }
-                    ]
-                },
-                {
-                    category: 'Güvenlik ve Gizlilik',
-                    faqs: [
-                        {
-                            q: 'Kişisel bilgilerim güvende mi?',
-                            a: 'Evet! Sadece takma adınızı ve oda kodunu kaydediyoruz. E-posta, telefon veya başka kişisel bilgi talep etmiyoruz. Verileriniz Firebase güvenli veritabanında saklanır.'
-                        },
-                        {
-                            q: 'Oyun geçmişim kaydediliyor mu?',
-                            a: 'Hayır, oyun geçmişi saklanmaz. Her oyun bittiğinde tüm veriler silinir. Gelecekte isteğe bağlı istatistik özelliği eklenebilir.'
-                        },
-                        {
-                            q: 'Çocuklar için güvenli mi?',
-                            a: 'Evet! KelimeCasusu aile dostu bir oyundur. Tüm kelimeler uygun içeriklidir. Ancak çocukların ebeveyn gözetiminde internet kullanması önerilir.'
-                        }
-                    ]
-                },
-                {
-                    category: 'Sorun Giderme',
-                    faqs: [
-                        {
-                            q: 'Oda kodu çalışmıyor, ne yapmalıyım?',
-                            a: 'Oda kodunun doğru girildiğinden emin olun (4 hane). Oda kapanmış olabilir - oda sahibi yeni oda oluşturmalı. Sayfa yenileyip tekrar deneyin.'
-                        },
-                        {
-                            q: 'Oyun başlamıyor, ne yapmalıyım?',
-                            a: 'Minimum 3 oyuncu olmalıdır. Tüm oyuncuların "Hazır" olduğundan emin olun. Oda sahibi oyunu başlatmalıdır.'
-                        },
-                        {
-                            q: 'Ekranımda sadece kategori görünüyor, kelime yok!',
-                            a: 'Bu normaldir - Siz Casus\'sunuz! Casus olarak kelimeyi bilmiyorsunuz, sadece kategoriyi görüyorsunuz.'
-                        },
-                        {
-                            q: 'Oyundan atıldım, neden?',
-                            a: 'İnternet bağlantınız kesilmiş olabilir. Sayfayı yenileyin ve oda kodunu tekrar girin. Oda kapanmışsa yeni oda oluşturulmalı.'
-                        }
-                    ]
+                    q: 'What languages are supported?',
+                    a: 'Currently available in English and Turkish. We are working on adding more languages including German, French, and Spanish.'
                 }
             ]
         },
-        
-        en: {
-            title: 'Frequently Asked Questions (FAQ)',
-            subtitle: 'Everything you want to know about WordImposter',
-            
-            sections: [
+        {
+            category: 'Technical Questions',
+            icon: '⚙️',
+            faqs: [
                 {
-                    category: 'General Questions',
-                    faqs: [
-                        {
-                            q: 'Is WordImposter free?',
-                            a: 'Yes! WordImposter is completely free. We don\'t charge any fees, and no registration or membership is required. You can play directly from your browser.'
-                        },
-                        {
-                            q: 'How many players can play?',
-                            a: 'WordImposter can be played with minimum 3, maximum 10 players. The ideal number is 5-8 players. With fewer players, the game is faster; with more players, it\'s more complex and exciting.'
-                        },
-                        {
-                            q: 'Do I need to create an account?',
-                            a: 'No! You don\'t need to create an account or log in. Just choose a nickname and start playing immediately.'
-                        },
-                        {
-                            q: 'What languages is the game available in?',
-                            a: 'Currently available in Turkish and English. We\'re working on more language support (German, French, Spanish, etc.).'
-                        }
-                    ]
+                    q: 'What devices can I play on?',
+                    a: 'WordImposter works on any device with a modern web browser - desktops, laptops, tablets, and smartphones. No app download required!'
                 },
                 {
-                    category: 'Technical Questions',
-                    faqs: [
-                        {
-                            q: 'What devices does it work on?',
-                            a: 'WordImposter works on all modern devices: desktop computers, laptops, tablets, and smartphones. All you need is a modern web browser (Chrome, Firefox, Safari, Edge).'
-                        },
-                        {
-                            q: 'Is there a mobile app?',
-                            a: 'Currently there\'s no mobile app, but the website works perfectly on mobile devices. You don\'t need to download a mobile app - play from your browser. iOS and Android apps coming in future updates.'
-                        },
-                        {
-                            q: 'Is an internet connection required?',
-                            a: 'Yes, WordImposter is an online game and requires an internet connection. All players need to synchronize in real-time through Firebase Realtime Database.'
-                        },
-                        {
-                            q: 'Game is freezing or giving errors, what should I do?',
-                            a: 'Refresh the page and try again. If the problem persists: 1) Clear your browser cache, 2) Try a different browser, 3) Check your internet connection. If issue continues, contact us.'
-                        }
-                    ]
+                    q: 'Is there a mobile app?',
+                    a: 'Not yet, but the website is fully optimized for mobile devices. It works perfectly in your phone browser. Native iOS and Android apps are planned for the future.'
                 },
                 {
-                    category: 'Gameplay Questions',
-                    faqs: [
-                        {
-                            q: 'How do I create a room?',
-                            a: 'Click the "Create Room" button on the homepage. The system will automatically generate a unique 4-digit room code. Share this code with your friends.'
-                        },
-                        {
-                            q: 'How do friends join the room?',
-                            a: 'Your friends click "Join Room" on the homepage and enter the 4-digit room code you shared. Everyone chooses a nickname and joins the room.'
-                        },
-                        {
-                            q: 'Who is the Imposter and what do they do?',
-                            a: 'ONE player randomly selected each game is the Imposter. The Imposter doesn\'t know the secret word that other players know - they only see the category. The Imposter\'s goal is to guess the word and appear like a Civilian.'
-                        },
-                        {
-                            q: 'How do I give clues?',
-                            a: 'Each player takes turns giving a ONE-WORD clue about the word. Clues shouldn\'t obviously reveal the word but should prove you\'re a Civilian. Saying the word or its derivatives is forbidden!'
-                        },
-                        {
-                            q: 'How do you win the game?',
-                            a: 'Civilians: Win by correctly identifying the Imposter. Imposter: Wins if the wrong player is voted out or if they correctly guess the word.'
-                        },
-                        {
-                            q: 'How many rounds are played?',
-                            a: 'Each game lasts 1 round. However, you can start as many new games as you want. Usually groups play several rounds in a row and keep score of who wins most.'
-                        }
-                    ]
+                    q: 'Do I need internet to play?',
+                    a: 'Yes, WordImposter is an online multiplayer game. All players need an internet connection to play together in real-time.'
                 },
                 {
-                    category: 'Categories and Words',
-                    faqs: [
-                        {
-                            q: 'What categories are available?',
-                            a: 'Dozens of categories available: Places, Foods, Professions, Sports, Animals, Countries, Local/Foreign TV Series, Local/Foreign Movies, Anime & Cartoons, Songs, and more!'
-                        },
-                        {
-                            q: 'How many words are there?',
-                            a: 'Our database contains thousands of words and new words are constantly being added. Each category has 20-30 different words.'
-                        },
-                        {
-                            q: 'Can I add custom words?',
-                            a: 'Currently users cannot add custom words, but this feature will be added in future updates. You can contact us with word suggestions.'
-                        },
-                        {
-                            q: 'Can I see a list of categories?',
-                            a: 'Yes! On our "Categories" page you can see all categories and sample words.'
-                        }
-                    ]
+                    q: 'The game is laggy or not loading. What should I do?',
+                    a: 'Try these steps: 1) Refresh the page, 2) Clear your browser cache, 3) Try a different browser, 4) Check your internet connection. If problems persist, contact us!'
+                }
+            ]
+        },
+        {
+            category: 'Gameplay Questions',
+            icon: '🎮',
+            faqs: [
+                {
+                    q: 'How do I create a game room?',
+                    a: 'Click Create Room on the homepage. You will get a unique 4-digit code. Share this code with your friends so they can join your room.'
                 },
                 {
-                    category: 'Security and Privacy',
-                    faqs: [
-                        {
-                            q: 'Is my personal information safe?',
-                            a: 'Yes! We only record your nickname and room code. We don\'t request email, phone, or other personal information. Your data is stored in Firebase secure database.'
-                        },
-                        {
-                            q: 'Is my game history recorded?',
-                            a: 'No, game history is not saved. All data is deleted when each game ends. Optional statistics feature may be added in the future.'
-                        },
-                        {
-                            q: 'Is it safe for children?',
-                            a: 'Yes! WordImposter is a family-friendly game. All words are appropriate content. However, parental supervision of children\'s internet use is recommended.'
-                        }
-                    ]
+                    q: 'How do friends join my room?',
+                    a: 'Friends click Join Room and enter the 4-digit code you shared. Each player picks a nickname, then everyone is ready to play!'
                 },
                 {
-                    category: 'Troubleshooting',
-                    faqs: [
-                        {
-                            q: 'Room code isn\'t working, what should I do?',
-                            a: 'Make sure the room code is entered correctly (4 digits). The room may have closed - room owner should create a new room. Refresh the page and try again.'
-                        },
-                        {
-                            q: 'Game won\'t start, what should I do?',
-                            a: 'There must be minimum 3 players. Make sure all players are "Ready". The room owner must start the game.'
-                        },
-                        {
-                            q: 'I only see the category on my screen, no word!',
-                            a: 'This is normal - You\'re the Imposter! As Imposter, you don\'t know the word, you only see the category.'
-                        },
-                        {
-                            q: 'I got disconnected from the game, why?',
-                            a: 'Your internet connection may have dropped. Refresh the page and re-enter the room code. If the room closed, a new room must be created.'
-                        }
-                    ]
+                    q: 'What is the Imposter?',
+                    a: 'One player is randomly chosen as the Imposter each game. The Imposter does not see the secret word - only the category. They must blend in by giving clues without knowing the actual word!'
+                },
+                {
+                    q: 'How do I give clues?',
+                    a: 'Each player takes turns giving a ONE-WORD clue about the secret word. Clues should hint at the word without making it obvious. You cannot say the word itself or any variations of it.'
+                },
+                {
+                    q: 'How do I win?',
+                    a: 'As a Civilian: Help find and vote out the Imposter. As the Imposter: Survive the vote or correctly guess the secret word for a bonus win!'
+                },
+                {
+                    q: 'Can we play multiple rounds?',
+                    a: 'Yes! After each game ends, the host can start a new game with the same players. Play as many rounds as you want!'
+                }
+            ]
+        },
+        {
+            category: 'Word Categories',
+            icon: '📚',
+            faqs: [
+                {
+                    q: 'What categories are available?',
+                    a: 'We have many categories: Animals, Foods, Countries, Movies, TV Shows, Sports, Professions, Music, and more! New categories are added regularly.'
+                },
+                {
+                    q: 'How many words are in the game?',
+                    a: 'Our database contains hundreds of words across all categories. Each category has 20-30+ unique words, ensuring variety in every game.'
+                },
+                {
+                    q: 'Can I suggest new words or categories?',
+                    a: 'Absolutely! We love community input. Contact us with your suggestions and we will consider adding them in future updates.'
+                }
+            ]
+        },
+        {
+            category: 'Privacy and Safety',
+            icon: '🔒',
+            faqs: [
+                {
+                    q: 'What data do you collect?',
+                    a: 'We only store minimal data needed for gameplay: your chosen nickname and room code. No personal information, emails, or tracking data is collected.'
+                },
+                {
+                    q: 'Is my game data saved?',
+                    a: 'No, game data is temporary. Once a game ends, all data is deleted. We do not keep records of your games or statistics.'
+                },
+                {
+                    q: 'Is the game safe for kids?',
+                    a: 'Yes! WordImposter is family-friendly. All words are appropriate for all ages. However, we recommend parental supervision for younger children playing online.'
+                }
+            ]
+        },
+        {
+            category: 'Troubleshooting',
+            icon: '🔧',
+            faqs: [
+                {
+                    q: 'Room code is not working. What do I do?',
+                    a: 'Make sure you entered the correct 4-digit code. The room might have been closed - ask the host to create a new room. Also try refreshing your page.'
+                },
+                {
+                    q: 'Game will not start. Why?',
+                    a: 'You need at least 3 players to start. Make sure all players are in the room and the host clicks the Start button.'
+                },
+                {
+                    q: 'I only see a category, not a word!',
+                    a: 'That means you are the Imposter! As the Imposter, you only see the category and must figure out the word from other players clues.'
+                },
+                {
+                    q: 'I got disconnected. Can I rejoin?',
+                    a: 'Yes! Just enter the room code again with the same nickname. If the game already started, you might need to wait for the next round.'
                 }
             ]
         }
-    };
+    ];
 
-    const c = content[language];
+    let globalIndex = 0;
 
     return (
         <div className="min-h-screen bg-[#0a0a0f] text-white">
-            <div className="max-w-4xl mx-auto p-4 md:p-8">
-                <Link href="/" className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 mb-8">
-                    ← {language === 'tr' ? 'Ana Sayfaya Dön' : 'Back to Home'}
+            <div className="max-w-4xl mx-auto px-4 py-8">
+                {/* Back Button */}
+                <Link 
+                    href="/" 
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors mb-8"
+                >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Back to Game
                 </Link>
 
-                <div className="space-y-12">
-                    <header className="text-center space-y-4">
-                        <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
-                            {c.title}
-                        </h1>
-                        <p className="text-xl text-gray-300">{c.subtitle}</p>
-                    </header>
+                {/* Header */}
+                <header className="text-center mb-12">
+                    <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent mb-4">
+                        Frequently Asked Questions
+                    </h1>
+                    <p className="text-xl text-gray-300">
+                        Everything you need to know about WordImposter
+                    </p>
+                </header>
 
-                    {c.sections.map((section, secIdx) => (
-                        <section key={secIdx}>
-                            <h2 className="text-2xl font-bold mb-6 text-purple-400">{section.category}</h2>
-                            <div className="space-y-4">
-                                {section.faqs.map((faq, faqIdx) => (
-                                    <details key={faqIdx} className="bg-[#12121a] rounded-xl border border-gray-800 overflow-hidden group">
-                                        <summary className="cursor-pointer p-6 hover:bg-[#1a1a24] transition-colors">
-                                            <div className="flex items-start gap-4">
-                                                <span className="text-purple-400 mt-1 text-xl group-open:rotate-90 transition-transform">▸</span>
-                                                <h3 className="flex-1 text-lg font-semibold text-white">{faq.q}</h3>
-                                            </div>
-                                        </summary>
-                                        <div className="px-6 pb-6 pt-2 pl-14">
-                                            <p className="text-gray-300 leading-relaxed">{faq.a}</p>
+                {/* FAQ Sections */}
+                <div className="space-y-8">
+                    {faqSections.map((section, sectionIndex) => (
+                        <section 
+                            key={sectionIndex}
+                            className="bg-[#12121a]/80 backdrop-blur-sm rounded-2xl border border-gray-800/50 p-6"
+                        >
+                            <h2 className="text-xl font-bold text-purple-400 mb-4 flex items-center gap-2">
+                                <span>{section.icon}</span>
+                                {section.category}
+                            </h2>
+                            <div className="space-y-3">
+                                {section.faqs.map((faq, faqIndex) => {
+                                    const currentIndex = globalIndex++;
+                                    return (
+                                        <div 
+                                            key={faqIndex}
+                                            className="bg-[#0a0a0f]/50 rounded-xl overflow-hidden"
+                                        >
+                                            <button
+                                                onClick={() => setOpenIndex(openIndex === currentIndex ? null : currentIndex)}
+                                                className="w-full p-4 text-left flex items-center justify-between gap-4 hover:bg-[#0a0a0f]/70 transition-colors"
+                                            >
+                                                <span className="font-semibold text-white">{faq.q}</span>
+                                                <svg 
+                                                    className={`w-5 h-5 text-purple-400 transition-transform shrink-0 ${openIndex === currentIndex ? 'rotate-180' : ''}`}
+                                                    fill="none" 
+                                                    stroke="currentColor" 
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                                </svg>
+                                            </button>
+                                            {openIndex === currentIndex && (
+                                                <div className="px-4 pb-4">
+                                                    <p className="text-gray-400">{faq.a}</p>
+                                                </div>
+                                            )}
                                         </div>
-                                    </details>
-                                ))}
+                                    );
+                                })}
                             </div>
                         </section>
                     ))}
+                </div>
 
-                    <section className="text-center bg-gradient-to-r from-purple-900/30 to-pink-900/30 rounded-2xl p-12 border border-purple-500/30">
-                        <h2 className="text-2xl font-bold mb-4 text-white">
-                            {language === 'tr' ? 'Sorunuz Cevapsız mı Kaldı?' : 'Still Have Questions?'}
-                        </h2>
-                        <p className="text-gray-300 mb-6">
-                            {language === 'tr' 
-                                ? 'Bizimle iletişime geçmekten çekinmeyin!'
-                                : 'Feel free to contact us!'}
-                        </p>
-                        <Link href="/contact" className="inline-block bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold py-3 px-8 rounded-lg transition-all">
-                            {language === 'tr' ? 'İletişime Geç' : 'Contact Us'}
-                        </Link>
-                    </section>
+                {/* Still have questions? */}
+                <section className="mt-8 bg-gradient-to-r from-purple-900/30 to-pink-900/30 rounded-2xl border border-purple-800/30 p-6 text-center">
+                    <h2 className="text-xl font-bold text-white mb-2">Still have questions?</h2>
+                    <p className="text-gray-400 mb-4">We are here to help! Reach out to us anytime.</p>
+                    <Link 
+                        href="/contact" 
+                        className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg font-semibold transition-colors"
+                    >
+                        Contact Us
+                    </Link>
+                </section>
+
+                {/* CTA */}
+                <div className="text-center mt-8">
+                    <Link 
+                        href="/" 
+                        className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded-xl font-bold text-lg transition-all transform hover:scale-105"
+                    >
+                        🎮 Start Playing Now
+                    </Link>
                 </div>
             </div>
         </div>

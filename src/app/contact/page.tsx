@@ -1,11 +1,9 @@
 'use client';
 
-import { useGameStore } from '@/lib/gameStore';
 import Link from 'next/link';
 import { useState } from 'react';
 
 export default function ContactPage() {
-    const { language } = useGameStore();
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -14,167 +12,11 @@ export default function ContactPage() {
     });
     const [submitted, setSubmitted] = useState(false);
 
-    const content = {
-        tr: {
-            title: 'İletişim',
-            subtitle: 'Görüşlerinizi, önerilerinizi veya sorunlarınızı bizimle paylaşın',
-            formTitle: 'İletişim Formu',
-            nameLabel: 'Adınız',
-            emailLabel: 'E-posta Adresiniz',
-            subjectLabel: 'Konu',
-            messageLabel: 'Mesajınız',
-            sendButton: 'Gönder',
-            successMessage: 'Mesajınız gönderildi! En kısa sürede size dönüş yapacağız.',
-            
-            contactInfo: {
-                title: 'İletişim Bilgileri',
-                email: 'E-posta',
-                emailValue: 'oze05607@gmail.com',
-                responseTime: 'Yanıt Süresi',
-                responseValue: 'Genellikle 24-48 saat içinde',
-            },
-            
-            faqs: {
-                title: 'Sık Sorulan Sorular',
-                items: [
-                    {
-                        q: 'Oyun ücretsiz mi?',
-                        a: 'Evet! WordImposter tamamen ücretsizdir ve hiçbir ücret talep etmez. Kayıt veya üyelik gerektirmez.'
-                    },
-                    {
-                        q: 'Kaç kişiyle oynanabilir?',
-                        a: 'WordImposter 3-10 oyuncu arası gruplarla oynanabilir. En ideal oyuncu sayısı 5-8 kişidir.'
-                    },
-                    {
-                        q: 'Mobil cihazlarda çalışır mı?',
-                        a: 'Evet! Oyun tüm modern tarayıcılarda ve mobil cihazlarda mükemmel çalışır. Uygulama indirmenize gerek yoktur.'
-                    },
-                    {
-                        q: 'Hesap oluşturmam gerekli mi?',
-                        a: 'Hayır, hesap oluşturmanıza veya kişisel bilgilerinizi paylaşmanıza gerek yoktur. Sadece bir takma ad girerek hemen oynamaya başlayabilirsiniz.'
-                    },
-                    {
-                        q: 'Yeni kelimeler ekleyebilir miyim?',
-                        a: 'Şu anda kullanıcıların özel kelime eklemesi mümkün değil, ancak bu özellik gelecek güncellemelerde eklenecektir. Kelime önerilerinizi bizimle paylaşabilirsiniz.'
-                    },
-                    {
-                        q: 'Oyunda hata buldum, ne yapmalıyım?',
-                        a: 'Lütfen bu sayfadaki formu kullanarak veya doğrudan e-posta ile bizimle iletişime geçin. Hataları en kısa sürede düzeltmeye çalışıyoruz.'
-                    },
-                    {
-                        q: 'Başka diller eklenecek mi?',
-                        a: 'Evet! Almanca, Fransızca, İspanyolca ve daha fazla dil desteği üzerinde çalışıyoruz.'
-                    }
-                ]
-            },
-            
-            suggestions: {
-                title: 'Öneri ve Şikayetler',
-                content: 'Oyunumuzu geliştirmemize yardımcı olun! Önerileriniz, şikayetleriniz veya geri bildirimleriniz bizim için çok değerlidir. Her türlü görüşünüzü memnuniyetle karşılıyoruz.'
-            },
-            
-            support: {
-                title: 'Teknik Destek',
-                content: 'Oyun oynarken teknik bir sorunla karşılaşırsanız, lütfen aşağıdaki bilgileri de paylaşın:',
-                items: [
-                    'Kullandığınız tarayıcı ve sürümü',
-                    'Cihaz türü (mobil, tablet, bilgisayar)',
-                    'Hatanın ne zaman ve nasıl oluştuğu',
-                    'Varsa ekran görüntüsü'
-                ]
-            },
-            
-            social: {
-                title: 'Bizi Takip Edin',
-                content: 'Yeni özellikler, güncellemeler ve haberler için bizi takip edin!'
-            }
-        },
-        
-        en: {
-            title: 'Contact',
-            subtitle: 'Share your opinions, suggestions, or issues with us',
-            formTitle: 'Contact Form',
-            nameLabel: 'Your Name',
-            emailLabel: 'Your Email',
-            subjectLabel: 'Subject',
-            messageLabel: 'Your Message',
-            sendButton: 'Send',
-            successMessage: 'Your message has been sent! We will get back to you as soon as possible.',
-            
-            contactInfo: {
-                title: 'Contact Information',
-                email: 'Email',
-                emailValue: 'oze05607@gmail.com',
-                responseTime: 'Response Time',
-                responseValue: 'Usually within 24-48 hours',
-            },
-            
-            faqs: {
-                title: 'Frequently Asked Questions',
-                items: [
-                    {
-                        q: 'Is the game free?',
-                        a: 'Yes! WordImposter is completely free and does not charge any fees. No registration or membership required.'
-                    },
-                    {
-                        q: 'How many players can play?',
-                        a: 'WordImposter can be played with groups of 3-10 players. The ideal number of players is 5-8 people.'
-                    },
-                    {
-                        q: 'Does it work on mobile devices?',
-                        a: 'Yes! The game works perfectly on all modern browsers and mobile devices. No app download required.'
-                    },
-                    {
-                        q: 'Do I need to create an account?',
-                        a: 'No, you don\'t need to create an account or share personal information. Just enter a nickname and start playing immediately.'
-                    },
-                    {
-                        q: 'Can I add new words?',
-                        a: 'Currently, users cannot add custom words, but this feature will be added in future updates. You can share your word suggestions with us.'
-                    },
-                    {
-                        q: 'I found a bug in the game, what should I do?',
-                        a: 'Please contact us using the form on this page or directly via email. We try to fix bugs as soon as possible.'
-                    },
-                    {
-                        q: 'Will other languages be added?',
-                        a: 'Yes! We are working on adding support for German, French, Spanish, and more languages.'
-                    }
-                ]
-            },
-            
-            suggestions: {
-                title: 'Suggestions and Complaints',
-                content: 'Help us improve our game! Your suggestions, complaints, or feedback are very valuable to us. We welcome all kinds of opinions.'
-            },
-            
-            support: {
-                title: 'Technical Support',
-                content: 'If you encounter a technical problem while playing, please also share the following information:',
-                items: [
-                    'Browser and version you are using',
-                    'Device type (mobile, tablet, computer)',
-                    'When and how the error occurred',
-                    'Screenshot if available'
-                ]
-            },
-            
-            social: {
-                title: 'Follow Us',
-                content: 'Follow us for new features, updates, and news!'
-            }
-        }
-    };
-
-    const c = content[language];
-
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // In a real application, you would send this data to a backend
-        // For now, we'll just show a success message
         setSubmitted(true);
         
-        // Create a mailto link as fallback
+        // Create mailto link
         const mailtoLink = `mailto:oze05607@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)}`;
         window.location.href = mailtoLink;
         
@@ -186,150 +28,192 @@ export default function ContactPage() {
 
     return (
         <div className="min-h-screen bg-[#0a0a0f] text-white">
-            <div className="max-w-6xl mx-auto p-4 md:p-8">
-                <Link href="/" className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 mb-8">
-                    ← {language === 'tr' ? 'Ana Sayfaya Dön' : 'Back to Home'}
+            <div className="max-w-4xl mx-auto px-4 py-8">
+                {/* Back Button */}
+                <Link 
+                    href="/" 
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors mb-8"
+                >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Back to Game
                 </Link>
 
-                <div className="space-y-12">
-                    {/* Header */}
-                    <header className="text-center space-y-4">
-                        <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
-                            {c.title}
-                        </h1>
-                        <p className="text-xl text-gray-300">
-                            {c.subtitle}
-                        </p>
-                    </header>
+                {/* Header */}
+                <header className="text-center mb-12">
+                    <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent mb-4">
+                        Contact Us
+                    </h1>
+                    <p className="text-xl text-gray-300">
+                        We would love to hear from you!
+                    </p>
+                </header>
 
-                    <div className="grid md:grid-cols-2 gap-8">
-                        {/* Contact Form */}
-                        <section className="bg-[#12121a] rounded-2xl p-8 border border-gray-800">
-                            <h2 className="text-2xl font-bold mb-6 text-purple-400">{c.formTitle}</h2>
-                            
-                            {submitted && (
-                                <div className="mb-6 p-4 bg-green-900/30 border border-green-500/50 rounded-lg text-green-300">
-                                    {c.successMessage}
-                                </div>
-                            )}
-                            
+                <div className="grid md:grid-cols-2 gap-8">
+                    {/* Contact Form */}
+                    <section className="bg-[#12121a]/80 backdrop-blur-sm rounded-2xl border border-gray-800/50 p-6">
+                        <h2 className="text-xl font-bold text-purple-400 mb-6">📬 Send us a Message</h2>
+                        
+                        {submitted ? (
+                            <div className="bg-green-900/20 border border-green-800/50 rounded-xl p-6 text-center">
+                                <div className="text-4xl mb-3">✅</div>
+                                <p className="text-green-400 font-semibold">Message sent!</p>
+                                <p className="text-gray-400 text-sm mt-1">We will get back to you soon.</p>
+                            </div>
+                        ) : (
                             <form onSubmit={handleSubmit} className="space-y-4">
                                 <div>
-                                    <label className="block text-sm font-medium mb-2 text-gray-300">
-                                        {c.nameLabel}
-                                    </label>
+                                    <label className="block text-sm font-medium text-gray-300 mb-1">Your Name</label>
                                     <input
                                         type="text"
                                         required
                                         value={formData.name}
                                         onChange={(e) => setFormData({...formData, name: e.target.value})}
-                                        className="w-full px-4 py-2 bg-[#0a0a0f] border border-gray-700 rounded-lg focus:outline-none focus:border-purple-500 text-white"
+                                        className="w-full px-4 py-3 bg-[#0a0a0f] border border-gray-700 rounded-lg focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none transition-colors text-white"
+                                        placeholder="John Doe"
                                     />
                                 </div>
-                                
                                 <div>
-                                    <label className="block text-sm font-medium mb-2 text-gray-300">
-                                        {c.emailLabel}
-                                    </label>
+                                    <label className="block text-sm font-medium text-gray-300 mb-1">Your Email</label>
                                     <input
                                         type="email"
                                         required
                                         value={formData.email}
                                         onChange={(e) => setFormData({...formData, email: e.target.value})}
-                                        className="w-full px-4 py-2 bg-[#0a0a0f] border border-gray-700 rounded-lg focus:outline-none focus:border-purple-500 text-white"
+                                        className="w-full px-4 py-3 bg-[#0a0a0f] border border-gray-700 rounded-lg focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none transition-colors text-white"
+                                        placeholder="john@example.com"
                                     />
                                 </div>
-                                
                                 <div>
-                                    <label className="block text-sm font-medium mb-2 text-gray-300">
-                                        {c.subjectLabel}
-                                    </label>
+                                    <label className="block text-sm font-medium text-gray-300 mb-1">Subject</label>
                                     <input
                                         type="text"
                                         required
                                         value={formData.subject}
                                         onChange={(e) => setFormData({...formData, subject: e.target.value})}
-                                        className="w-full px-4 py-2 bg-[#0a0a0f] border border-gray-700 rounded-lg focus:outline-none focus:border-purple-500 text-white"
+                                        className="w-full px-4 py-3 bg-[#0a0a0f] border border-gray-700 rounded-lg focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none transition-colors text-white"
+                                        placeholder="Bug report, Feedback, Question..."
                                     />
                                 </div>
-                                
                                 <div>
-                                    <label className="block text-sm font-medium mb-2 text-gray-300">
-                                        {c.messageLabel}
-                                    </label>
+                                    <label className="block text-sm font-medium text-gray-300 mb-1">Message</label>
                                     <textarea
                                         required
-                                        rows={6}
+                                        rows={4}
                                         value={formData.message}
                                         onChange={(e) => setFormData({...formData, message: e.target.value})}
-                                        className="w-full px-4 py-2 bg-[#0a0a0f] border border-gray-700 rounded-lg focus:outline-none focus:border-purple-500 text-white resize-none"
+                                        className="w-full px-4 py-3 bg-[#0a0a0f] border border-gray-700 rounded-lg focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none transition-colors text-white resize-none"
+                                        placeholder="Tell us what is on your mind..."
                                     />
                                 </div>
-                                
                                 <button
                                     type="submit"
-                                    className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold py-3 px-6 rounded-lg transition-all"
+                                    className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded-lg font-semibold transition-all"
                                 >
-                                    {c.sendButton}
+                                    Send Message
                                 </button>
                             </form>
+                        )}
+                    </section>
+
+                    {/* Contact Info */}
+                    <div className="space-y-6">
+                        <section className="bg-[#12121a]/80 backdrop-blur-sm rounded-2xl border border-gray-800/50 p-6">
+                            <h2 className="text-xl font-bold text-purple-400 mb-4">📧 Contact Information</h2>
+                            <div className="space-y-4">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 bg-purple-600/20 rounded-lg flex items-center justify-center">
+                                        <span>✉️</span>
+                                    </div>
+                                    <div>
+                                        <p className="text-sm text-gray-400">Email</p>
+                                        <a href="mailto:oze05607@gmail.com" className="text-white hover:text-purple-400 transition-colors">
+                                            oze05607@gmail.com
+                                        </a>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 bg-purple-600/20 rounded-lg flex items-center justify-center">
+                                        <span>⏱️</span>
+                                    </div>
+                                    <div>
+                                        <p className="text-sm text-gray-400">Response Time</p>
+                                        <p className="text-white">Usually within 24-48 hours</p>
+                                    </div>
+                                </div>
+                            </div>
                         </section>
 
-                        {/* Contact Info */}
-                        <div className="space-y-6">
-                            <section className="bg-gradient-to-br from-purple-900/20 to-pink-900/20 rounded-2xl p-8 border border-purple-500/20">
-                                <h2 className="text-2xl font-bold mb-4 text-purple-400">{c.contactInfo.title}</h2>
-                                <div className="space-y-3">
-                                    <div>
-                                        <p className="text-sm text-gray-400">{c.contactInfo.email}</p>
-                                        <p className="text-lg font-mono text-purple-300">{c.contactInfo.emailValue}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-sm text-gray-400">{c.contactInfo.responseTime}</p>
-                                        <p className="text-lg text-white">{c.contactInfo.responseValue}</p>
-                                    </div>
-                                </div>
-                            </section>
+                        <section className="bg-[#12121a]/80 backdrop-blur-sm rounded-2xl border border-gray-800/50 p-6">
+                            <h2 className="text-xl font-bold text-purple-400 mb-4">🔧 Technical Support</h2>
+                            <p className="text-gray-400 mb-3">Having technical issues? Please include:</p>
+                            <ul className="space-y-2 text-gray-300">
+                                <li className="flex items-center gap-2">
+                                    <span className="text-purple-400">•</span>
+                                    Browser and version (e.g., Chrome 120)
+                                </li>
+                                <li className="flex items-center gap-2">
+                                    <span className="text-purple-400">•</span>
+                                    Device type (phone, tablet, computer)
+                                </li>
+                                <li className="flex items-center gap-2">
+                                    <span className="text-purple-400">•</span>
+                                    What happened and when
+                                </li>
+                                <li className="flex items-center gap-2">
+                                    <span className="text-purple-400">•</span>
+                                    Screenshots if possible
+                                </li>
+                            </ul>
+                        </section>
 
-                            <section className="bg-[#12121a] rounded-2xl p-8 border border-gray-800">
-                                <h2 className="text-2xl font-bold mb-4 text-purple-400">{c.suggestions.title}</h2>
-                                <p className="text-gray-300 leading-relaxed">
-                                    {c.suggestions.content}
-                                </p>
-                            </section>
+                        <section className="bg-[#12121a]/80 backdrop-blur-sm rounded-2xl border border-gray-800/50 p-6">
+                            <h2 className="text-xl font-bold text-purple-400 mb-4">💡 Suggestions Welcome</h2>
+                            <p className="text-gray-400">
+                                Have ideas for new features, categories, or improvements? We love hearing from our players! 
+                                Your feedback helps make WordImposter better for everyone.
+                            </p>
+                        </section>
+                    </div>
+                </div>
 
-                            <section className="bg-[#12121a] rounded-2xl p-8 border border-gray-800">
-                                <h2 className="text-2xl font-bold mb-4 text-purple-400">{c.support.title}</h2>
-                                <p className="text-gray-300 mb-3">
-                                    {c.support.content}
-                                </p>
-                                <ul className="space-y-2">
-                                    {c.support.items.map((item, idx) => (
-                                        <li key={idx} className="flex items-start gap-2 text-gray-400">
-                                            <span className="text-purple-400 mt-1">•</span>
-                                            <span>{item}</span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </section>
+                {/* Quick FAQ */}
+                <section className="mt-8 bg-[#12121a]/80 backdrop-blur-sm rounded-2xl border border-gray-800/50 p-6">
+                    <h2 className="text-xl font-bold text-purple-400 mb-6">❓ Quick Answers</h2>
+                    <div className="grid md:grid-cols-2 gap-4">
+                        <div className="bg-[#0a0a0f]/50 rounded-xl p-4">
+                            <h3 className="font-semibold text-white mb-1">Is WordImposter free?</h3>
+                            <p className="text-gray-400 text-sm">Yes! Completely free, no hidden fees.</p>
+                        </div>
+                        <div className="bg-[#0a0a0f]/50 rounded-xl p-4">
+                            <h3 className="font-semibold text-white mb-1">How many players?</h3>
+                            <p className="text-gray-400 text-sm">3-10 players per game.</p>
+                        </div>
+                        <div className="bg-[#0a0a0f]/50 rounded-xl p-4">
+                            <h3 className="font-semibold text-white mb-1">Works on mobile?</h3>
+                            <p className="text-gray-400 text-sm">Yes! Any device with a browser.</p>
+                        </div>
+                        <div className="bg-[#0a0a0f]/50 rounded-xl p-4">
+                            <h3 className="font-semibold text-white mb-1">Need an account?</h3>
+                            <p className="text-gray-400 text-sm">No! Just pick a nickname and play.</p>
                         </div>
                     </div>
+                    <div className="mt-4 text-center">
+                        <Link href="/faq" className="text-purple-400 hover:text-purple-300 transition-colors">
+                            View all FAQs →
+                        </Link>
+                    </div>
+                </section>
 
-                    {/* FAQs */}
-                    <section>
-                        <h2 className="text-3xl font-bold mb-8 text-center text-purple-400">{c.faqs.title}</h2>
-                        <div className="grid md:grid-cols-2 gap-6">
-                            {c.faqs.items.map((faq, idx) => (
-                                <div 
-                                    key={idx} 
-                                    className="bg-[#12121a] rounded-xl p-6 border border-gray-800 hover:border-purple-500/50 transition-all"
-                                >
-                                    <h3 className="text-lg font-semibold mb-3 text-purple-300">{faq.q}</h3>
-                                    <p className="text-gray-400 leading-relaxed">{faq.a}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
+                {/* CTA */}
+                <div className="text-center mt-8">
+                    <Link 
+                        href="/" 
+                        className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded-xl font-bold text-lg transition-all transform hover:scale-105"
+                    >
+                        🎮 Back to Game
+                    </Link>
                 </div>
             </div>
         </div>
