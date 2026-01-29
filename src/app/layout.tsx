@@ -60,7 +60,12 @@ export default function RootLayout({
       <head>
         {/* Favicon */}
         <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png" />
         <link rel="apple-touch-icon" href="/apple-icon.png" />
+        <link rel="manifest" href="/manifest.json" />
 
         {/* Google AdSense Meta Etiketi - Site Doğrulama */}
         <meta name="google-adsense-account" content="ca-pub-8793006985867588" />
