@@ -6,6 +6,7 @@ import { useGameStore } from '@/lib/gameStore';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import SEOContent from '@/components/SEOContent';
+import Testimonials from '@/components/Testimonials';
 
 // Dynamically import interactive components to avoid hydration mismatch
 const LobbyScreen = dynamic(() => import('@/components/LobbyScreen'), { ssr: false });
@@ -50,6 +51,11 @@ function GameContent() {
         {gameState === 'result' && <Results />}
       </main>
       {gameState === 'lobby' && <SEOContent />}
+      {gameState === 'lobby' && (
+        <div className="max-w-6xl mx-auto px-4">
+          <Testimonials />
+        </div>
+      )}
       {gameState === 'lobby' && <Footer />}
     </div>
   );

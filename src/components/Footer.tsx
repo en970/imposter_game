@@ -12,6 +12,9 @@ export default function Footer() {
             terms: 'Kullanım Şartları',
             about: 'Hakkımızda',
             contact: 'İletişim',
+            howToPlay: 'Nasıl Oynanır?',
+            strategies: 'Stratejiler',
+            faq: 'SSS',
             copyright: '© 2026 KelimeCasusu. Tüm hakları saklıdır.'
         },
         en: {
@@ -19,6 +22,9 @@ export default function Footer() {
             terms: 'Terms of Service',
             about: 'About',
             contact: 'Contact',
+            howToPlay: 'How to Play',
+            strategies: 'Strategies',
+            faq: 'FAQ',
             copyright: '© 2026 WordImposter. All rights reserved.'
         }
     };
@@ -29,6 +35,18 @@ export default function Footer() {
         <footer className="footer">
             <div className="footer-content">
                 <div className="footer-links">
+                    <Link href="/how-to-play" className="footer-link">
+                        {t.howToPlay}
+                    </Link>
+                    <span className="footer-divider">•</span>
+                    <Link href="/strategies" className="footer-link">
+                        {t.strategies}
+                    </Link>
+                    <span className="footer-divider">•</span>
+                    <Link href="/faq" className="footer-link">
+                        {t.faq}
+                    </Link>
+                    <span className="footer-divider">•</span>
                     <Link href="/about" className="footer-link">
                         {t.about}
                     </Link>

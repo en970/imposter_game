@@ -46,7 +46,16 @@ export default function Navbar() {
                         </span>
                     </Link>
                     <div style={{ display: 'flex', gap: 'var(--spacing-sm)', fontSize: '0.85rem' }}>
-                        <Link href="/about" style={{ color: '#9ca3af', textDecoration: 'none', transition: 'color 0.2s' }} className="hover:text-purple-400">
+                        <Link href="/how-to-play" style={{ color: '#9ca3af', textDecoration: 'none', transition: 'color 0.2s' }} className="hover:text-purple-400">
+                            {language === 'tr' ? 'Nasıl Oynanır?' : 'How to Play'}
+                        </Link>
+                        <Link href="/strategies" style={{ color: '#9ca3af', textDecoration: 'none', transition: 'color 0.2s' }} className="hover:text-purple-400">
+                            {language === 'tr' ? 'Stratejiler' : 'Strategies'}
+                        </Link>
+                        <Link href="/faq" style={{ color: '#9ca3af', textDecoration: 'none', transition: 'color 0.2s' }} className="hover:text-purple-400">
+                            {language === 'tr' ? 'SSS' : 'FAQ'}
+                        </Link>
+                        <Link href="/about" style={{ color: '#9ca3af', textDecoration: 'none', transition: 'color 0.2s', display: 'none', '@media (min-width: 768px)': { display: 'block' } }} className="hover:text-purple-400 hidden md:block">
                             {language === 'tr' ? 'Hakkımızda' : 'About'}
                         </Link>
                         <Link href="/contact" style={{ color: '#9ca3af', textDecoration: 'none', transition: 'color 0.2s' }} className="hover:text-purple-400">
