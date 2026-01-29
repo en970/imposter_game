@@ -51,11 +51,7 @@ function GameContent() {
         {gameState === 'result' && <Results />}
       </main>
       {gameState === 'lobby' && <SEOContent />}
-      {gameState === 'lobby' && (
-        <div className="max-w-6xl mx-auto px-4">
-          <Testimonials />
-        </div>
-      )}
+      {gameState === 'lobby' && <Testimonials />}
       {gameState === 'lobby' && <Footer />}
     </div>
   );
