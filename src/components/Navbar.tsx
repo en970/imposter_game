@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import Link from 'next/link';
 import { useGameStore } from '@/lib/gameStore';
 import { translations } from '@/lib/translations';
 import { GlobeIcon } from './Icons';
@@ -35,13 +36,23 @@ export default function Navbar() {
                 gap: 'var(--spacing-md)',
                 height: '100%'
             }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-xs)', flexShrink: 0 }}>
-                    <span style={{ fontWeight: 900, fontSize: '1.1rem', letterSpacing: '-0.02em', color: 'white' }}>
-                        {t.appName.split('Casusu')[0].split('Imposter')[0]}
-                        <span style={{ color: 'var(--border-accent)' }}>
-                            {language === 'tr' ? 'Casusu' : 'Imposter'}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-lg)', flexShrink: 0 }}>
+                    <Link href="/" style={{ textDecoration: 'none' }}>
+                        <span style={{ fontWeight: 900, fontSize: '1.1rem', letterSpacing: '-0.02em', color: 'white' }}>
+                            {t.appName.split('Casusu')[0].split('Imposter')[0]}
+                            <span style={{ color: 'var(--border-accent)' }}>
+                                {language === 'tr' ? 'Casusu' : 'Imposter'}
+                            </span>
                         </span>
-                    </span>
+                    </Link>
+                    <div style={{ display: 'flex', gap: 'var(--spacing-sm)', fontSize: '0.85rem' }}>
+                        <Link href="/about" style={{ color: '#9ca3af', textDecoration: 'none', transition: 'color 0.2s' }} className="hover:text-purple-400">
+                            {language === 'tr' ? 'Hakkımızda' : 'About'}
+                        </Link>
+                        <Link href="/contact" style={{ color: '#9ca3af', textDecoration: 'none', transition: 'color 0.2s' }} className="hover:text-purple-400">
+                            {language === 'tr' ? 'İletişim' : 'Contact'}
+                        </Link>
+                    </div>
                 </div>
 
                 {/* NAVBAR Reklam Alanı - Sabit boyut */}

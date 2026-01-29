@@ -9,11 +9,36 @@ const outfit = Outfit({
 
 export const metadata: Metadata = {
   title: "WordImposter (KelimeCasusu) - Find the Spy Among You!",
-  description: "KelimeCasusu (TR) and WordImposter (EN) is the ultimate online multiplayer word party game. Find the spy among you by giving one-word clues! Completely free, no registration required.",
-  keywords: ["KelimeCasusu", "WordImposter", "imposter game", "spy game", "party game online", "social deduction game", "word games with friends", "find the spy", "who is the spy", "kelime oyunu", "casus bulmaca", "ev partisi oyunu"],
-  authors: [{ name: "WordImposter" }],
+  description: "KelimeCasusu (TR) and WordImposter (EN) is the ultimate online multiplayer word party game. Find the spy among you by giving one-word clues! Completely free, no registration required. Play with 3-10 friends online.",
+  keywords: ["KelimeCasusu", "WordImposter", "imposter game", "spy game", "party game online", "social deduction game", "word games with friends", "find the spy", "who is the spy", "kelime oyunu", "casus bulmaca", "ev partisi oyunu", "online party games", "multiplayer word game", "free online games"],
+  authors: [{ name: "Enes Öz" }],
+  creator: "Enes Öz",
+  publisher: "WordImposter",
   alternates: {
     canonical: "https://wordimposter.fun",
+  },
+  openGraph: {
+    title: "WordImposter (KelimeCasusu) - Find the Spy Among You!",
+    description: "Play the ultimate online multiplayer word party game. Find the spy among you by giving one-word clues! Completely free, no registration required.",
+    url: "https://wordimposter.fun",
+    siteName: "WordImposter",
+    locale: "tr_TR",
+    alternateLocale: "en_US",
+    type: "website",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    google: "ca-pub-8793006985867588",
   }
 };
 
