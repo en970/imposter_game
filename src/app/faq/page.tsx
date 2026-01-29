@@ -9,7 +9,7 @@ export default function FAQPage() {
     const faqSections = [
         {
             category: 'General Questions',
-            icon: '❓',
+            icon: '&#10067;',
             faqs: [
                 {
                     q: 'Is WordImposter free to play?',
@@ -31,7 +31,7 @@ export default function FAQPage() {
         },
         {
             category: 'Technical Questions',
-            icon: '⚙️',
+            icon: '&#9881;&#65039;',
             faqs: [
                 {
                     q: 'What devices can I play on?',
@@ -53,7 +53,7 @@ export default function FAQPage() {
         },
         {
             category: 'Gameplay Questions',
-            icon: '🎮',
+            icon: '&#127918;',
             faqs: [
                 {
                     q: 'How do I create a game room?',
@@ -83,7 +83,7 @@ export default function FAQPage() {
         },
         {
             category: 'Word Categories',
-            icon: '📚',
+            icon: '&#128218;',
             faqs: [
                 {
                     q: 'What categories are available?',
@@ -101,7 +101,7 @@ export default function FAQPage() {
         },
         {
             category: 'Privacy and Safety',
-            icon: '🔒',
+            icon: '&#128274;',
             faqs: [
                 {
                     q: 'What data do you collect?',
@@ -119,7 +119,7 @@ export default function FAQPage() {
         },
         {
             category: 'Troubleshooting',
-            icon: '🔧',
+            icon: '&#128295;',
             faqs: [
                 {
                     q: 'Room code is not working. What do I do?',
@@ -131,7 +131,7 @@ export default function FAQPage() {
                 },
                 {
                     q: 'I only see a category, not a word!',
-                    a: 'That means you are the Imposter! As the Imposter, you only see the category and must figure out the word from other players clues.'
+                    a: 'That means you are the Imposter! As the Imposter, you only see the category and must figure out the word from other players\' clues.'
                 },
                 {
                     q: 'I got disconnected. Can I rejoin?',
@@ -144,94 +144,65 @@ export default function FAQPage() {
     let globalIndex = 0;
 
     return (
-        <div className="min-h-screen bg-[#0a0a0f] text-white">
-            <div className="max-w-4xl mx-auto px-4 py-8">
-                {/* Back Button */}
-                <Link 
-                    href="/" 
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors mb-8"
-                >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="content-page">
+            <div className="content-wrapper">
+                <Link href="/" className="content-back-btn">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                     </svg>
                     Back to Game
                 </Link>
 
-                {/* Header */}
-                <header className="text-center mb-12">
-                    <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent mb-4">
-                        Frequently Asked Questions
-                    </h1>
-                    <p className="text-xl text-gray-300">
-                        Everything you need to know about WordImposter
-                    </p>
+                <header className="content-header">
+                    <h1 className="content-title">Frequently Asked Questions</h1>
+                    <p className="content-subtitle">Everything you need to know about WordImposter</p>
                 </header>
 
-                {/* FAQ Sections */}
-                <div className="space-y-8">
-                    {faqSections.map((section, sectionIndex) => (
-                        <section 
-                            key={sectionIndex}
-                            className="bg-[#12121a]/80 backdrop-blur-sm rounded-2xl border border-gray-800/50 p-6"
-                        >
-                            <h2 className="text-xl font-bold text-purple-400 mb-4 flex items-center gap-2">
-                                <span>{section.icon}</span>
-                                {section.category}
-                            </h2>
-                            <div className="space-y-3">
-                                {section.faqs.map((faq, faqIndex) => {
-                                    const currentIndex = globalIndex++;
-                                    return (
-                                        <div 
-                                            key={faqIndex}
-                                            className="bg-[#0a0a0f]/50 rounded-xl overflow-hidden"
+                {faqSections.map((section, sectionIndex) => (
+                    <div key={sectionIndex} className="content-card">
+                        <h2 className="content-card-title">
+                            {section.category}
+                        </h2>
+                        {section.faqs.map((faq, faqIndex) => {
+                            const currentIndex = globalIndex++;
+                            return (
+                                <div key={faqIndex} className="faq-item">
+                                    <button
+                                        onClick={() => setOpenIndex(openIndex === currentIndex ? null : currentIndex)}
+                                        className="faq-question"
+                                    >
+                                        <span>{faq.q}</span>
+                                        <svg
+                                            className={`faq-chevron ${openIndex === currentIndex ? 'open' : ''}`}
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
                                         >
-                                            <button
-                                                onClick={() => setOpenIndex(openIndex === currentIndex ? null : currentIndex)}
-                                                className="w-full p-4 text-left flex items-center justify-between gap-4 hover:bg-[#0a0a0f]/70 transition-colors"
-                                            >
-                                                <span className="font-semibold text-white">{faq.q}</span>
-                                                <svg 
-                                                    className={`w-5 h-5 text-purple-400 transition-transform shrink-0 ${openIndex === currentIndex ? 'rotate-180' : ''}`}
-                                                    fill="none" 
-                                                    stroke="currentColor" 
-                                                    viewBox="0 0 24 24"
-                                                >
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                                </svg>
-                                            </button>
-                                            {openIndex === currentIndex && (
-                                                <div className="px-4 pb-4">
-                                                    <p className="text-gray-400">{faq.a}</p>
-                                                </div>
-                                            )}
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </section>
-                    ))}
-                </div>
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    </button>
+                                    {openIndex === currentIndex && (
+                                        <div className="faq-answer">{faq.a}</div>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
+                ))}
 
                 {/* Still have questions? */}
-                <section className="mt-8 bg-gradient-to-r from-purple-900/30 to-pink-900/30 rounded-2xl border border-purple-800/30 p-6 text-center">
-                    <h2 className="text-xl font-bold text-white mb-2">Still have questions?</h2>
-                    <p className="text-gray-400 mb-4">We are here to help! Reach out to us anytime.</p>
-                    <Link 
-                        href="/contact" 
-                        className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg font-semibold transition-colors"
-                    >
+                <div className="content-banner">
+                    <div className="content-banner-title">Still have questions?</div>
+                    <p className="content-banner-text">We are here to help! Reach out to us anytime.</p>
+                    <Link href="/contact" className="content-banner-btn">
                         Contact Us
                     </Link>
-                </section>
+                </div>
 
                 {/* CTA */}
-                <div className="text-center mt-8">
-                    <Link 
-                        href="/" 
-                        className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded-xl font-bold text-lg transition-all transform hover:scale-105"
-                    >
-                        🎮 Start Playing Now
+                <div className="content-cta">
+                    <Link href="/" className="content-cta-btn">
+                        Start Playing Now
                     </Link>
                 </div>
             </div>
