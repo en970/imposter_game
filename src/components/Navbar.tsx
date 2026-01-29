@@ -55,7 +55,7 @@ export default function Navbar() {
                         <Link href="/faq" style={{ color: '#9ca3af', textDecoration: 'none', transition: 'color 0.2s' }} className="hover:text-purple-400">
                             {language === 'tr' ? 'SSS' : 'FAQ'}
                         </Link>
-                        <Link href="/about" style={{ color: '#9ca3af', textDecoration: 'none', transition: 'color 0.2s', display: 'none', '@media (min-width: 768px)': { display: 'block' } }} className="hover:text-purple-400 hidden md:block">
+                        <Link href="/about" style={{ color: '#9ca3af', textDecoration: 'none', transition: 'color 0.2s' }} className="hover:text-purple-400 hidden md:block">
                             {language === 'tr' ? 'Hakkımızda' : 'About'}
                         </Link>
                         <Link href="/contact" style={{ color: '#9ca3af', textDecoration: 'none', transition: 'color 0.2s' }} className="hover:text-purple-400">
