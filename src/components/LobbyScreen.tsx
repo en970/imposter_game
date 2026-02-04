@@ -18,6 +18,8 @@ export default function LobbyScreen() {
         roomCode,
         players,
         imposterCount,
+        timerEnabled,
+        timerDuration,
         selectedCategory,
         hostId,
         currentUser,
@@ -28,6 +30,8 @@ export default function LobbyScreen() {
         joinRoom,
         addPlayer,
         setImposterCount,
+        setTimerEnabled,
+        setTimerDuration,
         setSelectedCategory,
         startGame,
         resetGame,
@@ -352,6 +356,48 @@ export default function LobbyScreen() {
                                 ))}
                             </div>
                         </div>
+
+                        <div className="settings-row">
+                            <div className="settings-header">
+                                <span className="settings-label">{t.timerToggle}</span>
+                                <span className="settings-value">{timerEnabled ? t.timerOn : t.timerOff}</span>
+                            </div>
+                            <div className="settings-grid settings-grid-3">
+                                <button
+                                    onClick={() => setTimerEnabled(false)}
+                                    className={`btn ${!timerEnabled ? 'btn-primary' : 'btn-secondary'}`}
+                                >
+                                    {t.timerOff}
+                                </button>
+                                <button
+                                    onClick={() => setTimerEnabled(true)}
+                                    className={`btn ${timerEnabled ? 'btn-primary' : 'btn-secondary'}`}
+                                    style={{ gridColumn: 'span 2' }}
+                                >
+                                    {t.timerOn}
+                                </button>
+                            </div>
+                        </div>
+
+                        {timerEnabled && (
+                            <div className="settings-row">
+                                <div className="settings-header">
+                                    <span className="settings-label">{t.timerDuration}</span>
+                                    <span className="settings-value">{timerDuration}s</span>
+                                </div>
+                                <div className="settings-grid settings-grid-4">
+                                    {[60, 90, 120, 180].map((sec) => (
+                                        <button
+                                            key={sec}
+                                            onClick={() => setTimerDuration(sec)}
+                                            className={`btn ${timerDuration === sec ? 'btn-primary' : 'btn-secondary'}`}
+                                        >
+                                            {sec}s
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
                     </div>
                 )}
 

@@ -37,9 +37,9 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  verification: {
-    google: "ca-pub-8793006985867588",
-  }
+  // Note: Google AdSense verification is handled via meta tag in <head>.
+  // Add Google Search Console verification token here if needed:
+  // verification: { google: "YOUR_SEARCH_CONSOLE_TOKEN" }
 };
 
 export const viewport: Viewport = {

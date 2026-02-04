@@ -38,6 +38,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     currentPlayerIndex: 0,
     timer: 120,
     timerDuration: 120,
+    timerEnabled: false,
     votes: {},
     roomCode: '',
     hostId: null,
@@ -163,8 +164,22 @@ export const useGameStore = create<GameStore>((set, get) => ({
         }
     },
 
+    setTimerEnabled: async (enabled: boolean) => {
+        const { roomCode } = get();
+        if (!roomCode) {
+            set({ timerEnabled: enabled });
+            return;
+        }
+
+        try {
+            await updateRoomState(roomCode, { timerEnabled: enabled });
+        } catch (error) {
+            console.error('Failed to update timer enabled:', error);
+        }
+    },
+
     startGame: async () => {
-        const { roomCode, imposterCount, timerDuration, hostId } = get();
+        const { roomCode, imposterCount, timerDuration, timerEnabled, hostId } = get();
         const odaPlayerId = getLocalPlayerId();
 
         // Only host can start
@@ -194,7 +209,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 category: category,
                 gameState: 'distributing',
                 currentPlayerIndex: Math.floor(Math.random() * players.length),
-                timer: timerDuration === 9999 ? 9999 : timerDuration,
+                timer: !timerEnabled ? 9999 : timerDuration,
                 votes: {}
             });
         } catch (error) {
@@ -480,6 +495,7 @@ function subscribeToRoomUpdates(
             currentPlayerIndex: (roomData.currentPlayerIndex as number) || 0,
             timer: (roomData.timer as number) || 120,
             timerDuration: (roomData.timerDuration as number) || 120,
+            timerEnabled: (roomData.timerEnabled as boolean) || false,
             hostId: (roomData.hostId as string) || null,
             selectedCategory: (roomData.selectedCategory as string) || 'random',
             votes: votesObj

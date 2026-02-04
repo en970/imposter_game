@@ -18,6 +18,7 @@ export interface GameStore {
   currentPlayerIndex: number;
   timer: number;
   timerDuration: number;
+  timerEnabled: boolean;
   votes: Record<string, string>;
   roomCode: string;
   hostId: string | null;
@@ -36,6 +37,7 @@ export interface GameStore {
   removePlayer: (id: string) => Promise<void> | void;
   setImposterCount: (count: number) => Promise<void> | void;
   setTimerDuration: (seconds: number) => Promise<void> | void;
+  setTimerEnabled: (enabled: boolean) => Promise<void> | void;
   startGame: () => Promise<void> | void;
   showCard: () => void;
   hideCard: () => void;
