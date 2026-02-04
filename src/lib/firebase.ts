@@ -86,6 +86,14 @@ export const checkRoomExists = async (roomCode: string): Promise<boolean> => {
     return odaSnap.exists();
 };
 
+// Get existing player names in a room (returns array of {id, name})
+export const getRoomPlayers = async (roomCode: string): Promise<{ id: string; name: string }[]> => {
+    const odaSnap = await get(playersRef(roomCode));
+    if (!odaSnap.exists()) return [];
+    const playersObj = odaSnap.val() as Record<string, { name: string }>;
+    return Object.entries(playersObj).map(([id, data]) => ({ id, name: data.name }));
+};
+
 // Remove player from room
 export const removePlayerFromFirebase = async (roomCode: string, odaPlayerId: string) => {
     await remove(playerRef(roomCode, odaPlayerId));

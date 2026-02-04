@@ -8,6 +8,7 @@ import {
     updatePlayerData,
     subscribeToRoom,
     checkRoomExists,
+    getRoomPlayers,
     removePlayerFromFirebase,
     setupPlayerPresence
 } from './firebase';
@@ -85,17 +86,35 @@ export const useGameStore = create<GameStore>((set, get) => ({
     },
 
     joinRoom: async (code: string) => {
-        const { currentUser } = get();
+        const { currentUser, language } = get();
         const odaPlayerId = getLocalPlayerId();
 
         try {
             const exists = await checkRoomExists(code);
             if (!exists) {
-                console.error('Room does not exist');
+                set({
+                    duplicateNameError: language === 'tr'
+                        ? 'Bu oda mevcut değil. Lütfen kodu kontrol edin.'
+                        : 'This room does not exist. Please check the code.'
+                });
                 return;
             }
 
+            // Check for duplicate name before joining
             if (currentUser) {
+                const existingPlayers = await getRoomPlayers(code);
+                const isDuplicate = existingPlayers.some(
+                    p => p.name.toLowerCase() === currentUser.toLowerCase() && p.id !== odaPlayerId
+                );
+                if (isDuplicate) {
+                    set({
+                        duplicateNameError: language === 'tr'
+                            ? 'Bu isim zaten odada kullanılıyor. Lütfen farklı bir isim seçin.'
+                            : 'This name is already taken in the room. Please choose a different name.'
+                    });
+                    return;
+                }
+
                 await joinRoomInFirebase(code, odaPlayerId, currentUser);
             }
 
@@ -111,7 +130,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     },
 
     addPlayer: async (name: string) => {
-        const { roomCode, players } = get();
+        const { roomCode, players, language } = get();
         const odaPlayerId = getLocalPlayerId();
 
         if (!roomCode) return;
@@ -119,7 +138,11 @@ export const useGameStore = create<GameStore>((set, get) => ({
         // Check for duplicate name
         const isDuplicate = players.some(p => p.name.toLowerCase() === name.toLowerCase() && p.id !== odaPlayerId);
         if (isDuplicate) {
-            set({ duplicateNameError: 'Bu isim zaten odada mevcut. Lütfen başka bir isim seç.' });
+            set({
+                duplicateNameError: language === 'tr'
+                    ? 'Bu isim zaten odada kullanılıyor. Lütfen farklı bir isim seçin.'
+                    : 'This name is already taken in the room. Please choose a different name.'
+            });
             return;
         }
 
@@ -470,11 +493,14 @@ function subscribeToRoomUpdates(
                 unsubscribeFromRoom();
                 unsubscribeFromRoom = null;
             }
-            // Clear state and show error (abusing duplicateNameError for kick msg)
+            // Clear state and show error
+            const lang = get().language;
             set({
                 roomCode: '',
                 players: [],
-                duplicateNameError: 'Oda kurucusu tarafından atıldın.'
+                duplicateNameError: lang === 'tr'
+                    ? 'Oda kurucusu tarafından atıldın.'
+                    : 'You have been kicked by the host.'
             });
             return;
         }

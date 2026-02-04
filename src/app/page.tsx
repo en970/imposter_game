@@ -17,11 +17,31 @@ const Results = dynamic(() => import('@/components/Results'), { ssr: false });
 
 function GameContent() {
   const gameState = useGameStore((state) => state.gameState);
+  const roomCode = useGameStore((state) => state.roomCode);
+  const joinRoom = useGameStore((state) => state.joinRoom);
+  const setCurrentUser = useGameStore((state) => state.setCurrentUser);
+  const setLanguage = useGameStore((state) => state.setLanguage);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-  }, []);
+
+    // Restore language preference
+    const savedLang = localStorage.getItem('kelimeavi_lang');
+    if (savedLang === 'tr' || savedLang === 'en') {
+      setLanguage(savedLang);
+    }
+
+    // Auto-rejoin last room on refresh
+    const lastRoom = sessionStorage.getItem('lastRoomCode');
+    const storedName = localStorage.getItem('kelimeavi_username');
+    const currentRoomCode = useGameStore.getState().roomCode;
+
+    if (lastRoom && storedName && !currentRoomCode) {
+      setCurrentUser(storedName);
+      joinRoom(lastRoom);
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!mounted) {
     return (
