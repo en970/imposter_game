@@ -1,0 +1,17 @@
+{
+    "rules": {
+        "rooms": {
+            "$room_id": {
+                ".read": true,
+                ".write": true,
+                "players": {
+                    "$player_id": {
+                        ".validate": "newData.hasChildren(['name', 'odaTimestamp'])"
+                    }
+                }
+            }
+        },
+        ".read": false,
+        ".write": false
+    }
+}
