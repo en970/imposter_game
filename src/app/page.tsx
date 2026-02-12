@@ -49,14 +49,13 @@ function GameContent() {
     return (
       <div className="app-container">
         <Navbar />
-        <div className="ad-leaderboard" aria-hidden="true" />
+        <div className="ad-navbar-strip" aria-hidden="true" />
         <main className="flex-1">
           <div className="center-container">
             <div className="home-card" style={{ minHeight: '60vh' }} />
           </div>
         </main>
         <SEOContent />
-        <div className="ad-content-mid" aria-hidden="true" />
         <Testimonials />
         <Footer />
       </div>
@@ -69,8 +68,8 @@ function GameContent() {
     <div className="app-container">
       <Navbar />
 
-      {/* Top leaderboard ad */}
-      <div className="ad-leaderboard">
+      {/* Thin ad strip below navbar */}
+      <div className="ad-navbar-strip">
         <AdBanner slot="4426624617" format="horizontal" />
       </div>
 
@@ -93,12 +92,6 @@ function GameContent() {
       {isLobby && (
         <>
           <SEOContent />
-
-          {/* Single ad between content sections */}
-          <div className="ad-content-mid">
-            <AdBanner slot="4426624617" format="auto" />
-          </div>
-
           <Testimonials />
           <Footer />
         </>
