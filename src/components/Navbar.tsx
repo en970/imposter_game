@@ -58,7 +58,7 @@ export default function Navbar() {
                         {/* Desktop nav links */}
                         <div className="desktop-nav-links" style={{ display: 'flex', gap: 'var(--spacing-sm)', fontSize: '0.85rem' }}>
                             {navLinks.map((link) => (
-                                <Link key={link.href} href={link.href} style={{ color: '#9ca3af', textDecoration: 'none', transition: 'color 0.2s' }} className="hover:text-purple-400">
+                                <Link key={link.href} href={link.href} style={{ color: '#d1d5db', textDecoration: 'none', transition: 'color 0.2s' }} className="hover:text-purple-400">
                                     {link.label}
                                 </Link>
                             ))}
@@ -68,6 +68,7 @@ export default function Navbar() {
                     {/* Desktop language toggle */}
                     <button
                         onClick={toggleLanguage}
+                        aria-label={language === 'tr' ? 'Switch to English' : 'Türkçeye geç'}
                         className="btn btn-secondary desktop-lang-toggle"
                         style={{
                             padding: '6px 10px',
@@ -88,6 +89,7 @@ export default function Navbar() {
                     {/* Mobile burger button */}
                     <button
                         onClick={() => setMobileMenuOpen(true)}
+                        aria-label={language === 'tr' ? 'Menüyü aç' : 'Open menu'}
                         className="mobile-burger-btn"
                         style={{
                             display: 'none',
@@ -120,6 +122,7 @@ export default function Navbar() {
                             </span>
                             <button
                                 onClick={() => setMobileMenuOpen(false)}
+                                aria-label={language === 'tr' ? 'Menüyü kapat' : 'Close menu'}
                                 style={{
                                     background: 'var(--bg-tertiary)',
                                     border: '1px solid var(--border-subtle)',

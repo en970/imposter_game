@@ -159,7 +159,7 @@ export default function LobbyScreen() {
                                     <div style={{ flex: 1, padding: 'var(--spacing-sm) var(--spacing-md)', background: 'var(--bg-tertiary)', borderRadius: 'var(--radius-md)', fontWeight: 600 }}>
                                         {currentUser || getStoredUsername()}
                                     </div>
-                                    <button onClick={() => setEditingName(true)} className="btn btn-secondary" title={language === 'tr' ? 'Düzenle' : 'Edit'}>
+                                    <button onClick={() => setEditingName(true)} className="btn btn-secondary" title={language === 'tr' ? 'Düzenle' : 'Edit'} aria-label={language === 'tr' ? 'İsmi düzenle' : 'Edit name'}>
                                         <EditIcon size={16} />
                                     </button>
                                 </div>
@@ -178,7 +178,7 @@ export default function LobbyScreen() {
                                         autoFocus={editingName}
                                         autoComplete="nickname"
                                     />
-                                    <button onClick={handleSaveName} disabled={!nameInput.trim()} className="btn btn-primary" title={language === 'tr' ? 'Kaydet' : 'Save'}>
+                                    <button onClick={handleSaveName} disabled={!nameInput.trim()} className="btn btn-primary" title={language === 'tr' ? 'Kaydet' : 'Save'} aria-label={language === 'tr' ? 'İsmi kaydet' : 'Save name'}>
                                         <CheckIcon size={16} />
                                     </button>
                                 </div>
@@ -211,7 +211,7 @@ export default function LobbyScreen() {
                                     maxLength={6}
                                     autoComplete="off"
                                 />
-                                <button onClick={handleJoinRoom} disabled={!nameInput.trim() || !joinCodeInput.trim() || isJoining} className="btn btn-primary">
+                                <button onClick={handleJoinRoom} disabled={!nameInput.trim() || !joinCodeInput.trim() || isJoining} className="btn btn-primary" aria-label={language === 'tr' ? 'Odaya katıl' : 'Join room'}>
                                     {isJoining ? <LoaderIcon size={18} className="spin" /> : <PlayIcon size={18} />}
                                 </button>
                             </div>
@@ -249,7 +249,7 @@ export default function LobbyScreen() {
             <div className="home-card" style={{ background: 'transparent' }}>
                 {/* Header */}
                 <div className="header fade-in">
-                    <button onClick={resetGame} className="icon-btn">
+                    <button onClick={resetGame} className="icon-btn" aria-label={language === 'tr' ? 'Odadan ayrıl' : 'Leave room'}>
                         <ArrowLeftIcon size={20} />
                     </button>
                     <div style={{ flex: 1, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
@@ -285,6 +285,7 @@ export default function LobbyScreen() {
                         <button
                             onClick={() => setShowSettings(!showSettings)}
                             className={`icon-btn ${showSettings ? 'active' : ''}`}
+                            aria-label={language === 'tr' ? 'Ayarlar' : 'Settings'}
                         >
                             <SettingsIcon size={20} />
                         </button>

@@ -4,7 +4,9 @@ import "./globals.css";
 
 const outfit = Outfit({
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
   variable: "--font-outfit",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -97,13 +99,16 @@ export default function RootLayout({
   return (
     <html lang="tr" className="dark">
       <head>
+        {/* Preconnect to critical origins */}
+        <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://googleads.g.doubleclick.net" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
+
         {/* Favicon */}
         <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png" />
-        <link rel="apple-touch-icon" href="/apple-icon.png" />
         <link rel="manifest" href="/manifest.json" />
 
         {/* Schema.org JSON-LD */}
@@ -112,10 +117,8 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
 
-        {/* Google AdSense Meta Tag */}
+        {/* Google AdSense */}
         <meta name="google-adsense-account" content="ca-pub-8793006985867588" />
-
-        {/* Google AdSense Script */}
         <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8793006985867588"

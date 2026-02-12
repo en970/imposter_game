@@ -19,28 +19,28 @@ export default function SEOContent() {
                     <div className="seo-step">
                         <div className="seo-step-num">1</div>
                         <div className="seo-step-content">
-                            <h4 className="seo-step-title">Create or Join a Room</h4>
+                            <h3 className="seo-step-title">Create or Join a Room</h3>
                             <p className="seo-step-desc">Get a room code and invite 3-10 friends to play together online.</p>
                         </div>
                     </div>
                     <div className="seo-step">
                         <div className="seo-step-num">2</div>
                         <div className="seo-step-content">
-                            <h4 className="seo-step-title">Get Your Role</h4>
+                            <h3 className="seo-step-title">Get Your Role</h3>
                             <p className="seo-step-desc">Everyone sees a secret word except the Imposter, who only sees the category.</p>
                         </div>
                     </div>
                     <div className="seo-step">
                         <div className="seo-step-num seo-step-num-alt">3</div>
                         <div className="seo-step-content">
-                            <h4 className="seo-step-title">Give One-Word Clues</h4>
+                            <h3 className="seo-step-title">Give One-Word Clues</h3>
                             <p className="seo-step-desc">Take turns giving clues. Civilians prove they know the word; the Imposter tries to blend in.</p>
                         </div>
                     </div>
                     <div className="seo-step">
                         <div className="seo-step-num seo-step-num-alt">4</div>
                         <div className="seo-step-content">
-                            <h4 className="seo-step-title">Vote &amp; Win</h4>
+                            <h3 className="seo-step-title">Vote &amp; Win</h3>
                             <p className="seo-step-desc">Discuss and vote out the Imposter. Civilians win if they catch them!</p>
                         </div>
                     </div>

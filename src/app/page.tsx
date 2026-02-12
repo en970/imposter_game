@@ -44,31 +44,42 @@ function GameContent() {
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Pre-render / loading state - matches hydrated layout structure to prevent CLS
   if (!mounted) {
     return (
       <div className="app-container">
         <Navbar />
-        <main className="flex-1 min-h-[60vh]">
-          <div className="min-h-screen flex items-center justify-center">Yükleniyor...</div>
+        <div className="ad-leaderboard" aria-hidden="true" />
+        <main className="flex-1">
+          <div className="center-container">
+            <div className="home-card" style={{ minHeight: '60vh' }} />
+          </div>
         </main>
         <SEOContent />
+        <Testimonials />
         <Footer />
       </div>
     );
   }
 
+  const isLobby = gameState === 'lobby';
+
   return (
     <div className="app-container">
       <Navbar />
 
-      {/* Top leaderboard ad - visible on all states */}
+      {/* Top leaderboard ad */}
       <div className="ad-leaderboard">
         <AdBanner slot="4426624617" format="horizontal" />
       </div>
 
       <main className="flex-1">
-        {gameState === 'lobby' && (
-          <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Yükleniyor...</div>}>
+        {isLobby && (
+          <Suspense fallback={
+            <div className="center-container">
+              <div className="home-card" style={{ minHeight: '60vh' }} />
+            </div>
+          }>
             <LobbyScreen />
           </Suspense>
         )}
@@ -78,27 +89,16 @@ function GameContent() {
         {gameState === 'result' && <Results />}
       </main>
 
-      {gameState === 'lobby' && (
+      {isLobby && (
         <>
-          {/* Ad between lobby and SEO content */}
-          <div className="ad-content-mid">
-            <AdBanner slot="4426624617" format="rectangle" />
-          </div>
-
           <SEOContent />
 
-          {/* Ad between SEO and testimonials */}
+          {/* Single ad between content sections */}
           <div className="ad-content-mid">
             <AdBanner slot="4426624617" format="auto" />
           </div>
 
           <Testimonials />
-
-          {/* Ad before footer */}
-          <div className="ad-content-mid">
-            <AdBanner slot="4426624617" format="horizontal" />
-          </div>
-
           <Footer />
         </>
       )}
