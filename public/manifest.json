@@ -1,6 +1,6 @@
 {
-  "name": "WordImposter - KelimeCasusu",
-  "short_name": "WordImposter",
+  "name": "WordSpy - KelimeCasusu",
+  "short_name": "WordSpy",
   "description": "Online multiplayer word party game. Find the spy among you!",
   "start_url": "/",
   "display": "standalone",

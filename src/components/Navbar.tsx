@@ -49,9 +49,9 @@ export default function Navbar() {
                     <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-lg)', flexShrink: 0 }}>
                         <Link href="/" style={{ textDecoration: 'none' }}>
                             <span style={{ fontWeight: 900, fontSize: '1.1rem', letterSpacing: '-0.02em', color: 'white' }}>
-                                {t.appName.split('Casusu')[0].split('Imposter')[0]}
+                                {t.appName.split('Casusu')[0].split('Spy')[0]}
                                 <span style={{ color: 'var(--border-accent)' }}>
-                                    {language === 'tr' ? 'Casusu' : 'Imposter'}
+                                    {language === 'tr' ? 'Casusu' : 'Spy'}
                                 </span>
                             </span>
                         </Link>
@@ -115,9 +115,9 @@ export default function Navbar() {
                     <div className="mobile-nav-drawer" onClick={(e) => e.stopPropagation()}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--spacing-lg)' }}>
                             <span style={{ fontWeight: 800, fontSize: '1.1rem', color: 'white' }}>
-                                {t.appName.split('Casusu')[0].split('Imposter')[0]}
+                                {t.appName.split('Casusu')[0].split('Spy')[0]}
                                 <span style={{ color: 'var(--border-accent)' }}>
-                                    {language === 'tr' ? 'Casusu' : 'Imposter'}
+                                    {language === 'tr' ? 'Casusu' : 'Spy'}
                                 </span>
                             </span>
                             <button

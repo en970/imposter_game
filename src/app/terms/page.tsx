@@ -53,11 +53,11 @@ export default function TermsOfService() {
             sections: [
                 {
                     title: '1. Acceptance of Terms',
-                    content: 'By using the WordImposter (wordimposter.fun) website, you agree to these Terms of Service. If you do not accept these terms, please do not use our site.'
+                    content: 'By using the WordSpy (wordimposter.fun) website, you agree to these Terms of Service. If you do not accept these terms, please do not use our site.'
                 },
                 {
                     title: '2. Service Description',
-                    content: 'WordImposter is a free word guessing game that you can play online with your friends. In the game, you try to find the "imposter" among the players.'
+                    content: 'WordSpy is a free word guessing game that you can play online with your friends. In the game, you try to find the "imposter" among the players.'
                 },
                 {
                     title: '3. User Conduct',
@@ -109,7 +109,7 @@ export default function TermsOfService() {
                 </div>
 
                 <div className="mt-8 text-center text-gray-500 text-sm">
-                    © 2026 KelimeCasusu / WordImposter. {language === 'tr' ? 'Tüm hakları saklıdır.' : 'All rights reserved.'}
+                    © 2026 KelimeCasusu / WordSpy. {language === 'tr' ? 'Tüm hakları saklıdır.' : 'All rights reserved.'}
                 </div>
             </div>
         </div>

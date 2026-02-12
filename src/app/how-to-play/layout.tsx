@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "How to Play WordImposter - Rules & Game Guide",
-  description: "Learn how to play WordImposter in 2 minutes. Simple rules: get a secret word, give one-word clues, find the spy. Step-by-step guide with examples for 3-10 players.",
+  title: "How to Play WordSpy - Rules & Game Guide",
+  description: "Learn how to play WordSpy in 2 minutes. Simple rules: get a secret word, give one-word clues, find the spy. Step-by-step guide with examples for 3-10 players.",
   alternates: { canonical: "https://wordimposter.fun/how-to-play/" },
   openGraph: {
-    title: "How to Play WordImposter - Rules & Game Guide",
-    description: "Learn the rules of WordImposter in 2 minutes. Give clues, find the spy, win!",
+    title: "How to Play WordSpy - Rules & Game Guide",
+    description: "Learn the rules of WordSpy in 2 minutes. Give clues, find the spy, win!",
     url: "https://wordimposter.fun/how-to-play/",
   },
 };

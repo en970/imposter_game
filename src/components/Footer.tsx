@@ -25,7 +25,7 @@ export default function Footer() {
             howToPlay: 'How to Play',
             strategies: 'Strategies',
             faq: 'FAQ',
-            copyright: '© 2026 WordImposter. All rights reserved.'
+            copyright: '© 2026 WordSpy. All rights reserved.'
         }
     };
 

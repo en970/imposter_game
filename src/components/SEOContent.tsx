@@ -6,9 +6,9 @@ export default function SEOContent() {
             <div className="seo-wrapper">
                 {/* Hero */}
                 <div className="seo-hero">
-                    <h2 className="seo-hero-title">What is WordImposter?</h2>
+                    <h2 className="seo-hero-title">What is WordSpy?</h2>
                     <p className="seo-hero-text">
-                        WordImposter is a fun and exciting online social deduction game you can play with friends.
+                        WordSpy is a fun and exciting online social deduction game you can play with friends.
                         Give clues to prove you know the secret word, but be careful — one player is the Imposter
                         who doesn&apos;t know the word and is trying to blend in!
                     </p>

@@ -53,7 +53,7 @@ export default function PrivacyPolicy() {
             sections: [
                 {
                     title: '1. Introduction',
-                    content: 'At WordImposter (wordimposter.fun), we respect the privacy of our users. This Privacy Policy explains the information we collect when you visit our site and how we use that information.'
+                    content: 'At WordSpy (wordimposter.fun), we respect the privacy of our users. This Privacy Policy explains the information we collect when you visit our site and how we use that information.'
                 },
                 {
                     title: '2. Information Collected',
@@ -109,7 +109,7 @@ export default function PrivacyPolicy() {
                 </div>
 
                 <div className="mt-8 text-center text-gray-500 text-sm">
-                    © 2026 KelimeCasusu / WordImposter. {language === 'tr' ? 'Tüm hakları saklıdır.' : 'All rights reserved.'}
+                    © 2026 KelimeCasusu / WordSpy. {language === 'tr' ? 'Tüm hakları saklıdır.' : 'All rights reserved.'}
                 </div>
             </div>
         </div>

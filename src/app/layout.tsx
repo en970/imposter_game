@@ -11,22 +11,22 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   title: {
-    default: "WordImposter - Free Online Spy Word Game | Play Now",
-    template: "%s | WordImposter",
+    default: "WordSpy - Free Online Spy Word Game | Play Now",
+    template: "%s | WordSpy",
   },
-  description: "Play WordImposter free with 3-10 friends! The #1 online spy word game. Give one-word clues, find the imposter, and win. No download, no signup. Play instantly on any device.",
-  keywords: ["word game online", "spy game online free", "imposter game", "who is the spy", "party game online", "social deduction game", "multiplayer word game", "find the imposter", "word guessing game", "play with friends online", "free online games", "among us word game", "KelimeCasusu", "WordImposter"],
-  authors: [{ name: "WordImposter" }],
-  creator: "WordImposter",
-  publisher: "WordImposter",
+  description: "Play WordSpy free with 3-10 friends! The #1 online spy word game. Give one-word clues, find the imposter, and win. No download, no signup. Play instantly on any device.",
+  keywords: ["word game online", "spy game online free", "imposter game", "who is the spy", "party game online", "social deduction game", "multiplayer word game", "find the imposter", "word guessing game", "play with friends online", "free online games", "among us word game", "KelimeCasusu", "WordSpy"],
+  authors: [{ name: "WordSpy" }],
+  creator: "WordSpy",
+  publisher: "WordSpy",
   alternates: {
     canonical: "https://wordimposter.fun",
   },
   openGraph: {
-    title: "WordImposter - Free Online Spy Word Game | Play with Friends",
+    title: "WordSpy - Free Online Spy Word Game | Play with Friends",
     description: "The #1 free online spy word game! Give clues, find the imposter, win. No download needed. Play instantly with 3-10 friends.",
     url: "https://wordimposter.fun",
-    siteName: "WordImposter",
+    siteName: "WordSpy",
     locale: "en_US",
     alternateLocale: "tr_TR",
     type: "website",
@@ -35,13 +35,13 @@ export const metadata: Metadata = {
         url: "https://wordimposter.fun/og-image.png",
         width: 1200,
         height: 630,
-        alt: "WordImposter - Free Online Spy Word Game",
+        alt: "WordSpy - Free Online Spy Word Game",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "WordImposter - Free Online Spy Word Game",
+    title: "WordSpy - Free Online Spy Word Game",
     description: "Give clues, find the imposter, win! Free multiplayer word game. No download needed.",
     images: ["https://wordimposter.fun/og-image.png"],
   },
@@ -69,7 +69,7 @@ export const viewport: Viewport = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "WordImposter",
+  "name": "WordSpy",
   "alternateName": "KelimeCasusu",
   "url": "https://wordimposter.fun",
   "description": "Free online multiplayer spy word game. Give one-word clues, find the imposter among your friends. No download, no signup required.",
@@ -82,7 +82,7 @@ const jsonLd = {
   },
   "author": {
     "@type": "Organization",
-    "name": "WordImposter"
+    "name": "WordSpy"
   },
   "inLanguage": ["en", "tr"],
   "browserRequirements": "Requires JavaScript. Requires HTML5.",
@@ -109,7 +109,9 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <head>
         <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://fundingchoicesmessages.google.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
+        <link rel="dns-prefetch" href="https://fundingchoicesmessages.google.com" />
 
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />

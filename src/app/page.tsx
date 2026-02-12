@@ -56,6 +56,7 @@ function GameContent() {
           </div>
         </main>
         <SEOContent />
+        <div className="ad-content-mid" aria-hidden="true" />
         <Testimonials />
         <Footer />
       </div>

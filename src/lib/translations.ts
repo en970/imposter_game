@@ -313,7 +313,7 @@ export const translations = {
         },
     },
     en: {
-        appName: 'WordImposter',
+        appName: 'WordSpy',
         tagline: 'Find the Imposter Among You!',
         howToPlay: 'HOW TO PLAY',
         rules: [
@@ -383,7 +383,7 @@ export const translations = {
             Hayvanlar: 'Animals'
         },
         shareText: 'Share',
-        shareMessage: 'Let\'s play WordImposter! Room code: ',
+        shareMessage: 'Let\'s play WordSpy! Room code: ',
 
         // Timer
         timerToggle: 'Timer',
@@ -403,9 +403,9 @@ export const translations = {
         // Content pages
         howToPlayPage: {
             title: 'How to Play',
-            subtitle: 'Complete guide to playing WordImposter',
-            whatIs: 'What is WordImposter?',
-            whatIsDesc: 'WordImposter is an exciting social deduction party game combining word guessing with hidden roles. Play with 3-10 friends and find the Imposter among you! The Imposter does not know the secret word that everyone else sees - they only know the category. Can you catch them before they blend in?',
+            subtitle: 'Complete guide to playing WordSpy',
+            whatIs: 'What is WordSpy?',
+            whatIsDesc: 'WordSpy is an exciting social deduction party game combining word guessing with hidden roles. Play with 3-10 friends and find the Imposter among you! The Imposter does not know the secret word that everyone else sees - they only know the category. Can you catch them before they blend in?',
             gameSetup: 'Game Setup',
             steps: [
                 { title: 'Create a Room', desc: 'Click Create Room to get a unique 4-digit code. Share this with friends!' },
@@ -444,7 +444,7 @@ export const translations = {
 
         strategiesPage: {
             title: 'Game Strategies',
-            subtitle: 'Master WordImposter with these pro tips and tactics',
+            subtitle: 'Master WordSpy with these pro tips and tactics',
             civilianTitle: 'Civilian Strategies',
             civilianDesc: 'As a Civilian, your goal is to prove you know the word while catching the Imposter.',
             civilianStrategies: [
@@ -482,13 +482,13 @@ export const translations = {
 
         faqPage: {
             title: 'Frequently Asked Questions',
-            subtitle: 'Everything you need to know about WordImposter',
+            subtitle: 'Everything you need to know about WordSpy',
             sections: [
                 {
                     category: 'General Questions',
                     faqs: [
-                        { q: 'Is WordImposter free to play?', a: 'Yes! WordImposter is completely free. No fees, no registration, no downloads required. Just open the website and start playing with your friends instantly.' },
-                        { q: 'How many players can play?', a: 'WordImposter supports 3-10 players. The sweet spot is 5-8 players for the best experience. With fewer players, games are faster. With more players, there is more deception and excitement!' },
+                        { q: 'Is WordSpy free to play?', a: 'Yes! WordSpy is completely free. No fees, no registration, no downloads required. Just open the website and start playing with your friends instantly.' },
+                        { q: 'How many players can play?', a: 'WordSpy supports 3-10 players. The sweet spot is 5-8 players for the best experience. With fewer players, games are faster. With more players, there is more deception and excitement!' },
                         { q: 'Do I need to create an account?', a: 'No account needed! Just pick a nickname and you are ready to play. We believe in instant fun without barriers.' },
                         { q: 'What languages are supported?', a: 'Currently available in English and Turkish. We are working on adding more languages including German, French, and Spanish.' }
                     ]
@@ -496,9 +496,9 @@ export const translations = {
                 {
                     category: 'Technical Questions',
                     faqs: [
-                        { q: 'What devices can I play on?', a: 'WordImposter works on any device with a modern web browser - desktops, laptops, tablets, and smartphones. No app download required!' },
+                        { q: 'What devices can I play on?', a: 'WordSpy works on any device with a modern web browser - desktops, laptops, tablets, and smartphones. No app download required!' },
                         { q: 'Is there a mobile app?', a: 'Not yet, but the website is fully optimized for mobile devices. It works perfectly in your phone browser. Native iOS and Android apps are planned for the future.' },
-                        { q: 'Do I need internet to play?', a: 'Yes, WordImposter is an online multiplayer game. All players need an internet connection to play together in real-time.' },
+                        { q: 'Do I need internet to play?', a: 'Yes, WordSpy is an online multiplayer game. All players need an internet connection to play together in real-time.' },
                         { q: 'The game is laggy or not loading. What should I do?', a: 'Try these steps: 1) Refresh the page, 2) Clear your browser cache, 3) Try a different browser, 4) Check your internet connection. If problems persist, contact us!' }
                     ]
                 },
@@ -526,7 +526,7 @@ export const translations = {
                     faqs: [
                         { q: 'What data do you collect?', a: 'We only store minimal data needed for gameplay: your chosen nickname and room code. No personal information, emails, or tracking data is collected.' },
                         { q: 'Is my game data saved?', a: 'No, game data is temporary. Once a game ends, all data is deleted. We do not keep records of your games or statistics.' },
-                        { q: 'Is the game safe for kids?', a: 'Yes! WordImposter is family-friendly. All words are appropriate for all ages. However, we recommend parental supervision for younger children playing online.' }
+                        { q: 'Is the game safe for kids?', a: 'Yes! WordSpy is family-friendly. All words are appropriate for all ages. However, we recommend parental supervision for younger children playing online.' }
                     ]
                 },
                 {
@@ -546,14 +546,14 @@ export const translations = {
         },
 
         aboutPage: {
-            title: 'About WordImposter',
+            title: 'About WordSpy',
             subtitle: 'The ultimate social deduction party game',
-            whatIs: 'What is WordImposter?',
-            whatIsDesc1: 'WordImposter is a free online social deduction game where players try to find the hidden Imposter among them. It combines word guessing mechanics with hidden roles, creating an exciting and strategic party game experience.',
+            whatIs: 'What is WordSpy?',
+            whatIsDesc1: 'WordSpy is a free online social deduction game where players try to find the hidden Imposter among them. It combines word guessing mechanics with hidden roles, creating an exciting and strategic party game experience.',
             whatIsDesc2: 'Perfect for game nights, team building events, virtual hangouts, or whenever you want to have fun with friends and family. Play with 3-10 players, no downloads or accounts required!',
             mission: 'Our Mission',
-            missionDesc: 'We believe great games should be accessible to everyone. Our mission is to provide a fun, engaging, and completely free gaming experience that brings people together. Whether you are connecting with friends across the world or having a local game night, WordImposter makes it easy to create memorable moments.',
-            whyChoose: 'Why Choose WordImposter?',
+            missionDesc: 'We believe great games should be accessible to everyone. Our mission is to provide a fun, engaging, and completely free gaming experience that brings people together. Whether you are connecting with friends across the world or having a local game night, WordSpy makes it easy to create memorable moments.',
+            whyChoose: 'Why Choose WordSpy?',
             features: [
                 { icon: '&#127381;', title: '100% Free', desc: 'No hidden fees, no premium features, no pay-to-win. Just pure fun for everyone.' },
                 { icon: '&#9889;', title: 'Instant Play', desc: 'No downloads, no accounts. Create a room, share the code, and play immediately.' },
@@ -563,13 +563,13 @@ export const translations = {
                 { icon: '&#128218;', title: 'Lots of Categories', desc: 'Animals, movies, countries, foods, and many more categories to choose from!' }
             ],
             techTitle: 'Built with Modern Technology',
-            techDesc: 'WordImposter is built using cutting-edge web technologies to ensure a smooth, fast, and reliable gaming experience:',
+            techDesc: 'WordSpy is built using cutting-edge web technologies to ensure a smooth, fast, and reliable gaming experience:',
             privacyTitle: 'Your Privacy Matters',
-            privacyDesc: 'We take your privacy seriously. WordImposter only collects the minimal data needed for gameplay (your chosen nickname and room code). We do not track you, sell your data, or require any personal information. Game data is deleted after each session. Read our full privacy policy for more details.',
+            privacyDesc: 'We take your privacy seriously. WordSpy only collects the minimal data needed for gameplay (your chosen nickname and room code). We do not track you, sell your data, or require any personal information. Game data is deleted after each session. Read our full privacy policy for more details.',
             developerTitle: 'Meet the Developer',
-            developerDesc: 'WordImposter is developed by Enes Oz, an independent developer passionate about creating fun, accessible games. Inspired by classic social deduction games, WordImposter was created to bring friends together through the joy of gaming.',
+            developerDesc: 'WordSpy is developed by Enes Oz, an independent developer passionate about creating fun, accessible games. Inspired by classic social deduction games, WordSpy was created to bring friends together through the joy of gaming.',
             futurePlans: 'Future Plans',
-            futurePlansDesc: 'We are always working to make WordImposter better. Here is what is coming:',
+            futurePlansDesc: 'We are always working to make WordSpy better. Here is what is coming:',
             futureItems: [
                 'More languages (German, French, Spanish, and more)',
                 'Custom word lists - create your own categories',
@@ -579,8 +579,8 @@ export const translations = {
                 'Native mobile apps for iOS and Android'
             ],
             thankYou: 'Thank You!',
-            thankYouDesc: 'Thank you for playing WordImposter! Your support and feedback help us make the game better. Have fun and happy gaming!',
-            playCta: 'Play WordImposter Now'
+            thankYouDesc: 'Thank you for playing WordSpy! Your support and feedback help us make the game better. Have fun and happy gaming!',
+            playCta: 'Play WordSpy Now'
         },
 
         contactPage: {
@@ -611,10 +611,10 @@ export const translations = {
                 'Screenshots if possible'
             ],
             suggestions: 'Suggestions Welcome',
-            suggestionsDesc: 'Have ideas for new features, categories, or improvements? We love hearing from our players! Your feedback helps make WordImposter better for everyone.',
+            suggestionsDesc: 'Have ideas for new features, categories, or improvements? We love hearing from our players! Your feedback helps make WordSpy better for everyone.',
             quickAnswers: 'Quick Answers',
             quickItems: [
-                { title: 'Is WordImposter free?', desc: 'Yes! Completely free, no hidden fees.' },
+                { title: 'Is WordSpy free?', desc: 'Yes! Completely free, no hidden fees.' },
                 { title: 'How many players?', desc: '3-10 players per game.' },
                 { title: 'Works on mobile?', desc: 'Yes! Any device with a browser.' },
                 { title: 'Need an account?', desc: 'No! Just pick a nickname and play.' }
