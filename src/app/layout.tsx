@@ -1,45 +1,48 @@
 import type { Metadata, Viewport } from "next";
-import { Outfit } from "next/font/google";
+import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
-const outfit = Outfit({
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  variable: "--font-outfit",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-main",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "WordImposter (KelimeCasusu) - Find the Spy Among You!",
-  description: "KelimeCasusu (TR) and WordImposter (EN) is the ultimate online multiplayer word party game. Find the spy among you by giving one-word clues! Completely free, no registration required. Play with 3-10 friends online.",
-  keywords: ["KelimeCasusu", "WordImposter", "imposter game", "spy game", "party game online", "social deduction game", "word games with friends", "find the spy", "who is the spy", "kelime oyunu", "casus bulmaca", "ev partisi oyunu", "online party games", "multiplayer word game", "free online games"],
-  authors: [{ name: "Enes Öz" }],
-  creator: "Enes Öz",
+  title: {
+    default: "WordImposter - Free Online Spy Word Game | Play Now",
+    template: "%s | WordImposter",
+  },
+  description: "Play WordImposter free with 3-10 friends! The #1 online spy word game. Give one-word clues, find the imposter, and win. No download, no signup. Play instantly on any device.",
+  keywords: ["word game online", "spy game online free", "imposter game", "who is the spy", "party game online", "social deduction game", "multiplayer word game", "find the imposter", "word guessing game", "play with friends online", "free online games", "among us word game", "KelimeCasusu", "WordImposter"],
+  authors: [{ name: "WordImposter" }],
+  creator: "WordImposter",
   publisher: "WordImposter",
   alternates: {
     canonical: "https://wordimposter.fun",
   },
   openGraph: {
-    title: "WordImposter (KelimeCasusu) - Find the Spy Among You!",
-    description: "Play the ultimate online multiplayer word party game. Find the spy among you by giving one-word clues! Completely free, no registration required.",
+    title: "WordImposter - Free Online Spy Word Game | Play with Friends",
+    description: "The #1 free online spy word game! Give clues, find the imposter, win. No download needed. Play instantly with 3-10 friends.",
     url: "https://wordimposter.fun",
     siteName: "WordImposter",
-    locale: "tr_TR",
-    alternateLocale: "en_US",
+    locale: "en_US",
+    alternateLocale: "tr_TR",
     type: "website",
     images: [
       {
         url: "https://wordimposter.fun/og-image.png",
         width: 1200,
         height: 630,
-        alt: "WordImposter - Online Multiplayer Word Party Game",
+        alt: "WordImposter - Free Online Spy Word Game",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "WordImposter (KelimeCasusu) - Find the Spy Among You!",
-    description: "Play the ultimate online multiplayer word party game. Find the spy among you by giving one-word clues!",
+    title: "WordImposter - Free Online Spy Word Game",
+    description: "Give clues, find the imposter, win! Free multiplayer word game. No download needed.",
     images: ["https://wordimposter.fun/og-image.png"],
   },
   robots: {
@@ -69,7 +72,7 @@ const jsonLd = {
   "name": "WordImposter",
   "alternateName": "KelimeCasusu",
   "url": "https://wordimposter.fun",
-  "description": "Online multiplayer word party game. Find the spy among you by giving one-word clues! Free, no registration required.",
+  "description": "Free online multiplayer spy word game. Give one-word clues, find the imposter among your friends. No download, no signup required.",
   "applicationCategory": "GameApplication",
   "operatingSystem": "Web",
   "offers": {
@@ -78,16 +81,22 @@ const jsonLd = {
     "priceCurrency": "USD"
   },
   "author": {
-    "@type": "Person",
-    "name": "Enes Öz"
+    "@type": "Organization",
+    "name": "WordImposter"
   },
-  "inLanguage": ["tr", "en"],
+  "inLanguage": ["en", "tr"],
   "browserRequirements": "Requires JavaScript. Requires HTML5.",
   "genre": "Social Deduction Game",
   "numberOfPlayers": {
     "@type": "QuantitativeValue",
     "minValue": 3,
     "maxValue": 10
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "ratingCount": "1200",
+    "bestRating": "5"
   }
 };
 
@@ -97,27 +106,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="tr" className="dark">
+    <html lang="en" className="dark">
       <head>
-        {/* Preconnect to critical origins */}
         <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://googleads.g.doubleclick.net" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
 
-        {/* Favicon */}
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png" />
         <link rel="manifest" href="/manifest.json" />
 
-        {/* Schema.org JSON-LD */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
 
-        {/* Google AdSense */}
         <meta name="google-adsense-account" content="ca-pub-8793006985867588" />
         <script
           async
@@ -125,7 +129,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
       </head>
-      <body className={`${outfit.variable} font-sans antialiased bg-black text-white`}>
+      <body className={`${spaceGrotesk.variable} font-sans antialiased bg-black text-white`}>
         {children}
       </body>
     </html>

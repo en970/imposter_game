@@ -37,7 +37,7 @@
   --border-accent: #3b82f6;
 
   /* Typography - uses next/font variable */
-  --font-family: var(--font-outfit), system-ui, sans-serif;
+  --font-family: var(--font-main), system-ui, sans-serif;
 
   /* Spacing */
   --spacing-xs: 0.25rem;

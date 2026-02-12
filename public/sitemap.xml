@@ -2,50 +2,50 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://wordimposter.fun/</loc>
-    <lastmod>2026-02-12</lastmod>
+    <lastmod>2026-02-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://wordimposter.fun/about/</loc>
-    <lastmod>2026-02-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://wordimposter.fun/how-to-play/</loc>
-    <lastmod>2026-02-12</lastmod>
+    <lastmod>2026-02-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://wordimposter.fun/strategies/</loc>
-    <lastmod>2026-02-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://wordimposter.fun/faq/</loc>
-    <lastmod>2026-02-12</lastmod>
+    <lastmod>2026-02-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://wordimposter.fun/contact/</loc>
-    <lastmod>2026-02-12</lastmod>
+    <loc>https://wordimposter.fun/faq/</loc>
+    <lastmod>2026-02-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://wordimposter.fun/about/</loc>
+    <lastmod>2026-02-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://wordimposter.fun/privacy/</loc>
-    <lastmod>2026-02-12</lastmod>
+    <loc>https://wordimposter.fun/contact/</loc>
+    <lastmod>2026-02-13</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wordimposter.fun/privacy/</loc>
+    <lastmod>2026-02-13</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
   <url>
     <loc>https://wordimposter.fun/terms/</loc>
-    <lastmod>2026-02-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <lastmod>2026-02-13</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
 </urlset>

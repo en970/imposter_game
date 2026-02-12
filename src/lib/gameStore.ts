@@ -47,7 +47,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     showingCard: false,
     selectedCategory: 'random',
     duplicateNameError: null,
-    language: 'tr',
+    language: 'en',
 
     // Actions
     setCurrentUser: (name) => set({ currentUser: name }),
