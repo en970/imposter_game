@@ -916,6 +916,66 @@ body {
   }
 }
 
+/* === AD PLACEMENTS === */
+.ad-leaderboard {
+  width: 100%;
+  max-width: 728px;
+  margin: 0 auto;
+  padding: 8px 0;
+  min-height: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.ad-content-mid {
+  width: 100%;
+  max-width: 728px;
+  margin: 1rem auto;
+  padding: 0 1rem;
+  min-height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.ad-sidebar {
+  width: 100%;
+  max-width: 336px;
+  margin: 1rem auto;
+  min-height: 280px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.ad-in-article {
+  width: 100%;
+  margin: 1.5rem 0;
+  min-height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+@media (max-width: 767px) {
+  .ad-leaderboard {
+    max-width: 100%;
+    min-height: 60px;
+    padding: 4px 8px;
+  }
+
+  .ad-content-mid {
+    max-width: 100%;
+    padding: 0 0.5rem;
+    min-height: 100px;
+  }
+}
+
 /* === FOOTER === */
 .footer {
   width: 100%;

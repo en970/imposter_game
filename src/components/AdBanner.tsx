@@ -4,119 +4,68 @@ import { useEffect, useRef, useState } from 'react';
 
 interface AdBannerProps {
     slot: string;
-    client: string;
+    format?: 'auto' | 'fluid' | 'rectangle' | 'horizontal' | 'vertical';
+    responsive?: boolean;
     style?: React.CSSProperties;
-    format?: 'auto' | 'fluid' | 'rectangle';
+    className?: string;
 }
 
 declare global {
     interface Window {
-        adsbygoogle: any[];
+        adsbygoogle: unknown[];
     }
 }
 
-export default function AdBanner({ slot, client, style, format = 'auto' }: AdBannerProps) {
+const AD_CLIENT = 'ca-pub-8793006985867588';
+
+export default function AdBanner({ slot, format = 'auto', responsive = true, style, className = '' }: AdBannerProps) {
     const adRef = useRef<HTMLModElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const [adLoaded, setAdLoaded] = useState(false);
-    const [isVisible, setIsVisible] = useState(false);
-
-    // Check if container has width before loading ad
-    useEffect(() => {
-        const checkWidth = () => {
-            if (containerRef.current) {
-                const width = containerRef.current.offsetWidth;
-                if (width > 0) {
-                    setIsVisible(true);
-                }
-            }
-        };
-
-        // Check immediately
-        checkWidth();
-
-        // Also check after a short delay (for dynamic layouts)
-        const timeoutId = setTimeout(checkWidth, 500);
-
-        // Use ResizeObserver to detect when container becomes visible
-        const resizeObserver = new ResizeObserver((entries) => {
-            for (const entry of entries) {
-                if (entry.contentRect.width > 0) {
-                    setIsVisible(true);
-                }
-            }
-        });
-
-        if (containerRef.current) {
-            resizeObserver.observe(containerRef.current);
-        }
-
-        return () => {
-            clearTimeout(timeoutId);
-            resizeObserver.disconnect();
-        };
-    }, []);
 
     useEffect(() => {
-        // Only load ad if container is visible and has width
-        if (!isVisible || adLoaded) return;
+        if (adLoaded) return;
 
-        const loadAd = () => {
+        const timer = setTimeout(() => {
             try {
-                // Double-check container width before loading
-                if (containerRef.current && containerRef.current.offsetWidth === 0) {
-                    return;
+                if (
+                    typeof window !== 'undefined' &&
+                    adRef.current &&
+                    !adRef.current.dataset.adStatus &&
+                    containerRef.current &&
+                    containerRef.current.offsetWidth > 0
+                ) {
+                    (window.adsbygoogle = window.adsbygoogle || []).push({});
+                    setAdLoaded(true);
                 }
-
-                // Check if adsbygoogle is available
-                if (typeof window !== 'undefined' && window.adsbygoogle) {
-                    // Only push if the ad element exists and hasn't been loaded
-                    if (adRef.current && !adRef.current.dataset.adStatus) {
-                        (window.adsbygoogle = window.adsbygoogle || []).push({});
-                        setAdLoaded(true);
-                    }
-                }
-            } catch (e) {
-                // Silently handle AdSense errors
-                if (process.env.NODE_ENV === 'development') {
-                    console.warn('AdSense warning:', e);
-                }
+            } catch {
+                // AdSense not ready yet
             }
-        };
+        }, 600);
 
-        // Delay to ensure proper rendering
-        const timeoutId = setTimeout(loadAd, 300);
-
-        return () => {
-            clearTimeout(timeoutId);
-        };
-    }, [isVisible, adLoaded]);
+        return () => clearTimeout(timer);
+    }, [adLoaded]);
 
     return (
-        <div 
+        <div
             ref={containerRef}
-            className="ad-box" 
-            style={{ 
-                overflow: 'hidden', 
-                minWidth: '250px',
-                minHeight: '100px',
+            className={`ad-container ${className}`}
+            style={{
+                overflow: 'hidden',
                 width: '100%',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center'
+                textAlign: 'center',
+                ...style,
             }}
         >
-            {isVisible && (
-                <ins
-                    ref={adRef}
-                    className="adsbygoogle"
-                    style={style || { display: 'block', width: '100%', minHeight: '100px' }}
-                    data-ad-client={client}
-                    data-ad-slot={slot}
-                    data-ad-format={format}
-                    data-full-width-responsive="true"
-                />
-            )}
+            <ins
+                ref={adRef}
+                className="adsbygoogle"
+                style={{ display: 'block' }}
+                data-ad-client={AD_CLIENT}
+                data-ad-slot={slot}
+                data-ad-format={format}
+                data-full-width-responsive={responsive ? 'true' : 'false'}
+            />
         </div>
     );
 }

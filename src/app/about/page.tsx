@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useGameStore } from '@/lib/gameStore';
 import { translations } from '@/lib/translations';
+import AdBanner from '@/components/AdBanner';
 
 export default function AboutPage() {
     const { language } = useGameStore();
@@ -37,6 +38,11 @@ export default function AboutPage() {
                     <p className="content-card-text">{p.missionDesc}</p>
                 </div>
 
+                {/* Ad placement */}
+                <div className="ad-in-article">
+                    <AdBanner slot="4426624617" format="auto" />
+                </div>
+
                 {/* Features */}
                 <div className="content-card">
                     <h2 className="content-card-title">{p.whyChoose}</h2>
@@ -68,6 +74,11 @@ export default function AboutPage() {
                 <div className="content-card">
                     <h2 className="content-card-title">{p.privacyTitle}</h2>
                     <p className="content-card-text">{p.privacyDesc}</p>
+                </div>
+
+                {/* Ad placement */}
+                <div className="ad-in-article">
+                    <AdBanner slot="4426624617" format="auto" />
                 </div>
 
                 {/* Developer */}

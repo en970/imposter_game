@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useGameStore } from '@/lib/gameStore';
 import { translations } from '@/lib/translations';
+import AdBanner from '@/components/AdBanner';
 
 export default function FAQPage() {
     const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -59,6 +60,11 @@ export default function FAQPage() {
                         })}
                     </div>
                 ))}
+
+                {/* Ad placement */}
+                <div className="ad-in-article">
+                    <AdBanner slot="4426624617" format="auto" />
+                </div>
 
                 {/* Still have questions? */}
                 <div className="content-banner">

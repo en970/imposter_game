@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { useGameStore } from '@/lib/gameStore';
 import { translations } from '@/lib/translations';
@@ -20,23 +20,10 @@ export default function Navbar() {
     const { language, setLanguage } = useGameStore();
     const t = translations[language];
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const adPushed = useRef(false);
 
     const toggleLanguage = () => {
         setLanguage(language === 'tr' ? 'en' : 'tr');
     };
-
-    // AdSense - push only once
-    useEffect(() => {
-        if (adPushed.current) return;
-        adPushed.current = true;
-        try {
-            // @ts-ignore
-            (window.adsbygoogle = window.adsbygoogle || []).push({});
-        } catch (e) {
-            console.error('AdSense error:', e);
-        }
-    }, []);
 
     const navLinks = [
         { href: '/how-to-play', label: t.navHowToPlay },
@@ -76,26 +63,6 @@ export default function Navbar() {
                                 </Link>
                             ))}
                         </div>
-                    </div>
-
-                    {/* NAVBAR Ad Area */}
-                    <div style={{
-                        flex: 1,
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        height: '100%',
-                        maxHeight: '50px',
-                        overflow: 'hidden'
-                    }}>
-                        <ins
-                            className="adsbygoogle"
-                            style={{ display: 'inline-block', width: '320px', height: '50px' }}
-                            data-ad-client="ca-pub-8793006985867588"
-                            data-ad-slot="4426624617"
-                            data-ad-format="horizontal"
-                            data-full-width-responsive="false"
-                        />
                     </div>
 
                     {/* Desktop language toggle */}

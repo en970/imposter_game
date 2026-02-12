@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useGameStore } from '@/lib/gameStore';
 import { translations } from '@/lib/translations';
+import AdBanner from '@/components/AdBanner';
 
 export default function StrategiesPage() {
     const { language } = useGameStore();
@@ -74,6 +75,11 @@ export default function StrategiesPage() {
                     ))}
                 </div>
 
+                {/* Ad placement */}
+                <div className="ad-in-article">
+                    <AdBanner slot="4426624617" format="auto" />
+                </div>
+
                 {/* Imposter Strategies */}
                 <div className="content-card">
                     <h2 className="content-card-title" style={{color: '#f87171'}}>{p.imposterTitle}</h2>
@@ -111,6 +117,11 @@ export default function StrategiesPage() {
                             </div>
                         ))}
                     </div>
+                </div>
+
+                {/* Ad placement */}
+                <div className="ad-in-article">
+                    <AdBanner slot="4426624617" format="auto" />
                 </div>
 
                 {/* Common Mistakes */}

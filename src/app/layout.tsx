@@ -25,6 +25,20 @@ export const metadata: Metadata = {
     locale: "tr_TR",
     alternateLocale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "https://wordimposter.fun/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "WordImposter - Online Multiplayer Word Party Game",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "WordImposter (KelimeCasusu) - Find the Spy Among You!",
+    description: "Play the ultimate online multiplayer word party game. Find the spy among you by giving one-word clues!",
+    images: ["https://wordimposter.fun/og-image.png"],
   },
   robots: {
     index: true,
@@ -37,17 +51,42 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  // Note: Google AdSense verification is handled via meta tag in <head>.
-  // Add Google Search Console verification token here if needed:
-  // verification: { google: "YOUR_SEARCH_CONSOLE_TOKEN" }
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
+  maximumScale: 5,
+  userScalable: true,
   themeColor: "#000000",
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "WordImposter",
+  "alternateName": "KelimeCasusu",
+  "url": "https://wordimposter.fun",
+  "description": "Online multiplayer word party game. Find the spy among you by giving one-word clues! Free, no registration required.",
+  "applicationCategory": "GameApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Enes Öz"
+  },
+  "inLanguage": ["tr", "en"],
+  "browserRequirements": "Requires JavaScript. Requires HTML5.",
+  "genre": "Social Deduction Game",
+  "numberOfPlayers": {
+    "@type": "QuantitativeValue",
+    "minValue": 3,
+    "maxValue": 10
+  }
 };
 
 export default function RootLayout({
@@ -67,10 +106,16 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/apple-icon.png" />
         <link rel="manifest" href="/manifest.json" />
 
-        {/* Google AdSense Meta Etiketi - Site Doğrulama */}
+        {/* Schema.org JSON-LD */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+
+        {/* Google AdSense Meta Tag */}
         <meta name="google-adsense-account" content="ca-pub-8793006985867588" />
 
-        {/* Google AdSense Script - Script tag for adsbygoogle.js */}
+        {/* Google AdSense Script */}
         <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8793006985867588"
@@ -83,4 +128,3 @@ export default function RootLayout({
     </html>
   );
 }
-

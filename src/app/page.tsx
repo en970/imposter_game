@@ -7,6 +7,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import SEOContent from '@/components/SEOContent';
 import Testimonials from '@/components/Testimonials';
+import AdBanner from '@/components/AdBanner';
 
 // Dynamically import interactive components to avoid hydration mismatch
 const LobbyScreen = dynamic(() => import('@/components/LobbyScreen'), { ssr: false });
@@ -59,6 +60,12 @@ function GameContent() {
   return (
     <div className="app-container">
       <Navbar />
+
+      {/* Top leaderboard ad - visible on all states */}
+      <div className="ad-leaderboard">
+        <AdBanner slot="4426624617" format="horizontal" />
+      </div>
+
       <main className="flex-1">
         {gameState === 'lobby' && (
           <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Yükleniyor...</div>}>
@@ -70,9 +77,31 @@ function GameContent() {
         {gameState === 'voting' && <Voting />}
         {gameState === 'result' && <Results />}
       </main>
-      {gameState === 'lobby' && <SEOContent />}
-      {gameState === 'lobby' && <Testimonials />}
-      {gameState === 'lobby' && <Footer />}
+
+      {gameState === 'lobby' && (
+        <>
+          {/* Ad between lobby and SEO content */}
+          <div className="ad-content-mid">
+            <AdBanner slot="4426624617" format="rectangle" />
+          </div>
+
+          <SEOContent />
+
+          {/* Ad between SEO and testimonials */}
+          <div className="ad-content-mid">
+            <AdBanner slot="4426624617" format="auto" />
+          </div>
+
+          <Testimonials />
+
+          {/* Ad before footer */}
+          <div className="ad-content-mid">
+            <AdBanner slot="4426624617" format="horizontal" />
+          </div>
+
+          <Footer />
+        </>
+      )}
     </div>
   );
 }
@@ -84,5 +113,3 @@ export default function Home() {
     </Suspense>
   );
 }
-
-

@@ -2,12 +2,46 @@
     "rules": {
         "rooms": {
             "$room_id": {
-                ".read": true,
-                ".write": true,
+                ".read": "data.exists()",
+                ".write": "!data.exists() || data.exists()",
+                ".validate": "newData.hasChildren(['hostId', 'gameState'])",
                 "players": {
                     "$player_id": {
-                        ".validate": "newData.hasChildren(['name', 'odaTimestamp'])"
+                        ".validate": "newData.hasChildren(['name', 'odaTimestamp']) && newData.child('name').isString() && newData.child('name').val().length > 0 && newData.child('name').val().length <= 20"
                     }
+                },
+                "gameState": {
+                    ".validate": "newData.isString() && (newData.val() === 'lobby' || newData.val() === 'distributing' || newData.val() === 'playing' || newData.val() === 'voting' || newData.val() === 'result')"
+                },
+                "hostId": {
+                    ".validate": "newData.isString()"
+                },
+                "secretWord": {
+                    ".validate": "newData.isString()"
+                },
+                "category": {
+                    ".validate": "newData.isString()"
+                },
+                "selectedCategory": {
+                    ".validate": "newData.isString()"
+                },
+                "imposterCount": {
+                    ".validate": "newData.isNumber() && newData.val() >= 1 && newData.val() <= 3"
+                },
+                "timerEnabled": {
+                    ".validate": "newData.isBoolean()"
+                },
+                "timerDuration": {
+                    ".validate": "newData.isNumber() && newData.val() >= 30 && newData.val() <= 300"
+                },
+                "currentPlayerIndex": {
+                    ".validate": "newData.isNumber()"
+                },
+                "votes": {
+                    ".validate": true
+                },
+                "turnOrder": {
+                    ".validate": true
                 }
             }
         },

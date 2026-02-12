@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useGameStore } from '@/lib/gameStore';
 import { translations } from '@/lib/translations';
+import AdBanner from '@/components/AdBanner';
 
 export default function HowToPlayPage() {
     const { language } = useGameStore();
@@ -48,6 +49,11 @@ export default function HowToPlayPage() {
                             </div>
                         ))}
                     </div>
+                </div>
+
+                {/* Ad placement */}
+                <div className="ad-in-article">
+                    <AdBanner slot="4426624617" format="auto" />
                 </div>
 
                 {/* Gameplay Phases */}
@@ -110,6 +116,11 @@ export default function HowToPlayPage() {
                             );
                         })}
                     </div>
+                </div>
+
+                {/* Ad placement */}
+                <div className="ad-in-article">
+                    <AdBanner slot="4426624617" format="auto" />
                 </div>
 
                 {/* Example Round */}
