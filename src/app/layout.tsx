@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Work_Sans } from "next/font/google";
+import { Archivo } from "next/font/google";
 import "./globals.css";
 
-const workSans = Work_Sans({
+const archivo = Archivo({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700", "800", "900"],
   variable: "--font-main",
   display: "swap",
 });
@@ -131,7 +131,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
       </head>
-      <body className={`${workSans.variable} font-sans antialiased bg-black text-white`}>
+      <body className={`${archivo.variable} font-sans antialiased bg-black text-white`}>
         {children}
       </body>
     </html>
