@@ -31,14 +31,9 @@ export default function Voting() {
     const votedCount = Object.keys(votes).length;
     const allVoted = votedCount === players.length;
 
-    useEffect(() => {
-        if (allVoted) {
-            const timer = setTimeout(() => {
-                useGameStore.setState({ gameState: 'result' });
-            }, 2000);
-            return () => clearTimeout(timer);
-        }
-    }, [allVoted]);
+    // State transition to 'result' when all votes are in is now handled
+    // by the Firebase subscription in gameStore.ts (subscribeToRoomUpdates).
+    // No useEffect needed here for that purpose.
 
     return (
         <div className="center-container">
@@ -78,7 +73,7 @@ export default function Voting() {
                             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 'var(--spacing-md)', color: 'var(--accent-green)' }}>
                                 <CheckIcon size={48} />
                             </div>
-                            <h3 className="title-md">{language === 'tr' ? 'Oyun Alındı' : 'Vote Received'}</h3>
+                            <h3 className="title-md">{language === 'tr' ? 'Oyun Al\u0131nd\u0131' : 'Vote Received'}</h3>
                             <p className="text-muted mt-sm">{t.waitingForOthers}</p>
 
                             <div className="mt-md">
@@ -100,7 +95,7 @@ export default function Voting() {
                             </div>
 
                             {allVoted && (
-                                <div className="badge mt-md" style={{ background: 'var(--accent-purple-glow)', color: 'white' }}>{language === 'tr' ? 'Sonuçlar yükleniyor...' : 'Loading results...'}</div>
+                                <div className="badge mt-md" style={{ background: 'var(--accent-purple-glow)', color: 'white' }}>{language === 'tr' ? 'Sonu\u00e7lar y\u00fckleniyor...' : 'Loading results...'}</div>
                             )}
                         </div>
                     ) : (
@@ -129,7 +124,7 @@ export default function Voting() {
                                     </div>
                                     <div className="player-info">
                                         <div className="player-name">{player.name}</div>
-                                        <div className="player-role">{language === 'tr' ? 'Şüpheli' : 'Suspect'}</div>
+                                        <div className="player-role">{language === 'tr' ? '\u015e\u00fcpheli' : 'Suspect'}</div>
                                     </div>
                                     {selectedPlayer === player.id && (
                                         <span style={{ color: 'var(--border-accent)' }}>

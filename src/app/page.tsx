@@ -33,14 +33,30 @@ function GameContent() {
       setLanguage(savedLang);
     }
 
-    // Auto-rejoin last room on refresh
+    // Check URL for room code (e.g., ?room=ABC123)
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlRoom = urlParams.get('room')?.toUpperCase();
+
+    // Auto-rejoin last room on refresh OR join from URL
     const lastRoom = sessionStorage.getItem('lastRoomCode');
     const storedName = localStorage.getItem('kelimeavi_username');
     const currentRoomCode = useGameStore.getState().roomCode;
 
-    if (lastRoom && storedName && !currentRoomCode) {
-      setCurrentUser(storedName);
-      joinRoom(lastRoom);
+    if (!currentRoomCode) {
+      if (urlRoom && storedName) {
+        // Join from shared link
+        setCurrentUser(storedName);
+        joinRoom(urlRoom);
+        // Clean URL params after joining
+        window.history.replaceState({}, '', window.location.pathname);
+      } else if (urlRoom) {
+        // Has room in URL but no name - store room code for later joining
+        sessionStorage.setItem('pendingRoomCode', urlRoom);
+        window.history.replaceState({}, '', window.location.pathname);
+      } else if (lastRoom && storedName) {
+        setCurrentUser(storedName);
+        joinRoom(lastRoom);
+      }
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -63,17 +79,20 @@ function GameContent() {
   }
 
   const isLobby = gameState === 'lobby';
+  const isInGame = !isLobby;
 
   return (
     <div className="app-container">
       <Navbar />
 
-      {/* Thin ad strip below navbar */}
-      <div className="ad-navbar-strip">
-        <AdBanner slot="4426624617" format="horizontal" />
-      </div>
+      {/* Thin ad strip below navbar - only show in lobby */}
+      {isLobby && (
+        <div className="ad-navbar-strip">
+          <AdBanner slot="4426624617" format="horizontal" />
+        </div>
+      )}
 
-      <main className="flex-1">
+      <main className={isInGame ? "game-main" : "flex-1"}>
         {isLobby && (
           <Suspense fallback={
             <div className="center-container">

@@ -94,7 +94,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
             if (!exists) {
                 set({
                     duplicateNameError: language === 'tr'
-                        ? 'Bu oda mevcut değil. Lütfen kodu kontrol edin.'
+                        ? 'Bu oda mevcut de\u011fil. L\u00fctfen kodu kontrol edin.'
                         : 'This room does not exist. Please check the code.'
                 });
                 return;
@@ -109,7 +109,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 if (isDuplicate) {
                     set({
                         duplicateNameError: language === 'tr'
-                            ? 'Bu isim zaten odada kullanılıyor. Lütfen farklı bir isim seçin.'
+                            ? 'Bu isim zaten odada kullan\u0131l\u0131yor. L\u00fctfen farkl\u0131 bir isim se\u00e7in.'
                             : 'This name is already taken in the room. Please choose a different name.'
                     });
                     return;
@@ -140,7 +140,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         if (isDuplicate) {
             set({
                 duplicateNameError: language === 'tr'
-                    ? 'Bu isim zaten odada kullanılıyor. Lütfen farklı bir isim seçin.'
+                    ? 'Bu isim zaten odada kullan\u0131l\u0131yor. L\u00fctfen farkl\u0131 bir isim se\u00e7in.'
                     : 'This name is already taken in the room. Please choose a different name.'
             });
             return;
@@ -302,18 +302,14 @@ export const useGameStore = create<GameStore>((set, get) => ({
     },
 
     castVote: async (voterId: string, targetId: string) => {
-        const { roomCode, votes, players } = get();
+        const { roomCode } = get();
         if (!roomCode) return;
-
-        const newVotes = { ...votes, [voterId]: targetId };
 
         try {
             await updateRoomState(roomCode, { [`votes/${voterId}`]: targetId });
-
-            // Check if all players voted
-            if (Object.keys(newVotes).length === players.length) {
-                await updateRoomState(roomCode, { gameState: 'result' });
-            }
+            // Do NOT check vote count client-side here.
+            // The Firebase subscription handler will detect when all votes are in
+            // and transition to 'result' state to avoid race conditions.
         } catch (error) {
             console.error('Failed to cast vote:', error);
         }
@@ -353,7 +349,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
             const newTimer = timer - 1;
             try {
                 // To minimize Firebase spam, host updates locally and syncs to Firebase
-                // Actually, let's keep it simple and update Firebase every second for now 
+                // Actually, let's keep it simple and update Firebase every second for now
                 // since consistency is key for all players.
                 await updateRoomState(roomCode, { timer: newTimer });
             } catch {
@@ -499,7 +495,7 @@ function subscribeToRoomUpdates(
                 roomCode: '',
                 players: [],
                 duplicateNameError: lang === 'tr'
-                    ? 'Oda kurucusu tarafından atıldın.'
+                    ? 'Oda kurucusu taraf\u0131ndan at\u0131ld\u0131n.'
                     : 'You have been kicked by the host.'
             });
             return;
@@ -508,9 +504,33 @@ function subscribeToRoomUpdates(
         // Filter out kicked players for the UI
         const activePlayers = playersArray.filter(p => !p.isKicked);
 
-        // Convert votes object
-        const votesObj = (roomData.votes as Record<string, string>) || {};
+        // Host reassignment: if the current host left, the first remaining player becomes host
+        const currentHostId = (roomData.hostId as string) || null;
+        const hostStillHere = activePlayers.some(p => p.id === currentHostId);
+        if (!hostStillHere && activePlayers.length > 0) {
+            const newHostId = activePlayers[0].id;
+            // Only the player who would become the new host calls updateRoomState
+            // to avoid race conditions from multiple players writing at once
+            if (myId === newHostId) {
+                updateRoomState(roomCode, { hostId: newHostId }).catch(() => {});
+            }
+        }
 
+        // Vote-based state transition: check if all players have voted during voting phase
+        const votesObj = (roomData.votes as Record<string, string>) || {};
+        const gameState = (roomData.gameState as string) || 'lobby';
+        if (gameState === 'voting' && activePlayers.length > 0) {
+            const votedCount = Object.keys(votesObj).length;
+            if (votedCount >= activePlayers.length) {
+                // Only the host triggers the state transition to avoid race conditions
+                const effectiveHostId = hostStillHere ? currentHostId : (activePlayers.length > 0 ? activePlayers[0].id : null);
+                if (myId === effectiveHostId) {
+                    updateRoomState(roomCode, { gameState: 'result' }).catch(() => {});
+                }
+            }
+        }
+
+        // Convert votes object
         // Update local state
         set({
             players: activePlayers,

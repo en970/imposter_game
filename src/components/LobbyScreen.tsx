@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useGameStore } from '@/lib/gameStore';
 import { translations } from '@/lib/translations';
+import { getCategoryNames } from '@/lib/words';
 import {
     UsersIcon, SettingsIcon, LinkIcon, PlayIcon,
     SparklesIcon, LoaderIcon, CheckIcon, PlusIcon,
@@ -58,6 +59,17 @@ export default function LobbyScreen() {
         }
     }, [setCurrentUser]);
 
+    // Auto-join from URL: check for pending room code from sessionStorage
+    useEffect(() => {
+        if (typeof window !== 'undefined' && !roomCode) {
+            const pendingRoom = sessionStorage.getItem('pendingRoomCode');
+            if (pendingRoom) {
+                setJoinCodeInput(pendingRoom);
+                sessionStorage.removeItem('pendingRoomCode');
+            }
+        }
+    }, [roomCode]);
+
     const handleSaveName = () => {
         const trimmed = nameInput.trim();
         if (trimmed) {
@@ -89,17 +101,18 @@ export default function LobbyScreen() {
     };
 
     const copyRoomLink = () => {
-        const url = window.location.href;
+        const url = `${window.location.origin}/?room=${roomCode}`;
         navigator.clipboard.writeText(url);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
     };
 
     const shareRoomLink = async () => {
+        const url = `${window.location.origin}/?room=${roomCode}`;
         const shareData = {
             title: t.appName,
             text: `${t.shareMessage}${roomCode}`,
-            url: window.location.href
+            url: url
         };
 
         if (navigator.share) {
@@ -114,7 +127,7 @@ export default function LobbyScreen() {
         }
     };
 
-    const categoriesList = ['random', 'Genel', 'Yemek', 'Eşya', 'Şehirler', 'Diziler', 'Filmler', 'Spor', 'Hayvanlar'];
+    const categoriesList = ['random', ...getCategoryNames()];
     const canStart = players.length >= 3;
 
     // Join/Create Screen
@@ -145,7 +158,7 @@ export default function LobbyScreen() {
                         </ul>
                     </div>
 
-                    {/* Actions Container - Masaüstünde ortalanır */}
+                    {/* Actions Container */}
                     <div className="action-container">
                         {/* Username Section */}
                         <div className="card mb-md">
@@ -159,7 +172,7 @@ export default function LobbyScreen() {
                                     <div style={{ flex: 1, padding: 'var(--spacing-sm) var(--spacing-md)', background: 'var(--bg-tertiary)', borderRadius: 'var(--radius-md)', fontWeight: 600 }}>
                                         {currentUser || getStoredUsername()}
                                     </div>
-                                    <button onClick={() => setEditingName(true)} className="btn btn-secondary" title={language === 'tr' ? 'Düzenle' : 'Edit'} aria-label={language === 'tr' ? 'İsmi düzenle' : 'Edit name'}>
+                                    <button onClick={() => setEditingName(true)} className="btn btn-secondary" title={language === 'tr' ? 'D\u00fczenle' : 'Edit'} aria-label={language === 'tr' ? '\u0130smi d\u00fczenle' : 'Edit name'}>
                                         <EditIcon size={16} />
                                     </button>
                                 </div>
@@ -178,7 +191,7 @@ export default function LobbyScreen() {
                                         autoFocus={editingName}
                                         autoComplete="nickname"
                                     />
-                                    <button onClick={handleSaveName} disabled={!nameInput.trim()} className="btn btn-primary" title={language === 'tr' ? 'Kaydet' : 'Save'} aria-label={language === 'tr' ? 'İsmi kaydet' : 'Save name'}>
+                                    <button onClick={handleSaveName} disabled={!nameInput.trim()} className="btn btn-primary" title={language === 'tr' ? 'Kaydet' : 'Save'} aria-label={language === 'tr' ? '\u0130smi kaydet' : 'Save name'}>
                                         <CheckIcon size={16} />
                                     </button>
                                 </div>
@@ -211,7 +224,7 @@ export default function LobbyScreen() {
                                     maxLength={6}
                                     autoComplete="off"
                                 />
-                                <button onClick={handleJoinRoom} disabled={!nameInput.trim() || !joinCodeInput.trim() || isJoining} className="btn btn-primary" aria-label={language === 'tr' ? 'Odaya katıl' : 'Join room'}>
+                                <button onClick={handleJoinRoom} disabled={!nameInput.trim() || !joinCodeInput.trim() || isJoining} className="btn btn-primary" aria-label={language === 'tr' ? 'Odaya kat\u0131l' : 'Join room'}>
                                     {isJoining ? <LoaderIcon size={18} className="spin" /> : <PlayIcon size={18} />}
                                 </button>
                             </div>
@@ -232,7 +245,7 @@ export default function LobbyScreen() {
                                 <AlertIcon size={48} className="mb-md" />
                                 <h3 className="title-md">{language === 'tr' ? 'Hata!' : 'Error!'}</h3>
                                 <p className="description" style={{ fontSize: '0.875rem' }}>{duplicateNameError}</p>
-                                <button onClick={clearError} className="btn btn-secondary mt-lg">{language === 'tr' ? 'Anladım' : 'Understood'}</button>
+                                <button onClick={clearError} className="btn btn-secondary mt-lg">{language === 'tr' ? 'Anlad\u0131m' : 'Understood'}</button>
                             </div>
                         )}
                     </div>
@@ -249,13 +262,24 @@ export default function LobbyScreen() {
             <div className="home-card" style={{ background: 'transparent' }}>
                 {/* Header */}
                 <div className="header fade-in">
-                    <button onClick={resetGame} className="icon-btn" aria-label={language === 'tr' ? 'Odadan ayrıl' : 'Leave room'}>
+                    <button onClick={resetGame} className="icon-btn" aria-label={language === 'tr' ? 'Odadan ayr\u0131l' : 'Leave room'}>
                         <ArrowLeftIcon size={20} />
                     </button>
                     <div style={{ flex: 1, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
                         <h1 className="header-title" style={{ fontSize: '1.25rem', fontWeight: 800 }}>{t.appName.toUpperCase()}</h1>
-                        <div style={{ display: 'flex', gap: '8px' }}>
-                            <div className="room-code" onClick={copyRoomLink} style={{ background: 'var(--bg-tertiary)', border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}>
+                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                            <div
+                                className="room-code"
+                                onClick={copyRoomLink}
+                                style={{
+                                    background: 'var(--bg-tertiary)',
+                                    border: '1px solid var(--border-subtle)',
+                                    color: 'var(--text-primary)',
+                                    height: '36px',
+                                    display: 'flex',
+                                    alignItems: 'center'
+                                }}
+                            >
                                 <LinkIcon size={14} color="var(--border-accent)" />
                                 <span>{roomCode}</span>
                                 {copied && <CheckIcon size={14} color="var(--accent-green)" />}
@@ -264,8 +288,8 @@ export default function LobbyScreen() {
                                 onClick={shareRoomLink}
                                 className="icon-btn"
                                 style={{
-                                    height: '38px',
-                                    width: '38px',
+                                    height: '36px',
+                                    width: '36px',
                                     background: 'var(--bg-tertiary)',
                                     border: '1px solid var(--border-subtle)',
                                     borderRadius: '12px',
@@ -306,7 +330,7 @@ export default function LobbyScreen() {
                                 </p>
                             </div>
                             <button className="btn btn-secondary" style={{ padding: '8px 12px', fontSize: '0.75rem', borderRadius: 'var(--radius-md)' }}>
-                                {showCategorySelect ? (language === 'tr' ? 'Kapat' : 'Close') : (language === 'tr' ? 'Değiştir' : 'Change')}
+                                {showCategorySelect ? (language === 'tr' ? 'Kapat' : 'Close') : (language === 'tr' ? 'De\u011fi\u015ftir' : 'Change')}
                             </button>
                         </div>
 

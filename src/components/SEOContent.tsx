@@ -5,8 +5,8 @@ export default function SEOContent() {
         <section className="seo-section">
             <div className="seo-wrapper">
                 {/* Hero */}
-                <div className="seo-hero">
-                    <h2 className="seo-hero-title">What is WordSpy?</h2>
+                <div className="seo-hero" style={{ padding: '1.5rem 1.25rem', marginBottom: '1.5rem' }}>
+                    <h2 className="seo-hero-title" style={{ marginBottom: '0.5rem' }}>What is WordSpy?</h2>
                     <p className="seo-hero-text">
                         WordSpy is a fun and exciting online social deduction game you can play with friends.
                         Give clues to prove you know the secret word, but be careful — one player is the Imposter
@@ -14,8 +14,19 @@ export default function SEOContent() {
                     </p>
                 </div>
 
-                {/* How to Play Steps */}
-                <div className="seo-steps">
+                {/* How to Play Steps - 2x2 grid on desktop, 1 column on mobile */}
+                <div
+                    className="seo-steps"
+                    style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(2, 1fr)',
+                        gap: '0.75rem',
+                        marginBottom: '1.5rem',
+                        maxWidth: '700px',
+                        marginLeft: 'auto',
+                        marginRight: 'auto'
+                    }}
+                >
                     <div className="seo-step">
                         <div className="seo-step-num">1</div>
                         <div className="seo-step-content">
@@ -47,7 +58,7 @@ export default function SEOContent() {
                 </div>
 
                 {/* Feature Tags */}
-                <div className="seo-tags">
+                <div className="seo-tags" style={{ paddingTop: '0.25rem' }}>
                     <span className="seo-tag seo-tag-purple">Free to Play</span>
                     <span className="seo-tag seo-tag-pink">No Download</span>
                     <span className="seo-tag seo-tag-blue">3-10 Players</span>

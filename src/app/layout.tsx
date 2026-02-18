@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Space_Grotesk } from "next/font/google";
+import { Work_Sans } from "next/font/google";
 import "./globals.css";
 
-const spaceGrotesk = Space_Grotesk({
+const workSans = Work_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800"],
   variable: "--font-main",
   display: "swap",
 });
@@ -131,7 +131,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
       </head>
-      <body className={`${spaceGrotesk.variable} font-sans antialiased bg-black text-white`}>
+      <body className={`${workSans.variable} font-sans antialiased bg-black text-white`}>
         {children}
       </body>
     </html>
